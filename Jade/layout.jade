@@ -1,0 +1,26 @@
+block params
+doctype html
+html
+  head
+    script(type="text/javascript", src="assets/javascripts/html5shiv-printshiv.min.js")
+    meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    block head
+    meta(name="author", content="")
+    link(rel="shortcut icon", href="favicon.ico")
+    link(rel="stylesheet", type="text/css", href="assets/stylesheets/bootstrap.min.css")
+    link(rel="stylesheet", type="text/css", href="assets/stylesheets/font-awesome.min.css")
+    link(rel="stylesheet", type="text/css", href="assets/stylesheets/main.css")
+    block css
+  body
+    include include/header
+    section.wrapper
+      include include/aside
+      main
+        block content
+    script(type="text/javascript", src="assets/javascripts/jquery-2.1.1.min.js")
+    script(type="text/javascript", src="assets/javascripts/TweenMax-1.13.1.min.js")
+    script(type="text/javascript", src="assets/javascripts/jquery.gsap-0.1.9.min.js")
+    script(type="text/javascript", src="assets/javascripts/bootstrap-3.2.0.min.js")
+    script(type="text/javascript", src="assets/javascripts/script.min.js")
+      
