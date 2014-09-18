@@ -24,6 +24,7 @@ module.exports = function(grunt) {
     compass: {
       dev: {
         options: {
+          sourcemap: true,
           noLineComments: true,
           outputStyle: 'expanded',
           sassDir: 'Sass',
@@ -52,7 +53,7 @@ module.exports = function(grunt) {
         options: {
           hostname: '0.0.0.0',
           port: 8000,
-          base: 'Public',
+          base: './',
           livereload: true
         }
       }
