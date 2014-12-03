@@ -65,10 +65,9 @@ html(lang="zh-Hant")
       main
         block content
       include include/footer
-    script(type="text/javascript", src="assets/javascripts/jquery-2.1.1.min.js")
-    script(type="text/javascript", src="assets/javascripts/TweenMax-1.13.1.min.js")
-    script(type="text/javascript", src="assets/javascripts/jquery.gsap-0.1.9.min.js")
-    script(type="text/javascript", src="assets/javascripts/bootstrap-3.2.0.min.js")
-    script(type="text/javascript", src="assets/javascripts/script.min.js")
+    - if (debug)
+      script(src="assets/javascripts/script.js")
+    - else
+      script(src="assets/javascripts/script" + timestamp + ".min.js")
     block javascript
       

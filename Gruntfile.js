@@ -75,12 +75,9 @@ module.exports = function(grunt) {
       prod: {
         files: {
           'Temp/script<%= timestamp %>.min.js': [
-            'Development/assets/javascripts/underscore-1.7.0.min.js',
-            'Development/assets/javascripts/jquery-1.11.1.min.js',
-            'Development/assets/javascripts/script.js'
+            'Temp/script.min.js'
           ],
           'Temp/style<%= timestamp %>.min.css': [
-            'Development/assets/stylesheets/semantic.min.css',
             'Temp/main.css'
           ],
           'Temp/hack-ie8<%= timestamp %>.min.css': ['Temp/hack-ie8.css']

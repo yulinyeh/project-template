@@ -1,0 +1,18 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# 團隊 (TEAM)
+
+  葉宇霖 (Yeh Yulin)
+  edenylyeh@fih-foxconn.com
+  前端開發 (Front-end Developer)
+  @eden_yeh
+
+# 感謝 (THANKS)
+
+# TECHNOLOGY COLOPHON
+
+  Last update: 20xx/xx/xx 
+  Standards: HTML5, CSS3, JavaScript, PHP, Git
+  Components: jQuery, etc.
+  Software: Sublime Text
