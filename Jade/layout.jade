@@ -2,26 +2,73 @@ block params
 doctype html
 html(lang="zh-Hant")
   head
-    script(type="text/javascript", src="assets/javascripts/html5shiv-printshiv.min.js")
+    meta(charset="utf-8")
     meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     block head
-    meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+    meta(name="keywords", content="")
+    meta(name="description", content="")
     meta(name="author", content="")
+    meta(name="viewport", content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui")
+    link(rel="author", type="text/plain", href="humans.txt")
+    //- https://mathiasbynens.be/notes/touch-icons
+    //- IE6-10
     link(rel="shortcut icon", href="favicon.ico")
-    link(rel="stylesheet", type="text/css", href="assets/stylesheets/bootstrap.min.css")
-    link(rel="stylesheet", type="text/css", href="assets/stylesheets/font-awesome.min.css")
-    link(rel="stylesheet", type="text/css", href="assets/stylesheets/main.css")
+    //- Everybody else
+    link(rel="icon", href="favicon.ico")
+    link(rel="icon", sizes="16x16", href="assets/images/icon/favicon-16.png")
+    link(rel="icon", sizes="32x32", href="assets/images/icon/favicon-32.png")
+    link(rel="icon", sizes="48x48", href="assets/images/icon/favicon-48.png")
+    link(rel="icon", sizes="64x64", href="assets/images/icon/favicon-64.png")
+    link(rel="icon", sizes="128x128", href="assets/images/icon/favicon-128.png")
+    //- Add to homescreen for Chrome on Android
+    meta(name="mobile-web-app-capable", content="yes")
+    meta(name="theme-color", content="#FFFFFF")
+    link(rel="icon", sizes="192x192", href="assets/images/icon/favicon-192.png")
+    //- Add to homescreen for Safari on iOS
+    meta(name="apple-mobile-web-app-capable", content="yes")
+    meta(name="apple-mobile-web-app-status-bar-style", content="white")
+    meta(name="apple-mobile-web-app-title", content="InFocus Store")
+    link(rel="apple-touch-icon-precomposed", sizes="180x180", href="assets/images/icon/favicon-180.png")
+    link(rel="apple-touch-icon-precomposed", sizes="152x152", href="assets/images/icon/favicon-152.png")
+    link(rel="apple-touch-icon-precomposed", sizes="144x144", href="assets/images/icon/favicon-144.png")
+    link(rel="apple-touch-icon-precomposed", sizes="120x120", href="assets/images/icon/favicon-120.png")
+    link(rel="apple-touch-icon-precomposed", sizes="114x114", href="assets/images/icon/favicon-114.png")
+    link(rel="apple-touch-icon-precomposed", sizes="76x76", href="assets/images/icon/favicon-76.png")
+    link(rel="apple-touch-icon-precomposed", sizes="72x72", href="assets/images/icon/favicon-72.png")
+    link(rel="apple-touch-icon-precomposed", href="assets/images/icon/favicon-57.png")
+    //- Tile icon for Win8 (144x144 + tile color)
+    meta(name="msapplication-TileImage", content="assets/images/icon/favicon-144.png")
+    meta(name="msapplication-TileColor", content="#FFFFFF")
+    - if (debug)
+      link(rel="stylesheet", href="assets/stylesheets/semantic.min.css")
+      link(rel="stylesheet", href="assets/stylesheets/colorbox.css")
+      link(rel="stylesheet", href="assets/stylesheets/bootstrap-slider.min.css")
+      link(rel="stylesheet", href="assets/stylesheets/sweet-alert.css")
+      link(rel="stylesheet", href="assets/stylesheets/main.css")
+    - else
+      link(rel="stylesheet", href="assets/stylesheets/style" + timestamp + ".min.css")
+    //- 下個 link 是方便開發時瀏覽樣式
+    //- link(rel="stylesheet", href="assets/stylesheets/hack-ie8.css")
+    <!--[if lt IE 9]>
+    - if (debug)
+      link(rel="stylesheet", href="assets/stylesheets/hack-ie8.css")
+    -else
+      link(rel="stylesheet", href="assets/stylesheets/hack-ie8" + timestamp + ".css")
+    script(src="assets/javascripts/html5shiv-printshiv.min.js")
+    <![endif]-->
     block css
   body
-    include include/header
-    section.wrapper
+    #view
+      include include/header
       include include/aside
       main
         block content
+      include include/footer
     script(type="text/javascript", src="assets/javascripts/jquery-2.1.1.min.js")
     script(type="text/javascript", src="assets/javascripts/TweenMax-1.13.1.min.js")
     script(type="text/javascript", src="assets/javascripts/jquery.gsap-0.1.9.min.js")
     script(type="text/javascript", src="assets/javascripts/bootstrap-3.2.0.min.js")
     script(type="text/javascript", src="assets/javascripts/script.min.js")
+    block javascript
       
