@@ -14,7 +14,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'Jade/partial',
           src: ['*.jade'],
-          dest: 'Public',
+          dest: 'Development',
           ext: '.html'
         }]
       },
@@ -33,15 +33,6 @@ module.exports = function(grunt) {
           dest: 'Production',
           ext: '.html'
         }]
-      },
-      prod: {
-        options: {
-          noLineComments: true,
-          outputStyle: 'compressed',
-          sassDir: 'Sass',
-          cssDir: 'Temp',
-          environment: 'production'
-        }
       }
     },
     compass: {
