@@ -39,6 +39,8 @@ module.exports = function(grunt) {
       dev: {
         options: {
           sourcemap: true,
+          specify: 'Sass/main.sass', // banner 加註的檔案
+          banner: '/*! Update: <%= new Date() %> */\n',
           noLineComments: true,
           outputStyle: 'expanded',
           sassDir: 'Sass',
@@ -59,7 +61,7 @@ module.exports = function(grunt) {
     concat: {
       dev: {
         src: [
-          'Javascript/main.js',
+          'Javascript/main.js'
         ],
         dest: 'Development/assets/javascripts/script.js'
       },
