@@ -24,7 +24,7 @@ module.exports = function(grunt) {
             debug: false,
             timestamp: '<%= timestamp %>'
           },
-          pretty: true
+          pretty: false
         },
         files: [{
           expand: true,
@@ -59,6 +59,10 @@ module.exports = function(grunt) {
       }
     },
     concat: {
+      options: {
+        stripBanners: true,
+        banner: '/*! Update: <%= new Date() %> */\n'
+      },
       dev: {
         src: [
           'Javascript/main.js'

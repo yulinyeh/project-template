@@ -1,4 +1,7 @@
-.DS_Store
 .git
-.sass-cache
-node_modules
+.gitignore
+*.sublime-project
+*.sublime-workspace
+.sass-cache/
+node_modules/
+Temp/

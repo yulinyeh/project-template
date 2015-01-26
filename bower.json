@@ -1,0 +1,21 @@
+{
+  "name": "ProjectName",
+  "version": "0.0.0",
+  "authors": [
+    "Eden Yeh"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": ">1.0 <2.0"
+  }
+}
