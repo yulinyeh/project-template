@@ -16,6 +16,8 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": ">1.0 <2.0"
+    "jquery": ">1.0 <2.0",
+    "bootstrap": "latest",
+    "html5shiv": "latest"
   }
 }
