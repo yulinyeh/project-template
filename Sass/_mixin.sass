@@ -1,0 +1,10 @@
+=object-fit($param)
+  +experimental(object-fit, $param, -moz, -webkit, -o, -ms, not -khtml, official)
+=spin-button($param)
+  &,
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button
+    +appearance($param)
+=min-device-pixel-ratio($ratio)
+  @media (-webkit-min-device-pixel-ratio: $ratio), (min--moz-device-pixel-ratio: $ratio), (-o-min-device-pixel-ratio: $ratio/1), (min-device-pixel-ratio: $ratio), (min-resolution: $ratio*96+dpi), (min-resolution: $ratio+dppx)
+    @content

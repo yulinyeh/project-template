@@ -23,8 +23,11 @@
     "grunt-contrib-concat": "latest",
     "grunt-contrib-connect": "latest",
     "grunt-contrib-copy": "latest",
+    "grunt-contrib-imagemin": "latest",
     "grunt-contrib-jade": "latest",
     "grunt-contrib-uglify": "latest",
-    "grunt-contrib-watch": "latest"
+    "grunt-contrib-watch": "latest",
+    // "grunt-webfont": "latest",
+    "imagemin-mozjpeg": "latest"
   }
 }

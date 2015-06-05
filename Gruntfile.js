@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
+  var mozjpeg = require('imagemin-mozjpeg');
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    timestamp: '<%= new Date().getTime() / 1000000 >> 0 %>',
     jade: {
       dev: {
         options: {
@@ -14,23 +14,19 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'Jade/partial',
           src: ['*.jade'],
-          dest: 'Development',
+          dest: 'Prototype',
           ext: '.html'
         }]
       },
       prod: {
         options: {
-          data: {
-            debug: false,
-            timestamp: '<%= timestamp %>'
-          },
-          pretty: false
+          pretty: true
         },
         files: [{
           expand: true,
           cwd: 'Jade/partial',
           src: ['*.jade'],
-          dest: 'Production',
+          dest: 'Prototype',
           ext: '.html'
         }]
       }
@@ -39,52 +35,55 @@ module.exports = function(grunt) {
       dev: {
         options: {
           sourcemap: true,
-          specify: 'Sass/main.sass', // banner 加註的檔案
-          banner: '/*! Update: <%= new Date() %> */\n',
           noLineComments: true,
           outputStyle: 'expanded',
           sassDir: 'Sass',
-          cssDir: 'Development/assets/stylesheets',
-          environment: 'development'
+          cssDir: 'Prototype/assets/stylesheets',
+          imagesDir: "Prototype/assets/images",
+          relativeAssets: true,
+          environment: 'development',
+          force: true,
+          raw: 'Encoding.default_external = \'utf-8\'\n'
         }
       },
       prod: {
         options: {
+          sourcemap: false,
           noLineComments: true,
           outputStyle: 'compressed',
           sassDir: 'Sass',
-          cssDir: 'Temp',
-          environment: 'production'
+          cssDir: 'Prototype/assets/stylesheets',
+          imagesDir: "Prototype/assets/images",
+          relativeAssets: true,
+          environment: 'production',
+          force: true
         }
       }
     },
     concat: {
-      options: {
-        stripBanners: true,
-        banner: '/*! Update: <%= new Date() %> */\n'
-      },
       dev: {
         src: [
           'Javascript/main.js'
         ],
-        dest: 'Development/assets/javascripts/script.js'
+        dest: 'Prototype/assets/javascripts/script.js'
       },
       prod: {
         files: {
-          'Temp/script<%= timestamp %>.min.js': [
-            'Temp/script.min.js'
+          'Prototype/assets/stylesheets/style.min.css': [
+            'Prototype/assets/stylesheets/style.css'
           ],
-          'Temp/style<%= timestamp %>.min.css': [
-            'Temp/main.css'
-          ],
-          'Temp/hack-ie8<%= timestamp %>.min.css': ['Temp/hack-ie8.css']
+          'Prototype/assets/javascripts/script.min.js': [
+            'Prototype/assets/javascripts/script.uglify.js'
+          ]
         }
       }
     },
     uglify: {
       prod: {
         files: {
-          'Temp/script.min.js': ['Development/assets/javascripts/script.js']
+          'Prototype/assets/javascripts/script.uglify.js': [
+            'Prototype/assets/javascripts/script.js'
+          ]
         }
       }
     },
@@ -93,7 +92,7 @@ module.exports = function(grunt) {
         options: {
           hostname: '0.0.0.0',
           port: 8000,
-          base: './',
+          base: './Prototype',
           livereload: true
         }
       },
@@ -101,10 +100,30 @@ module.exports = function(grunt) {
         options: {
           hostname: '0.0.0.0',
           port: 8000,
-          base: './',
+          base: './Prototype',
           livereload: false,
           keepalive: true
         }
+      }
+    },
+    imagemin: {
+      mix: {
+        options: {
+          optimizationLevel: 3,
+          svgoPlugins: [{
+            removeViewBox: false
+          }],
+          use: [mozjpeg()]
+        },
+        files: [{
+          expand: true,
+          cwd: '../../svn/trunk/designer/export/about/',
+          dest: 'Prototype/assets/images/about/',
+          src: ['**/*.{png,jpg,gif}']
+        }, {
+          'Prototype/favicon.ico': '../../svn/trunk/designer/export/favicon/jumpy_website_favicon_02.ico',
+          'Prototype/favicon.png': '../../svn/trunk/designer/export/favicon/jumpy_website_favicon_02_32.png'
+        }]
       }
     },
     watch: {
@@ -124,45 +143,7 @@ module.exports = function(grunt) {
         options: {
           livereload: true
         },
-        files: ['Development/**/*']
-      },
-    },
-    clean: {
-      prod: ['Temp', 'Production']
-    },
-    copy: {
-      prod: {
-        files: [{
-          expand: true,
-          cwd: 'Development/assets/fonts/',
-          dest: 'Production/assets/fonts/',
-          src: ['**']
-        }, {
-          expand: true,
-          cwd: 'Development/assets/images/',
-          dest: 'Production/assets/images/',
-          src: ['**']
-        }, {
-          expand: true,
-          cwd: 'Development/assets/javascripts/',
-          dest: 'Production/assets/javascripts/',
-          src: ['html5shiv-printshiv.min.js']
-        }, {
-          expand: true,
-          cwd: 'Temp/',
-          dest: 'Production/assets/javascripts/',
-          src: ['script<%= timestamp %>.min.js']
-        }, {
-          expand: true,
-          cwd: 'Temp/',
-          dest: 'Production/assets/stylesheets',
-          src: ['style<%= timestamp %>.min.css']
-        }, {
-          expand: true,
-          cwd: 'Development/',
-          dest: 'Production/',
-          src: ['*.txt', 'favicon.ico']
-        }]
+        files: ['Prototype/**/*']
       }
     }
   });
@@ -172,9 +153,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
 
   grunt.registerTask('default', ['jade:dev', 'compass:dev', 'concat:dev', 'connect:dev', 'watch']);
-  grunt.registerTask('prod', ['clean:prod', 'jade:prod', 'compass:prod', 'uglify:prod', 'concat:prod', 'copy:prod', 'connect:prod']);
+  grunt.registerTask('prod', ['jade:prod', 'compass:prod', 'uglify:prod', 'concat:prod', 'connect:prod']);
+  grunt.registerTask('img', ['imagemin']);
 };

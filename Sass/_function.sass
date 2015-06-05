@@ -1,0 +1,7 @@
+=break-point($width, $old-ie...)
+  $old-ie: set-arglist-default($old-ie, false)
+  @media only screen and (min-width: #{$width})
+    @content
+  @if $old-ie 
+    .old-ie
+      @content
