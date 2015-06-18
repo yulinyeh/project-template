@@ -1,0 +1,28 @@
+{
+  "name": "gulp",
+  "version": "1.0.0",
+  "description": "Init my project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edenyeh/MyInitialProject.git"
+  },
+  "author": "Yeh Yulin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edenyeh/MyInitialProject/issues"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-compass": "^2.1.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-connect": "^2.2.0",
+    "gulp-jade": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.2.0",
+    "gulp-util": "^3.0.5"
+  }
+}

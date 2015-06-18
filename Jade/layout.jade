@@ -1,0 +1,75 @@
+block params
+doctype html
+<!--[if lte IE 8]>
+<html class="no-js old-ie ie" lang="zh-Hant">
+<![endif]-->
+<!--[if IE 9]>
+<html class="no-js ie" lang="zh-Hant">
+<![endif]-->
+<!--[if !IE]><!-->
+<html class="no-js" lang="zh-Hant">
+<!--<![endif]-->
+head
+  meta(charset="utf-8")
+  meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+  meta(http-equiv="X-UA-Compatible", content="IE=edge")
+  block head
+  meta(name="author", content="")
+  meta(name="viewport", content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui")
+  link(rel="author", type="text/plain", href="humans.txt")
+  //- https://mathiasbynens.be/notes/touch-icons
+  //- IE6-10
+  link(rel="shortcut icon", href="favicon.ico")
+  //- Everybody else
+  link(rel="icon", type="image/x-icon", href="favicon.ico")
+  link(rel="icon", type="image/png", href="favicon.png")
+  link(rel="icon", sizes="16x16", href="assets/images/icon/favicon-16.png")
+  link(rel="icon", sizes="32x32", href="assets/images/icon/favicon-32.png")
+  link(rel="icon", sizes="48x48", href="assets/images/icon/favicon-48.png")
+  link(rel="icon", sizes="64x64", href="assets/images/icon/favicon-64.png")
+  link(rel="icon", sizes="128x128", href="assets/images/icon/favicon-128.png")
+  //- Add to homescreen for Chrome on Android
+  meta(name="mobile-web-app-capable", content="yes")
+  meta(name="theme-color", content="#FFFFFF")
+  link(rel="icon", sizes="192x192", href="assets/images/icon/favicon-192.png")
+  //- Add to homescreen for Safari on iOS
+  meta(name="apple-mobile-web-app-capable", content="yes")
+  meta(name="apple-mobile-web-app-status-bar-style", content="black")
+  meta(name="apple-mobile-web-app-title", content="InFocus Store")
+  link(rel="apple-touch-icon-precomposed", sizes="180x180", href="assets/images/icon/favicon-180.png")
+  link(rel="apple-touch-icon-precomposed", sizes="152x152", href="assets/images/icon/favicon-152.png")
+  link(rel="apple-touch-icon-precomposed", sizes="144x144", href="assets/images/icon/favicon-144.png")
+  link(rel="apple-touch-icon-precomposed", sizes="120x120", href="assets/images/icon/favicon-120.png")
+  link(rel="apple-touch-icon-precomposed", sizes="114x114", href="assets/images/icon/favicon-114.png")
+  link(rel="apple-touch-icon-precomposed", sizes="76x76", href="assets/images/icon/favicon-76.png")
+  link(rel="apple-touch-icon-precomposed", sizes="72x72", href="assets/images/icon/favicon-72.png")
+  link(rel="apple-touch-icon-precomposed", href="assets/images/icon/favicon-57.png")
+  //- Tile icon for Win8 (144x144 + tile color)
+  meta(name="msapplication-navbutton-color", content="#FFFFFF")
+  meta(name="msapplication-TileColor", content="#FFFFFF")
+  meta(name="msapplication-TileImage", content="assets/images/icon/favicon-144.png")
+  - if (dev)
+    link(rel="stylesheet", href="assets/stylesheets/main.css")
+  - else
+    link(rel="stylesheet", href="assets/stylesheets/style.min.css")
+  <!--[if lt IE 9]>
+  - if (dev)
+    script(src="assets/components/html5shiv/dist/html5shiv-printshiv.min.js")
+  - else
+    script(src="assets/javascripts/html5shiv-printshiv.min.js")
+  <![endif]-->
+  block css
+body
+  #root
+    include include/header
+    include include/aside
+    main
+      block content
+    #root_footer
+  include include/footer
+  - if (dev)
+    script(src="assets/javascripts/script.js")
+  - else
+    script(src="assets/javascripts/script.min.js")
+  block javascript
+</html>
