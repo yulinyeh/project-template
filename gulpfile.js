@@ -7,6 +7,12 @@ var gulp = require('gulp'),
   connect = require('gulp-connect'),
   gutil = require('gulp-util');
 
+var filesSass2CSS = ['./Sass/body.sass', './Sass/component.sass'],
+  filesCSS2One = ['./tmp/body.css', './tmp/component.css'],
+  filesJavascript2One = ['./Javascript/common.js'],
+  filesConcatOthersCSS = ['./Prototype/assets/stylesheets/style.css'],
+  filesConcatOthersJavascript = ['./Prototype/assets/javascripts/script.uglify.js'];
+  
 // =============== 整體自動化 Start ===============
 gulp.task('html:init', function() {
   return jade2html('./Jade/partial/*.jade');
@@ -26,7 +32,7 @@ gulp.task('html:pretty', function() {
 
 // Compass 樣式
 gulp.task('compass:init', function() {
-  return sass2css(['./Sass/main.sass', './Sass/index.sass']);
+  return sass2css(filesSass2CSS);
 });
 gulp.task('compass:compressed', function() {
   return gulp.src('./Sass/*.sass')
@@ -52,7 +58,7 @@ gulp.task('css:changed', function() {
   concat2style();
 });
 gulp.task('js:init', function() {
-  return gulp.src(['./Javascript/main.js'])
+  return gulp.src(filesJavascript2One)
     .pipe(concat('script.js'))
     .pipe(gulp.dest('./Prototype/assets/javascripts/'))
     .pipe(connect.reload())
@@ -62,7 +68,7 @@ gulp.task('js:init', function() {
     }));
 });
 gulp.task('concat:css-minify', ['compass:compressed'], function() {
-  gulp.src(['./Prototype/assets/stylesheets/style.css'])
+  gulp.src(filesConcatOthersCSS)
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('./Prototype/assets/stylesheets/'))
     .pipe(gutil.buffer(function(err, files) {
@@ -71,7 +77,7 @@ gulp.task('concat:css-minify', ['compass:compressed'], function() {
     }));
 });
 gulp.task('concat:js-minify', ['uglify'], function() {
-  gulp.src(['./Prototype/assets/javascripts/script.uglify.js'])
+  gulp.src(filesConcatOthersJavascript)
     .pipe(concat('script.min.js'))
     .pipe(gulp.dest('./Prototype/assets/javascripts/'))
     .pipe(gutil.buffer(function(err, files) {
@@ -82,7 +88,7 @@ gulp.task('concat:js-minify', ['uglify'], function() {
 
 // Uglify JavaScript 壓縮
 gulp.task('uglify', function() {
-  return gulp.src(['./Prototype/assets/javascripts/script.js'])
+  return gulp.src('./Prototype/assets/javascripts/script.js')
     .pipe(uglify())
     .pipe(rename({
       suffix: '.uglify'
@@ -129,7 +135,7 @@ function sass2css(param) {
 };
 
 function concat2style() {
-  gulp.src(['./tmp/main.css', './tmp/index.css'])
+  gulp.src(filesCSS2One)
     .pipe(concat('style.css'))
     .pipe(gulp.dest('./Prototype/assets/stylesheets/'))
     .pipe(connect.reload())
