@@ -14,3 +14,11 @@
     &::after
       background-color: transparentize($sysc, .85)
       +box-shadow(0 0 0 4px mix(white,$sysc,90%))
+
+.text-justify
+  text-align: justify
+  &.text-justify--single-line
+    &:after
+      content: ''
+      display: inline-block
+      width: 100%

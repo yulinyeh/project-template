@@ -1,19 +1,19 @@
 {
-  "name": "ProjectName",
+  "name": "Grunt",
   "version": "0.0.0",
-  "description": "ProjectName\r ===============",
+  "description": "Init my project.",
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/edenyeh/MyInitialProject.git"
   },
   "author": "Eden Yeh",
   "license": "MIT",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/edenyeh/MyInitialProject/issues"
   },
   "homepage": "",
   "dependencies": {
