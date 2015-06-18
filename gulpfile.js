@@ -10,7 +10,6 @@ var gulp = require('gulp'),
 var filesSass2CSS = ['./Sass/body.sass', './Sass/component.sass'],
   filesCSS2One = ['./tmp/body.css', './tmp/component.css'],
   filesJavascript2One = ['./Javascript/common.js'],
-  filesConcatOthersCSS = ['./Prototype/assets/stylesheets/style.css'],
   filesConcatOthersJavascript = ['./Prototype/assets/javascripts/script.uglify.js'];
   
 // =============== 整體自動化 Start ===============
@@ -38,7 +37,7 @@ gulp.task('compass:compressed', function() {
   return gulp.src('./Sass/*.sass')
     .pipe(compass({
       style: 'compressed',
-      css: './Prototype/assets/stylesheets/',
+      css: './tmp/',
       sass: './Sass/',
       image: './Prototype/assets/images/',
       force: true,
@@ -68,7 +67,7 @@ gulp.task('js:init', function() {
     }));
 });
 gulp.task('concat:css-minify', ['compass:compressed'], function() {
-  gulp.src(filesConcatOthersCSS)
+  gulp.src(filesCSS2One)
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('./Prototype/assets/stylesheets/'))
     .pipe(gutil.buffer(function(err, files) {
