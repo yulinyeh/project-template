@@ -4,4 +4,4 @@
 *.sublime-workspace
 .sass-cache/
 node_modules/
-Temp/
+tmp/
