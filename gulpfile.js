@@ -111,6 +111,7 @@ function jade2html(param) {
       pretty: true
     }))
     .pipe(gulp.dest('./Prototype/'))
+    .pipe(connect.reload())
     .pipe(gutil.buffer(function(err, files) {
       var len = files[0].history.length;
       gutil.log(gutil.colors.yellow('jade2html -> Generated file: ' + files[0].history[len - 1] + ' @ ' + new Date()));
