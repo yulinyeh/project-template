@@ -6,32 +6,38 @@ var gulp = require('gulp'),
   uglify = require('gulp-uglify'),
   connect = require('gulp-connect'),
   gutil = require('gulp-util');
+  // usemin = require('gulp-usemin'),
+  // rev = require('gulp-rev');
+var unwatchTmp = false;
 
-var filesSass2CSS = ['./Sass/body.sass', './Sass/component.sass'],
-  filesCSS2One = ['./tmp/body.css', './tmp/component.css'],
-  filesJavascript2One = ['./Javascript/common.js'],
-  filesConcatOthersJavascript = ['./Prototype/assets/javascripts/script.uglify.js'];
-  
+var filesSass = ['./Sass/body.sass', './Sass/component.sass'],
+  filesCSS = ['./tmp/body.css', './tmp/component.css'],
+  filesJavascript = ['./Javascript/common.js'],
+  filesJavascriptMinify = ['./Prototype/assets/javascripts/script.uglify.js'];
+
 // =============== 整體自動化 Start ===============
 gulp.task('html:init', function() {
   return jade2html('./Jade/partial/*.jade');
 });
 gulp.task('html:pretty', function() {
-  gulp.src('./Jade/partial/*.jade')
+  return gulp.src('./Jade/partial/*.jade')
     .pipe(jade({
       locals: {},
       pretty: true
     }))
     .pipe(gulp.dest('./Prototype/'))
     .pipe(gutil.buffer(function(err, files) {
-      var len = files[0].history.length;
-      gutil.log(gutil.colors.yellow('html:pretty -> Generated file: ' + files[0].history[len - 1] + ' @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('html:pretty @ ' + new Date()));
     }));
 });
 
 // Compass 樣式
 gulp.task('compass:init', function() {
-  return sass2css(filesSass2CSS);
+  return sass2css(filesSass);
+});
+gulp.task('compass:rebuild', function() {
+  unwatchTmp = true;
+  return sass2css(filesSass);
 });
 gulp.task('compass:compressed', function() {
   return gulp.src('./Sass/*.sass')
@@ -44,8 +50,7 @@ gulp.task('compass:compressed', function() {
       raw: 'Encoding.default_external = \'utf-8\'\n'
     }))
     .pipe(gutil.buffer(function(err, files) {
-      var len = files[0].history.length;
-      gutil.log(gutil.colors.yellow('compass:compressed -> Generated file: ' + files[0].history[len - 1] + ' @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('compass:compressed @ ' + new Date()));
     }));
 });
 
@@ -53,35 +58,37 @@ gulp.task('compass:compressed', function() {
 gulp.task('css:init', ['compass:init'], function() {
   return concat2style();
 });
-gulp.task('css:changed', function() {
-  concat2style();
+gulp.task('css:rebuild', ['compass:rebuild'], function() {
+  return concat2style();
 });
-gulp.task('js:init', function() {
-  return gulp.src(filesJavascript2One)
+gulp.task('css:changed', function() {
+  if (unwatchTmp === false) {
+    concat2style();
+  };
+});
+gulp.task('js', function() {
+  return gulp.src(filesJavascript)
     .pipe(concat('script.js'))
     .pipe(gulp.dest('./Prototype/assets/javascripts/'))
     .pipe(connect.reload())
     .pipe(gutil.buffer(function(err, files) {
-      var len = files[0].history.length;
-      gutil.log(gutil.colors.yellow('js:init -> Generated file: ' + files[0].history[len - 1] + ' @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('js:init @ ' + new Date()));
     }));
 });
 gulp.task('concat:css-minify', ['compass:compressed'], function() {
-  gulp.src(filesCSS2One)
+  return gulp.src(filesCSS)
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('./Prototype/assets/stylesheets/'))
     .pipe(gutil.buffer(function(err, files) {
-      var len = files[0].history.length;
-      gutil.log(gutil.colors.yellow('concat:css-minify -> Generated file: ' + files[0].history[len - 1] + ' @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('concat:css-minify @ ' + new Date()));
     }));
 });
 gulp.task('concat:js-minify', ['uglify'], function() {
-  gulp.src(filesConcatOthersJavascript)
+  return gulp.src(filesJavascriptMinify)
     .pipe(concat('script.min.js'))
     .pipe(gulp.dest('./Prototype/assets/javascripts/'))
     .pipe(gutil.buffer(function(err, files) {
-      var len = files[0].history.length;
-      gutil.log(gutil.colors.yellow('concat:js-minify -> Generated file: ' + files[0].history[len - 1] + ' @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('concat:js-minify @ ' + new Date()));
     }));
 });
 
@@ -94,10 +101,19 @@ gulp.task('uglify', function() {
     }))
     .pipe(gulp.dest('./Prototype/assets/javascripts/'))
     .pipe(gutil.buffer(function(err, files) {
-      var len = files[0].history.length;
-      gutil.log(gutil.colors.yellow('uglify -> Generated file: ' + files[0].history[len - 1] + ' @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('uglify @ ' + new Date()));
     }));
 });
+
+// 版本號替換（完全由前端開發時可用）
+// gulp.task('usemin', ['html:pretty', 'concat:css-minify', 'concat:js-minify'], function() {
+//   gulp.src('./Prototype/*.html')
+//     .pipe(usemin({
+//       css: [rev()],
+//       js: [rev()]
+//     }))
+//     .pipe(gulp.dest('./Prototype/'));
+// });
 // =============== 整體自動化 End ===============
 
 // =============== 轉譯函式 Start ===============
@@ -112,8 +128,7 @@ function jade2html(param) {
     .pipe(gulp.dest('./Prototype/'))
     .pipe(connect.reload())
     .pipe(gutil.buffer(function(err, files) {
-      var len = files[0].history.length;
-      gutil.log(gutil.colors.yellow('jade2html -> Generated file: ' + files[0].history[len - 1] + ' @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('jade2html @ ' + new Date()));
     }));
 };
 
@@ -129,19 +144,17 @@ function sass2css(param) {
       raw: 'Encoding.default_external = \'utf-8\'\n'
     }))
     .pipe(gutil.buffer(function(err, files) {
-      var len = files[0].history.length;
-      gutil.log(gutil.colors.yellow('sass2css -> Generated file: ' + files[0].history[len - 1] + ' @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('sass2css @ ' + new Date()));
     }));
 };
 
 function concat2style() {
-  gulp.src(filesCSS2One)
+  gulp.src(filesCSS)
     .pipe(concat('style.css'))
     .pipe(gulp.dest('./Prototype/assets/stylesheets/'))
     .pipe(connect.reload())
     .pipe(gutil.buffer(function(err, files) {
-      var len = files[0].history.length;
-      gutil.log(gutil.colors.yellow('concat2style -> Generated file: ' + files[0].history[len - 1] + ' @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('concat2style @ ' + new Date()));
     }));
 };
 // =============== 轉譯函式 End ===============
@@ -156,7 +169,7 @@ gulp.task('connect', function() {
   });
 });
 
-gulp.task('default', ['html:init', 'css:init', 'js:init', 'connect'], function() {
+gulp.task('default', ['html:init', 'css:init', 'js', 'connect'], function() {
   gulp
     .watch('./Jade/partial/*.jade')
     .on('change', function(e) {
@@ -166,7 +179,11 @@ gulp.task('default', ['html:init', 'css:init', 'js:init', 'connect'], function()
     .on('change', function(e) {
       return sass2css(e.path);
     });
-  gulp.watch('./tmp/*.css', ['css:changed'])
-  gulp.watch('./Javascript/*.js', ['js:init']);
+  gulp.watch(['./Sass/require/*.sass', './Sass/include/*.sass'], ['css:rebuild'], function() {
+    unwatchTmp = false;
+  });
+  gulp.watch('./tmp/*.css', ['css:changed']);
+  gulp.watch('./Javascript/*.js', ['js']);
 });
-gulp.task('prod', ['html:pretty', 'concat:css-minify', 'concat:js-minify']);
+gulp.task('prod', ['html:pretty', 'concat:css-minify', 'concat:js-minify', 'connect']);
+// gulp.task('prod', ['usemin', 'connect']);
