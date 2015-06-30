@@ -17,10 +17,10 @@ var filesSass = ['./Sass/body.sass', './Sass/component.sass'],
 
 // =============== 整體自動化 Start ===============
 gulp.task('html:init', function() {
-  return jade2html('./Jade/partial/*.jade');
+  jade2html('./Jade/partial/*.jade');
 });
 gulp.task('html:pretty', function() {
-  return gulp.src('./Jade/partial/*.jade')
+  gulp.src('./Jade/partial/*.jade')
     .pipe(jade({
       locals: {},
       pretty: true
@@ -33,14 +33,14 @@ gulp.task('html:pretty', function() {
 
 // Compass 樣式
 gulp.task('compass:init', function() {
-  return sass2css(filesSass);
+  sass2css(filesSass);
 });
 gulp.task('compass:rebuild', function() {
   unwatchTmp = true;
-  return sass2css(filesSass);
+  sass2css(filesSass);
 });
 gulp.task('compass:compressed', function() {
-  return gulp.src('./Sass/*.sass')
+  gulp.src('./Sass/*.sass')
     .pipe(compass({
       style: 'compressed',
       css: './tmp/',
@@ -56,10 +56,10 @@ gulp.task('compass:compressed', function() {
 
 // Concat 串連
 gulp.task('css:init', ['compass:init'], function() {
-  return concat2style();
+  concat2style();
 });
 gulp.task('css:rebuild', ['compass:rebuild'], function() {
-  return concat2style();
+  concat2style();
 });
 gulp.task('css:changed', function() {
   if (unwatchTmp === false) {
@@ -67,7 +67,7 @@ gulp.task('css:changed', function() {
   };
 });
 gulp.task('js', function() {
-  return gulp.src(filesJavascript)
+  gulp.src(filesJavascript)
     .pipe(concat('script.js'))
     .pipe(gulp.dest('./Prototype/assets/javascripts/'))
     .pipe(connect.reload())
@@ -76,7 +76,7 @@ gulp.task('js', function() {
     }));
 });
 gulp.task('concat:css-minify', ['compass:compressed'], function() {
-  return gulp.src(filesCSS)
+  gulp.src(filesCSS)
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('./Prototype/assets/stylesheets/'))
     .pipe(gutil.buffer(function(err, files) {
@@ -84,7 +84,7 @@ gulp.task('concat:css-minify', ['compass:compressed'], function() {
     }));
 });
 gulp.task('concat:js-minify', ['uglify'], function() {
-  return gulp.src(filesJavascriptMinify)
+  gulp.src(filesJavascriptMinify)
     .pipe(concat('script.min.js'))
     .pipe(gulp.dest('./Prototype/assets/javascripts/'))
     .pipe(gutil.buffer(function(err, files) {
@@ -94,7 +94,7 @@ gulp.task('concat:js-minify', ['uglify'], function() {
 
 // Uglify JavaScript 壓縮
 gulp.task('uglify', function() {
-  return gulp.src('./Prototype/assets/javascripts/script.js')
+  gulp.src('./Prototype/assets/javascripts/script.js')
     .pipe(uglify())
     .pipe(rename({
       suffix: '.uglify'
@@ -133,7 +133,7 @@ function jade2html(param) {
 };
 
 function sass2css(param) {
-  return gulp.src(param)
+  gulp.src(param)
     .pipe(compass({
       style: 'expanded',
       css: './tmp/',
@@ -161,7 +161,7 @@ function concat2style() {
 
 // 起動 Server
 gulp.task('connect', function() {
-  return connect.server({
+  connect.server({
     root: './Prototype',
     port: 8000,
     host: '0.0.0.0',
@@ -173,11 +173,16 @@ gulp.task('default', ['html:init', 'css:init', 'js', 'connect'], function() {
   gulp
     .watch('./Jade/partial/*.jade')
     .on('change', function(e) {
-      return jade2html(e.path);
+      jade2html(e.path);
+    });
+  gulp
+    .watch(['./Jade/layout.jade', './Jade/include/*.jade'])
+    .on('change', function(e) {
+      jade2html('./Jade/partial/*.jade');
     });
   gulp.watch('./Sass/*.sass')
     .on('change', function(e) {
-      return sass2css(e.path);
+      sass2css(e.path);
     });
   gulp.watch(['./Sass/require/*.sass', './Sass/include/*.sass'], ['css:rebuild'], function() {
     unwatchTmp = false;
