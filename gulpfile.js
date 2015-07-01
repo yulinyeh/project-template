@@ -13,6 +13,7 @@ var unwatchTmp = false;
 
 var filesSass = ['./Sass/body.sass', './Sass/component.sass'],
   filesCSS = ['./tmp/body.css', './tmp/component.css'],
+  filesCSSMinify = [].concat(filesCSS),
   filesJavascript = ['./Javascript/common.js'],
   filesJavascriptMinify = ['./Prototype/assets/javascripts/script.uglify.js'];
 
@@ -41,7 +42,7 @@ gulp.task('sass:rebuild', function() {
   return sass2css(filesSass);
 });
 gulp.task('sass:compressed', function() {
-  gulp.src('./Sass/*.sass')
+  return gulp.src('./Sass/*.sass')
     .pipe(sass({
       outputStyle: 'compressed',
       sourceMap: false
@@ -74,7 +75,7 @@ gulp.task('js', function() {
     }));
 });
 gulp.task('concat:css-minify', ['sass:compressed'], function() {
-  gulp.src(filesCSS)
+  gulp.src(filesCSSMinify)
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('./Prototype/assets/stylesheets/'))
     .pipe(gutil.buffer(function(err, files) {
@@ -92,7 +93,7 @@ gulp.task('concat:js-minify', ['uglify'], function() {
 
 // Uglify JavaScript 壓縮
 gulp.task('uglify', function() {
-  gulp.src('./Prototype/assets/javascripts/script.js')
+  return gulp.src('./Prototype/assets/javascripts/script.js')
     .pipe(uglify())
     .pipe(rename({
       suffix: '.uglify'
