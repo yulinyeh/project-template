@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
   jade = require('gulp-jade'),
-  compass = require('gulp-compass'),
+  sass = require('gulp-sass'),
+  sourcemaps = require('gulp-sourcemaps'),
   concat = require('gulp-concat'),
   rename = require("gulp-rename"),
   uglify = require('gulp-uglify'),
@@ -31,34 +32,31 @@ gulp.task('html:pretty', function() {
     }));
 });
 
-// Compass 樣式
-gulp.task('compass:init', function() {
-  sass2css(filesSass);
+// Sass 樣式
+gulp.task('sass:init', function() {
+  return sass2css(filesSass);
 });
-gulp.task('compass:rebuild', function() {
+gulp.task('sass:rebuild', function() {
   unwatchTmp = true;
-  sass2css(filesSass);
+  return sass2css(filesSass);
 });
-gulp.task('compass:compressed', function() {
+gulp.task('sass:compressed', function() {
   gulp.src('./Sass/*.sass')
-    .pipe(compass({
-      style: 'compressed',
-      css: './tmp/',
-      sass: './Sass/',
-      image: './Prototype/assets/images/',
-      force: true,
-      raw: 'Encoding.default_external = \'utf-8\'\n'
+    .pipe(sass({
+      outputStyle: 'compressed',
+      sourceMap: false
     }))
+    .pipe(gulp.dest('./tmp/'))
     .pipe(gutil.buffer(function(err, files) {
-      gutil.log(gutil.colors.yellow('compass:compressed @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('sass:compressed @ ' + new Date()));
     }));
 });
 
 // Concat 串連
-gulp.task('css:init', ['compass:init'], function() {
-  concat2style();
+gulp.task('css:init', ['sass:init'], function() {
+  return concat2style();
 });
-gulp.task('css:rebuild', ['compass:rebuild'], function() {
+gulp.task('css:rebuild', ['sass:rebuild'], function() {
   concat2style();
 });
 gulp.task('css:changed', function() {
@@ -75,7 +73,7 @@ gulp.task('js', function() {
       gutil.log(gutil.colors.yellow('js:init @ ' + new Date()));
     }));
 });
-gulp.task('concat:css-minify', ['compass:compressed'], function() {
+gulp.task('concat:css-minify', ['sass:compressed'], function() {
   gulp.src(filesCSS)
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('./Prototype/assets/stylesheets/'))
@@ -133,23 +131,21 @@ function jade2html(param) {
 };
 
 function sass2css(param) {
-  gulp.src(param)
-    .pipe(compass({
-      style: 'expanded',
-      css: './tmp/',
-      sass: './Sass/',
-      image: './Prototype/assets/images/',
-      sourcemap: true,
-      force: true,
-      raw: 'Encoding.default_external = \'utf-8\'\n'
+  return gulp.src(param)
+    .pipe(sourcemaps.init())
+    .pipe(sass({
+      outputStyle: 'expanded',
+      sourceMap: true
     }))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./tmp/'))
     .pipe(gutil.buffer(function(err, files) {
       gutil.log(gutil.colors.yellow('sass2css @ ' + new Date()));
     }));
 };
 
 function concat2style() {
-  gulp.src(filesCSS)
+  return gulp.src(filesCSS)
     .pipe(concat('style.css'))
     .pipe(gulp.dest('./Prototype/assets/stylesheets/'))
     .pipe(connect.reload())
@@ -161,7 +157,7 @@ function concat2style() {
 
 // 起動 Server
 gulp.task('connect', function() {
-  connect.server({
+  return connect.server({
     root: './Prototype',
     port: 8000,
     host: '0.0.0.0',

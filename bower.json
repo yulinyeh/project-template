@@ -17,7 +17,10 @@
   ],
   "dependencies": {
     "jquery": ">1.0 <2.0",
-    "bootstrap": "latest",
     "html5shiv": "latest"
+  },
+  "devDependencies": {
+    "compass-mixins": "latest",
+    "breakpoint-sass": "latest"
   }
 }
