@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "gulp": "latest",
+    "gulp-autoprefixer": "latest",
     "gulp-concat": "latest",
     "gulp-connect": "latest",
     "gulp-jade": "latest",

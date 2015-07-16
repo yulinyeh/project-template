@@ -2,6 +2,7 @@ var gulp = require('gulp'),
   jade = require('gulp-jade'),
   sass = require('gulp-sass'),
   sourcemaps = require('gulp-sourcemaps'),
+  autoprefixer = require('gulp-autoprefixer'),
   concat = require('gulp-concat'),
   rename = require("gulp-rename"),
   uglify = require('gulp-uglify'),
@@ -9,13 +10,18 @@ var gulp = require('gulp'),
   gutil = require('gulp-util');
   // usemin = require('gulp-usemin'),
   // rev = require('gulp-rev');
-var unwatchTmp = false;
+var rebuildSass = false;
+var rebuildNumber = 0;
+var host = 'http://edenyeh.ngrok.io/'; // 測試用
+var appId = '438786936303896'; // 測試用
 
-var filesSass = ['./Sass/body.sass', './Sass/component.sass'],
-  filesCSS = ['./tmp/body.css', './tmp/component.css'],
-  filesCSSMinify = [].concat(filesCSS),
-  filesJavascript = ['./Javascript/common.js'],
-  filesJavascriptMinify = ['./Prototype/assets/javascripts/script.uglify.js'];
+var filesSass = ['./Sass/body.sass', './Sass/component.sass'], // Sass 檔案
+  filesCSS = filesSass.map(function(file){return file.replace('Sass', 'tmp').replace('.sass', '.css');}),
+  filesComponentCSS = [], // Component 的 CSS
+  filesCSSMinify = filesComponentCSS.concat(filesCSS),
+  filesJavascript = ['./Javascript/common.js'], // 自己寫的 JavaScript
+  filesComponentJavascript = [], // Component 的 JavaScript
+  filesJavascriptMinify = filesComponentJavascript.concat(['./app_dev/assets/javascripts/script.uglify.js']);
 
 // =============== 整體自動化 Start ===============
 gulp.task('html:init', function() {
@@ -24,7 +30,10 @@ gulp.task('html:init', function() {
 gulp.task('html:pretty', function() {
   gulp.src('./Jade/partial/*.jade')
     .pipe(jade({
-      locals: {},
+      locals: {
+        host: host,
+        appId: appId
+      },
       pretty: true
     }))
     .pipe(gulp.dest('./Prototype/'))
@@ -38,7 +47,7 @@ gulp.task('sass:init', function() {
   return sass2css(filesSass);
 });
 gulp.task('sass:rebuild', function() {
-  unwatchTmp = true;
+  rebuildSass = true;
   return sass2css(filesSass);
 });
 gulp.task('sass:compressed', function() {
@@ -61,8 +70,15 @@ gulp.task('css:rebuild', ['sass:rebuild'], function() {
   concat2style();
 });
 gulp.task('css:changed', function() {
-  if (unwatchTmp === false) {
+  if (rebuildSass === false) {
     concat2style();
+  } else {
+    rebuildNumber++;
+    if (rebuildNumber === filesCSS.length) {
+      rebuildNumber = 0;
+      rebuildSass = false;
+      concat2style();
+    };
   };
 });
 gulp.task('js', function() {
@@ -120,7 +136,9 @@ function jade2html(param) {
   gulp.src(param)
     .pipe(jade({
       locals: {
-        dev: true
+        dev: true,
+        host: host,
+        appId: appId
       },
       pretty: true
     }))
@@ -138,6 +156,7 @@ function sass2css(param) {
       outputStyle: 'expanded',
       sourceMap: true
     }))
+    .pipe(autoprefixer())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./tmp/'))
     .pipe(gutil.buffer(function(err, files) {
@@ -181,9 +200,7 @@ gulp.task('default', ['html:init', 'css:init', 'js', 'connect'], function() {
     .on('change', function(e) {
       sass2css(e.path);
     });
-  gulp.watch(['./Sass/require/*.sass', './Sass/include/*.sass'], ['css:rebuild'], function() {
-    unwatchTmp = false;
-  });
+  gulp.watch(['./Sass/require/*.sass', './Sass/include/*.sass'], ['css:rebuild']);
   gulp.watch('./tmp/*.css', ['css:changed']);
   gulp.watch('./Javascript/*.js', ['js']);
 });

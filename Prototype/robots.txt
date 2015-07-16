@@ -2,7 +2,7 @@
 
 # Allow crawling of all content
 User-agent: *
-Disallow:
+#Disallow:
 
 # To exclude all robots from part of the server
 #User-agent: *
