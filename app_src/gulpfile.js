@@ -52,7 +52,7 @@ gulp.task('html:pretty', ['clean:prod'], function() {
       pretty: true
     }))
     .pipe(rename({
-      extname: '.php'
+      extname: '.html'
     }))
     .pipe(gulp.dest('../app_prod/'))
     .pipe(gutil.buffer(function(err, files) {
