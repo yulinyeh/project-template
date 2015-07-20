@@ -10,17 +10,22 @@
     "type": "git",
     "url": "https://github.com/edenyeh/MyInitialProject.git"
   },
-  "author": "Yeh Yulin",
+  "author": "Eden Yeh",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/edenyeh/MyInitialProject/issues"
   },
   "devDependencies": {
-    "gulp": "latest",
+    "gulp": "latest", // ^x.x.x
     "gulp-autoprefixer": "latest",
+    "gulp-clean": "latest",
     "gulp-concat": "latest",
     "gulp-connect": "latest",
+    "gulp-copy": "latest",
+    "gulp-flatten": "latest",
     "gulp-jade": "latest",
+    "gulp-notify": "latest",
+    "gulp-plumber": "latest",
     "gulp-rename": "latest",
     "gulp-sass": "latest",
     "gulp-sourcemaps": "latest",

@@ -53,14 +53,14 @@ head
   //- meta(property="fb:admins", content="100000076224411")
   //- meta(property="fb:admins", content="1476213097")
   - if (dev)
-    link(rel="stylesheet", href="assets/stylesheets/style.css")
+    link(rel="stylesheet", href="/assets/stylesheets/style.css")
   - else
-    link(rel="stylesheet", href="assets/stylesheets/style.min.css")
+    link(rel="stylesheet", href="/assets/stylesheets/style.min.css")
   <!--[if lt IE 9]>
   - if (dev)
-    script(src="assets/components/html5shiv/dist/html5shiv-printshiv.min.js")
+    script(src="/assets/#{fileHtml5shiv[0]}")
   - else
-    script(src="assets/javascripts/html5shiv-printshiv.min.js")
+    script(src="/assets/#{fileHtml5shiv_prod[0]}")
   <![endif]-->
   block css
 body
@@ -72,8 +72,10 @@ body
     #root_footer
   include include/footer
   - if (dev)
-    script(src="assets/javascripts/script.js")
+    each script_src in filesComponentJavascript
+      script(src="/assets/#{script_src}")
+    script(src="/assets/javascripts/script.js")
   - else
-    script(src="assets/javascripts/script.min.js")
+    script(src="/assets/javascripts/script.min.js")
   block javascript
 </html>
