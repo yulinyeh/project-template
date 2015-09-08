@@ -16,7 +16,7 @@
     "url": "https://github.com/edenyeh/MyInitialProject/issues"
   },
   "devDependencies": {
-    "gulp": "latest", // ^x.x.x
+    "gulp": "latest",
     "gulp-autoprefixer": "latest",
     "gulp-clean": "latest",
     "gulp-concat": "latest",

@@ -1,5 +1,6 @@
 extends ../layout
 block params
+  - var pageID = 'index'
 block head
   title The Rock
   meta(name="keywords", content="HTML,CSS,XML,JavaScript")
@@ -7,15 +8,15 @@ block head
   meta(name="author", content="Yeh Yulin")
   meta(property="og:title", content="The Rock")
   meta(property="og:site_name", content="IMDb")
-  meta(property="og:type", content="video.movie")
+  meta(property="og:type", content="website")
   meta(property="og:locale", content="zh_tw")
   meta(property="og:brand", content="PinLeague Analytics Suite")
   meta(property="og:url", content="#{host}")
   meta(property="og:description", content="")
   meta(property="og:image", content="")
   meta(property="og:image:type", content="image/jpeg")
-  meta(property="og:image:width", content="")
-  meta(property="og:image:height", content="")
+  meta(property="og:image:width", content="1200")
+  meta(property="og:image:height", content="630")
   meta(property="og:upc", content="Product ID")
   meta(property="og:see_also", content="")
   meta(property="og:availability", content="instock")
@@ -50,4 +51,5 @@ block head
   meta(property="twitter:player:stream:content_type", content="")
 block css
 block content
+  main
 block javascript
