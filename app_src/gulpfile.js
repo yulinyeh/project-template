@@ -262,11 +262,14 @@ function jade2html(param) {
 function sass2css(param) {
   var index;
   var newPath;
-  if (typeof param === 'object') {
-    newPath = param;
+  if (param.length === 1) {
+    // sass 異動時
+    param = param[0];
+    index = param.indexOf('app_src/');
+    newPath = param.substring(index).replace('app_src', '.').replace('/sass', '/sass/**');
   } else {
-    var index = param.indexOf('app_src/');
-    var newPath = param.substring(index).replace('app_src', '.').replace('/sass', '/sass/**/');
+    // sass 初始化
+    newPath = param;
   };
 
   return gulp.src(newPath)
