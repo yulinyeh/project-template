@@ -209,7 +209,7 @@ gulp.task('copy:assets-dev', function() {
 });
 gulp.task('copy:assets-prod', ['del:prod'], function() {
   return gulp.src(filesAssets.concat(filesRootAssets))
-    .pipe(copy('../app_prod/assets/'))
+    .pipe(copy('../app_prod/'))
     .pipe(gutil.buffer(function(err, files) {
       gutil.log(gutil.colors.yellow('copy:assets-prod @ ' + new Date()));
     }));
