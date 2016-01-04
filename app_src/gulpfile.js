@@ -21,7 +21,8 @@ var host = 'http://edenyeh.ngrok.io/'; // 測試用
 var appId = '438786936303896'; // 測試用
 
 var filesSass = [
-    'sass/*.sass'], // Sass 檔案
+    'sass/*.sass',
+    'sass/**/!(include|require)/*.sass'], // Sass 檔案
   filesCSS = filesSass.map(function(file){return file.replace('sass', 'tmp').replace('.sass', '.css');}),
   filesComponentCSS = [], // Component 的 CSS(ex: 'components/fontawesome/css/font-awesome.min.css')
   filesComponentFont = [], // Component 的 Font(ex: 'components/fontawesome/**/fonts/*.*')
@@ -40,12 +41,12 @@ var filesSass = [
     'humans.txt',
     'robots.txt',
     'favicon.ico',
-    'favicon.png',
+    'favicon.png'
   ], // 純粹複製
   fileHtml5shiv = [
-    'components/html5shiv/dist/html5shiv-printshiv.min.js'], // 舊瀏覽器支援 HTML5 Tag
+    'components/html5shiv/dist/html5shiv-printshiv.min.js'], // 舊瀏覽器支援 HTML5 Tag (手動複製檔案)
   fileHtml5shiv_prod = [
-    'javascripts/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (Production 路徑)
+    'javascripts/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (Production 路徑, 手動複製檔案)
 
 // =============== 整體自動化 Start ===============
 gulp.task('html:init', function() {
@@ -269,7 +270,7 @@ function sass2css(param) {
     var newPath = param.substring(index).replace('app_src', '.').replace('/sass', '/sass/**/');
   };
 
-  return gulp.src(param)
+  return gulp.src(newPath)
     .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
     .pipe(sourcemaps.init())
     .pipe(sass({

@@ -54,18 +54,18 @@ head
   //- meta(property="fb:admins", content="1476213097")
   if (dev)
     each link_src in filesComponentCSS
-      link(rel="stylesheet" href="/assets/#{link_src}")
-    link(rel="stylesheet", href="/assets/stylesheets/style.css")
+      link(rel="stylesheet" href="./assets/#{link_src}")
+    link(rel="stylesheet", href="./assets/stylesheets/style.css")
   else
-    link(rel="stylesheet", href="/assets/stylesheets/style.min.css")
+    link(rel="stylesheet", href="./assets/stylesheets/style.min.css")
   <!--[if lt IE 9]>
   if (dev)
-    script(src="/assets/#{fileHtml5shiv[0]}")
+    script(src="./assets/#{fileHtml5shiv[0]}")
   else
-    script(src="/assets/#{fileHtml5shiv_prod[0]}")
+    script(src="./assets/#{fileHtml5shiv_prod[0]}")
   <![endif]-->
   block css
-body(id="#{pageID}")
+body(id=pageID)
   #root
     include include/header
     include include/aside
@@ -74,9 +74,9 @@ body(id="#{pageID}")
   include include/footer
   if (dev)
     each script_src in filesComponentJavascript
-      script(src="/assets/#{script_src}")
-    script(src="/assets/javascripts/script.js")
+      script(src="./assets/#{script_src}")
+    script(src="./assets/javascripts/script.js")
   else
-    script(src="/assets/javascripts/script.min.js")
+    script(src="./assets/javascripts/script.min.js")
   block javascript
 </html>

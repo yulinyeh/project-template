@@ -5,9 +5,19 @@
 
 // * html
 //   +selection(black, white)
+html
+  -moz-osx-font-smoothing: grayscale
+  -webkit-font-smoothing: antialiased
+  text-rendering: optimizeLegibility
+  box-sizing: border-box
+*,
+*:before,
+*:after
+  box-sizing: inherit
 body
   font-family: $font-family
   width: 100%
+  line-height: 1
 img
   display: block
   +object-fit(cover)
