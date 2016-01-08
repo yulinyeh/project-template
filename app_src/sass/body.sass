@@ -3,6 +3,10 @@
 @import "./components/compass-mixins/lib/compass/layout/sticky-footer"
 +sticky-footer(46px)
 
+*,
+*:before,
+*:after
+  box-sizing: inherit
 // * html
 //   +selection(black, white)
 html
@@ -10,10 +14,6 @@ html
   -webkit-font-smoothing: antialiased
   text-rendering: optimizeLegibility
   box-sizing: border-box
-*,
-*:before,
-*:after
-  box-sizing: inherit
 body
   font-family: $font-family
   width: 100%

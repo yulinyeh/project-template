@@ -16,7 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": ">1.0 <2.0",
+    "jquery": "latest",
     "html5shiv": "latest"
   },
   "devDependencies": {

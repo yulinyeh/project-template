@@ -1,13 +1,13 @@
 block params
 doctype html
 <!--[if lte IE 8]>
-<html class="no-js old-ie ie" lang="zh-Hant" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<html class="no-js old-ie ie" lang="zh-Hant-TW" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
 <![endif]-->
 <!--[if IE 9]>
-<html class="no-js ie" lang="zh-Hant" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<html class="no-js ie" lang="zh-Hant-TW" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
 <![endif]-->
 <!--[if !IE]><!-->
-<html class="no-js" lang="zh-Hant" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<html class="no-js" lang="zh-Hant-TW" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
 <!--<![endif]-->
 head
   meta(charset="utf-8")
@@ -57,7 +57,9 @@ head
       link(rel="stylesheet" href="./assets/#{link_src}")
     link(rel="stylesheet", href="./assets/stylesheets/style.css")
   else
+    <!-- build:css ./assets/stylesheets/style.min.css -->
     link(rel="stylesheet", href="./assets/stylesheets/style.min.css")
+    <!-- endbuild -->
   <!--[if lt IE 9]>
   if (dev)
     script(src="./assets/#{fileHtml5shiv[0]}")
@@ -77,6 +79,8 @@ body(id=pageID)
       script(src="./assets/#{script_src}")
     script(src="./assets/javascripts/script.js")
   else
+    <!-- build:js ./assets/javascripts/script.min.js -->
     script(src="./assets/javascripts/script.min.js")
+    <!-- endbuild -->
   block javascript
 </html>
