@@ -16,11 +16,11 @@
     "url": "https://github.com/edenyeh/MyInitialProject/issues"
   },
   "devDependencies": {
+    "browser-sync": "latest",
     "del": "latest",
     "gulp": "latest",
     "gulp-autoprefixer": "latest",
     "gulp-concat": "latest",
-    "gulp-connect": "latest",
     "gulp-copy": "latest",
     "gulp-flatten": "latest",
     "gulp-jade": "latest",
