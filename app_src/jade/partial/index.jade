@@ -2,12 +2,14 @@ extends ../layout
 block params
   - var pageID = 'index'
 block head
-  title The Rock
+  - var siteName = ''
+  - var pageTitle = ''
+  title #{pageTitle}
   meta(name="keywords", content="HTML,CSS,XML,JavaScript")
   meta(name="description", content="Free Web tutorials")
   meta(name="author", content="Yeh Yulin")
-  meta(property="og:title", content="The Rock")
-  meta(property="og:site_name", content="IMDb")
+  meta(property="og:title", content=pageTitle)
+  meta(property="og:site_name", content=siteName)
   meta(property="og:type", content="website")
   meta(property="og:locale", content="zh_tw")
   meta(property="og:brand", content="PinLeague Analytics Suite")

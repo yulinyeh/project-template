@@ -1,8 +1,10 @@
-@import "require/common"
-.text-justify
-  text-align: justify
-  &.text-justify--single-line
-    &:after
-      content: ''
-      display: inline-block
-      width: 100%
+@import "./components/breakpoint-sass/stylesheets/breakpoint.scss"
+
+// 不使用 'compass-mixins' 的 CSS3 prefix 功能，改用 'gulp-autoprefixer'
+// +squish-text
+@import "./components/compass-mixins/lib/compass/typography/text/replacement"
+
+@import "variable"
+@import "mixin"
+@import "function"
+@import "extend"
