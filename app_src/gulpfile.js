@@ -85,8 +85,7 @@ gulp.task('sass:compressed', function() {
   return gulp.src(filesSass)
     .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
     .pipe(sass({
-      outputStyle: 'compressed',
-      sourceMap: false
+      outputStyle: 'compressed'
     }))
     .pipe(autoprefixer())
     .pipe(gulp.dest('./tmp/'))
@@ -282,24 +281,21 @@ function jade2html(param) {
 function sass2css(param) {
   var index;
   var newPath;
-  if (param.length === 1) {
-    // sass 異動時
-    param = param[0];
-    index = param.indexOf('app_src/');
-    newPath = param.substring(index).replace('app_src', '.').replace('/sass', '/sass/**');
-  } else {
+  if (typeof param === 'object') {
     // sass 初始化
     newPath = param;
+  } else {
+    // sass 異動時
+    index = param.indexOf('app_src/');
+    newPath = param.substring(index).replace('app_src', '.').replace('/sass', '/sass/**');
   };
 
   return gulp.src(newPath)
     .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
     .pipe(sourcemaps.init())
     .pipe(sass({
-      outputStyle: 'expanded',
-      sourceMap: true
+      outputStyle: 'expanded'
     }))
-    .pipe(autoprefixer())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./tmp/'))
     .pipe(gutil.buffer(function(err, files) {
