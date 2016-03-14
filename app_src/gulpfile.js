@@ -337,19 +337,19 @@ gulp.task('default', ['connect:dev', 'copy:root-assets-dev', 'copy:assets-dev', 
   gulp.watch('jade/partial/**/*.jade', function(e) {
     jade2html(e.path);
   });
-  gulp.watch(['./jade/layout.jade', './jade/include/*.jade'], function(e) {
-    jade2html('./jade/partial/*.jade');
+  gulp.watch(['jade/layout.jade', 'jade/include/*.jade'], function(e) {
+    jade2html('jade/partial/*.jade');
   });
   gulp.watch(filesSass, function(e) {
     sass2css(e.path);
   });
-  gulp.watch(['./sass/require/*.sass', './sass/include/*.sass'], function(e) {
+  gulp.watch(['sass/require/*.sass', 'sass/include/*.sass'], function(e) {
     gulp.start(['css:rebuild']);
   });
-  gulp.watch('./tmp/**/*.css', function(e) {
+  gulp.watch('tmp/**/*.css', function(e) {
     gulp.start(['css:changed']);
   });
-  gulp.watch('./javascript/*.js', function(e) {
+  gulp.watch('javascript/*.js', function(e) {
     gulp.start(['js:rebuild']);
   });
 });
