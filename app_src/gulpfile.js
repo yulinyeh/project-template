@@ -52,10 +52,10 @@ var filesSass = [
 
 // =============== 整體自動化 Start ===============
 gulp.task('html:init', function() {
-  jade2html('./jade/partial/**/*.jade');
+  jade2html('jade/partial/**/*.jade');
 });
 gulp.task('html:pretty', ['del:prod'], function() {
-  return gulp.src('./jade/partial/**/*.jade')
+  return gulp.src('jade/partial/**/*.jade')
     .pipe(jade({
       locals: {
         host: host,
@@ -88,7 +88,7 @@ gulp.task('sass:compressed', function() {
       outputStyle: 'compressed'
     }))
     .pipe(autoprefixer())
-    .pipe(gulp.dest('./tmp/'))
+    .pipe(gulp.dest('tmp/'))
     .pipe(gutil.buffer(function(err, files) {
       gutil.log(gutil.colors.yellow('sass:compressed @ ' + new Date()));
     }));
@@ -160,7 +160,7 @@ gulp.task('uglify', function() {
     .pipe(rename({
       suffix: '.uglify'
     }))
-    .pipe(gulp.dest('./tmp/'))
+    .pipe(gulp.dest('tmp/'))
     .pipe(gutil.buffer(function(err, files) {
       gutil.log(gutil.colors.yellow('uglify @ ' + new Date()));
     }));
@@ -232,7 +232,7 @@ gulp.task('copy:assets-prod', ['del:prod'], function() {
 
 // 移除資料夾
 gulp.task('del:dev', function() {
-  return del(['./tmp/**', '../app_dev/**'], {force: true});
+  return del(['tmp/**', '../app_dev/**'], {force: true});
 });
 gulp.task('del:prod', function() {
   return del('../app_prod/**', {force: true});
@@ -240,11 +240,11 @@ gulp.task('del:prod', function() {
 
 // 版本號替換（完全由前端開發時可用）
 gulp.task('usemin', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function() {
- gulp.src('../app_prod/**/*.html')
+  return gulp.src('../app_prod/**/*.html')
     .pipe(usemin({
-      css: [rev()],
-      js: [rev()],
-      html: [minifyHtml({empty: true })]
+      css: [rev],
+      js: [rev],
+      html: [function() {return minifyHtml({ empty: true });}]
     }))
    .pipe(gulp.dest('../app_prod/'))
    .pipe(gutil.buffer(function(err, files) {
@@ -297,7 +297,7 @@ function sass2css(param) {
       outputStyle: 'expanded'
     }))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./tmp/'))
+    .pipe(gulp.dest('tmp/'))
     .pipe(gutil.buffer(function(err, files) {
       gutil.log(gutil.colors.yellow('sass2css @ ' + new Date()));
     }));
@@ -353,5 +353,9 @@ gulp.task('default', ['connect:dev', 'copy:root-assets-dev', 'copy:assets-dev', 
     gulp.start(['js:rebuild']);
   });
 });
-gulp.task('prod', ['connect:prod', 'copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify']);
-// gulp.task('prod', ['usemin', 'connect:prod']);
+gulp.task('prod', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function() {
+  gulp.start(['connect:prod']);
+});
+// gulp.task('prod', ['usemin'], function() {
+//   gulp.start(['connect:prod']);
+// });
