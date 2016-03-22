@@ -237,6 +237,11 @@ gulp.task('del:dev', function() {
 gulp.task('del:prod', function() {
   return del('../app_prod/**', {force: true});
 });
+gulp.task('del:prod-assets-min', function() {
+  del([
+    '../app_prod/assets/javascripts/script.min.js',
+    '../app_prod/assets/stylesheets/style.min.css'], {force: true});
+});
 
 // 版本號替換（完全由前端開發時可用）
 gulp.task('usemin', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function() {
@@ -354,7 +359,7 @@ gulp.task('default', ['connect:dev', 'copy:root-assets-dev', 'copy:assets-dev', 
   });
 });
 gulp.task('prod', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function() {
-  gulp.start(['connect:prod']);
+  gulp.start(['connect:prod', 'del:prod-assets-min']);
 });
 // gulp.task('prod', ['usemin'], function() {
 //   gulp.start(['connect:prod']);
