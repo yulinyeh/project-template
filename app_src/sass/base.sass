@@ -1,0 +1,78 @@
+@import "require/common"
+.section
+  overflow: hidden
+.btn
+  display: inline-block
+  font-size: 12pt
+  text-decoration: none
+  padding: 9pt 15pt
+  border-radius: 6pt
+  margin: 20pt auto
+  border: none
+  text-align: center
+.link
+  display: inline-block
+  border: none
+  padding: 0
+  background-color: transparent
+  text-decoration: none
+  color: inherit
+.mark
+  font-size: 30pt
+  color: $sysc
+  background-color: transparent
+.comma
+  display: none
+.lightbox-content
+  background-color: white
+  color: #616161
+  overflow: hidden
+  a
+    color: #616161
+  h4
+    margin: 0
+    padding: 30pt 0 0 16pt
+    font-size: 16pt
+    &~p
+      padding: 0 12pt
+  p,
+  ol
+    font-size: 14pt
+    line-height: 22pt
+  ol
+    padding: 0 10pt 0 42pt
+    list-style-type: cjk-ideographic
+    p
+      margin: 0
+    ol
+      padding-left: 24pt
+      list-style-type: decimal
+      ol
+        list-style-type: lower-roman
+
+// ========================= Laptop =========================
++breakpoint($laptop-width)
+  .btn
+    display: block
+    width: 270px
+    font-size: 24pt
+    letter-spacing: 4pt
+    padding: 12pt 15pt
+    &::first-letter
+      margin-left: 4pt
+  .mark
+    font-size: 60pt
+  .comma
+    display: inline
+  .lightbox-content
+    h4
+      font-size: 24pt
+      padding-left: 17px
+      &~p
+        padding: 0 17px
+    p,
+    ol
+      font-size: 20pt
+      line-height: 40px
+    ol
+      padding: 0 20px 0 70px

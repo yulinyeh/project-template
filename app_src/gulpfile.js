@@ -40,10 +40,10 @@ var filesSass = [
     'plugins/**/*.*',
     'fake_files/**/*.*'], // 純粹複製
   filesRootAssets = [
-    'humans.txt',
-    'robots.txt',
-    'favicon.ico',
-    'favicon.png'
+    '*.txt',
+    '*.ico',
+    '*.jpg',
+    '*.png'
   ], // 純粹複製
   fileHtml5shiv = [
     'components/html5shiv/dist/html5shiv-printshiv.min.js'], // 舊瀏覽器支援 HTML5 Tag (手動複製檔案)
@@ -301,6 +301,7 @@ function sass2css(param) {
     .pipe(sass({
       outputStyle: 'expanded'
     }))
+    .pipe(autoprefixer())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('tmp/'))
     .pipe(gutil.buffer(function(err, files) {

@@ -1,5 +1,6 @@
 @import "require/common"
 // @import "./components/compass-mixins/lib/compass/reset"
+// 建議改使用 https://github.com/necolas/normalize.css
 @import "./components/compass-mixins/lib/compass/layout/sticky-footer"
 +sticky-footer(46px)
 
@@ -7,8 +8,9 @@
 *:before,
 *:after
   box-sizing: inherit
-// * html
-//   +selection(black, white)
+// ::selection
+//   background: black
+//   color: white
 html
   -moz-osx-font-smoothing: grayscale
   -webkit-font-smoothing: antialiased
@@ -20,7 +22,7 @@ body
   line-height: 1
 img
   display: block
-  +object-fit(cover)
+  object-fit: cover
 @import "include/header"
 @import "include/aside"
 @import "include/footer"
