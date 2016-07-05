@@ -1,4 +1,3 @@
-*.sublime-workspace
 .git
 app_dev
 app_prod
