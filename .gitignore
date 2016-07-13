@@ -1,3 +1,4 @@
 .git
+.DS_Store
 app_dev
 app_prod
