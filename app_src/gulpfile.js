@@ -18,8 +18,10 @@ var del = require('del');
 // var rev = require('gulp-rev');
 var rebuildSass = false;
 var rebuildNumber = 0;
-var host = 'http://edenyeh.ngrok.io/'; // 測試用
-var appId = '438786936303896'; // 測試用
+var hostDev = 'http://localhost:3000/'; // 測試用
+var appIdDev = '554563908047907'; // 測試用
+var host = ''; // 正式用
+var appId = ''; // 正式用
 
 var filesSass = [
     'sass/*.sass',
