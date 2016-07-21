@@ -333,7 +333,7 @@ gulp.task('connect:dev', function() {
     }
   });
 });
-gulp.task('connect:prod', ['del:prod'], function() {
+gulp.task('connect:prod', function() {
   return browserSync.init({
     server: {
       baseDir: '../app_prod/'
@@ -362,7 +362,7 @@ gulp.task('default', ['connect:dev', 'copy:root-assets-dev', 'copy:assets-dev', 
   });
 });
 gulp.task('prod', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function() {
-  gulp.start(['connect:prod', 'del:prod-assets-min']);
+  gulp.start(['connect:prod']);
 });
 // gulp.task('prod', ['usemin'], function() {
 //   gulp.start(['connect:prod']);
