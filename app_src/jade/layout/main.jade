@@ -72,11 +72,11 @@ head
   block css
 body(id=pageID)
   #root
-    include include/header
-    include include/aside
+    include ../include/header
+    include ../include/aside
     block content
     #root_footer
-  include include/footer
+  include ../include/footer
   if (dev)
     each script_src in filesComponentJavascript
       script(src="./assets/#{script_src}")

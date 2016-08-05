@@ -25,10 +25,15 @@ var appIdDev = '628193067351657'; // localhost 用
 // var host = ''; // 正式用
 // var appId = ''; // 正式用
 
+var filesJade = [
+  './jade/**/!(layout|include)/*.jade'],
+  filesJadeTemplate = [
+    './jade/layouts/*.jade',
+    './jade/include/*.jade'];
 var filesSass = [
-    'sass/*.sass',
-    'sass/**/!(include|require)/*.sass'], // Sass 檔案
-  filesCSS = filesSass.map(function(file){return file.replace('sass', 'tmp').replace('.sass', '.css');}),
+  'sass/*.sass',
+  'sass/**/!(include|require)/*.sass'], // Sass 檔案
+  filesCSS = filesSass.map(function (file) { return file.replace('sass', 'tmp').replace('.sass', '.css'); }),
   filesComponentCSS = [], // Component 的 CSS(ex: 'components/fontawesome/css/font-awesome.min.css')
   filesComponentFont = [], // Component 的 Font(ex: 'components/fontawesome/**/fonts/*.*')
   filesCSSMinify = filesComponentCSS.concat(filesCSS),
@@ -55,11 +60,11 @@ var filesSass = [
     'javascripts/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (Production 路徑, 手動複製檔案)
 
 // =============== 整體自動化 Start ===============
-gulp.task('html:init', function() {
-  jade2html('jade/partial/**/*.jade');
+gulp.task('html:init', function () {
+  jade2html(filesJade);
 });
-gulp.task('html:pretty', ['del:prod'], function() {
-  return gulp.src('jade/partial/**/*.jade')
+gulp.task('html:pretty', ['del:prod'], function () {
+  return gulp.src(filesJade)
     .pipe(jade({
       locals: {
         host: host,
@@ -72,41 +77,41 @@ gulp.task('html:pretty', ['del:prod'], function() {
       extname: '.html'
     }))
     .pipe(gulp.dest('../app_prod/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('html:pretty @ ' + new Date()));
     }));
 });
 
 // Sass 樣式
-gulp.task('sass:init', function() {
+gulp.task('sass:init', function () {
   return sass2css(filesSass);
 });
-gulp.task('sass:rebuild', function() {
+gulp.task('sass:rebuild', function () {
   rebuildSass = true;
   return sass2css(filesSass);
 });
-gulp.task('sass:compressed', function() {
+gulp.task('sass:compressed', function () {
   return gulp.src(filesSass)
-    .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(sass({
       outputStyle: 'compressed'
     }))
     .pipe(autoprefixer())
     .pipe(gulp.dest('tmp/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('sass:compressed @ ' + new Date()));
     }));
 });
 
 // Concat 串連
 // CSS
-gulp.task('css:init', ['sass:init'], function() {
+gulp.task('css:init', ['sass:init'], function () {
   return concat2style();
 });
-gulp.task('css:rebuild', ['sass:rebuild'], function() {
+gulp.task('css:rebuild', ['sass:rebuild'], function () {
   concat2style();
 });
-gulp.task('css:changed', function() {
+gulp.task('css:changed', function () {
   if (rebuildSass === false) {
     concat2style();
   } else {
@@ -119,71 +124,71 @@ gulp.task('css:changed', function() {
   };
 });
 // JS
-gulp.task('js:init', function() {
+gulp.task('js:init', function () {
   gulp.src(filesJavascript)
     .pipe(concat('script.js'))
     .pipe(gulp.dest('../app_dev/assets/javascripts/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('js:init @ ' + new Date()));
     }));
 });
-gulp.task('js:rebuild', function() {
+gulp.task('js:rebuild', function () {
   gulp.src(filesJavascript)
-    .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(concat('script.js'))
     .pipe(gulp.dest('../app_dev/assets/javascripts/'))
-    .pipe(browserSync.reload({stream: true}))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(browserSync.reload({ stream: true }))
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('js:rebuild @ ' + new Date()));
     }));
 });
 // Minify
-gulp.task('concat:css-minify', ['del:prod', 'sass:compressed'], function() {
+gulp.task('concat:css-minify', ['del:prod', 'sass:compressed'], function () {
   return gulp.src(filesCSSMinify)
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('../app_prod/assets/stylesheets/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('concat:css-minify @ ' + new Date()));
     }));
 });
-gulp.task('concat:js-minify', ['del:prod', 'uglify'], function() {
+gulp.task('concat:js-minify', ['del:prod', 'uglify'], function () {
   return gulp.src(filesJavascriptMinify)
-    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(concat('script.min.js'))
     // .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('../app_prod/assets/javascripts/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('concat:js-minify @ ' + new Date()));
     }));
 });
 
 // Uglify JavaScript 壓縮
-gulp.task('uglify', function() {
+gulp.task('uglify', function () {
   return gulp.src('../app_dev/assets/javascripts/script.js')
     .pipe(uglify())
     .pipe(rename({
       suffix: '.uglify'
     }))
     .pipe(gulp.dest('tmp/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('uglify @ ' + new Date()));
     }));
 });
 
 // 複製 Components
-gulp.task('copy:components', function() {
+gulp.task('copy:components', function () {
   return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentFont))
-    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(copy('../app_dev/assets/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:components @ ' + new Date()));
     }));
 });
-gulp.task('copy:components-prod-font', ['del:prod'], function() {
+gulp.task('copy:components-prod-font', ['del:prod'], function () {
   return gulp.src(filesComponentFont)
-    .pipe(flatten({includeParents: 1}))
+    .pipe(flatten({ includeParents: 1 }))
     .pipe(gulp.dest('../app_prod/assets/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:components-prod-font @ ' + new Date()));
     }));
 });
@@ -191,72 +196,72 @@ gulp.task('copy:components-prod-font', ['del:prod'], function() {
 // 複製
 // ----- 開發版 -----
 // 獨立任務(複製 images 資料夾)
-gulp.task('copy:assets-images-dev', function() {
+gulp.task('copy:assets-images-dev', function () {
   return gulp.src(['images/**/*.*'])
     .pipe(copy('../app_dev/assets/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:assets-images-dev @ ' + new Date()));
     }));
 });
 // 複製根目錄資源
-gulp.task('copy:root-assets-dev', function() {
+gulp.task('copy:root-assets-dev', function () {
   return gulp.src(filesRootAssets)
     .pipe(copy('../app_dev/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:root-assets-dev @ ' + new Date()));
     }));
 });
 // 複製 plugins...(除了 images) 目錄資源
-gulp.task('copy:assets-dev', function() {
+gulp.task('copy:assets-dev', function () {
   var temp = filesAssets.slice();
   temp.splice(temp.indexOf('images/**/*.*'), 1);
   return gulp.src(temp)
     .pipe(copy('../app_dev/assets/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:assets-dev @ ' + new Date()));
     }));
 });
 // ----- 產品版 -----
 // 複製 根 目錄資源
-gulp.task('copy:root-assets-prod', ['del:prod'], function() {
+gulp.task('copy:root-assets-prod', ['del:prod'], function () {
   return gulp.src(filesRootAssets)
     .pipe(copy('../app_prod/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:root-assets-prod @ ' + new Date()));
     }));
 });
 // 複製 images, plugins... 目錄資源
-gulp.task('copy:assets-prod', ['del:prod'], function() {
+gulp.task('copy:assets-prod', ['del:prod'], function () {
   return gulp.src(filesAssets)
     .pipe(copy('../app_prod/assets/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:assets-prod @ ' + new Date()));
     }));
 });
 
 // 移除資料夾
-gulp.task('del:dev', function() {
-  return del(['tmp/**', '../app_dev/**'], {force: true});
+gulp.task('del:dev', function () {
+  return del(['tmp/**', '../app_dev/**'], { force: true });
 });
-gulp.task('del:prod', function() {
-  return del('../app_prod/**', {force: true});
+gulp.task('del:prod', function () {
+  return del('../app_prod/**', { force: true });
 });
-gulp.task('del:prod-assets-min', function() {
+gulp.task('del:prod-assets-min', function () {
   del([
     '../app_prod/assets/javascripts/script.min.js',
-    '../app_prod/assets/stylesheets/style.min.css'], {force: true});
+    '../app_prod/assets/stylesheets/style.min.css'], { force: true });
 });
 
 // 版本號替換（完全由前端開發時可用）
-gulp.task('usemin', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function() {
+gulp.task('usemin', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function () {
   return gulp.src('../app_prod/**/*.html')
     .pipe(usemin({
       css: [rev],
       js: [rev],
-      html: [function() {return minifyHtml({ empty: true });}]
+      html: [function () { return minifyHtml({ empty: true }); }]
     }))
-   .pipe(gulp.dest('../app_prod/'))
-   .pipe(gutil.buffer(function(err, files) {
+    .pipe(gulp.dest('../app_prod/'))
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('usemin @ ' + new Date()));
     }));
 });
@@ -264,27 +269,29 @@ gulp.task('usemin', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:componen
 
 // =============== 轉譯函式 Start ===============
 function jade2html(param) {
+  var includeParents = filesJadeTemplate.length <= 2 ? 0 : 1;
   gulp.src(param)
-    .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(jade({
       locals: {
         dev: true,
-        host: host,
-        appId: appId,
+        host: hostDev,
+        appId: appIdDev,
         fileHtml5shiv: fileHtml5shiv,
         filesComponentCSS: filesComponentCSS,
         filesComponentJavascript: filesComponentJavascript
       },
       pretty: true
     }))
+    .pipe(flatten({ includeParents: includeParents }))
     .pipe(gulp.dest('../app_dev/'))
-      .on('finish', function() {
-        gulp.src(param)
-          .pipe(browserSync.reload({stream: true}))
-          .pipe(gutil.buffer(function(err, files) {
-            gutil.log(gutil.colors.yellow('jade2html @ ' + new Date()));
-          }))
-      });
+    .on('finish', function () {
+      gulp.src(param)
+        .pipe(browserSync.reload({ stream: true }))
+        .pipe(gutil.buffer(function (err, files) {
+          gutil.log(gutil.colors.yellow('jade2html @ ' + new Date()));
+        }))
+    });
 };
 
 function sass2css(param) {
@@ -300,7 +307,7 @@ function sass2css(param) {
   };
 
   return gulp.src(newPath)
-    .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'expanded'
@@ -308,34 +315,34 @@ function sass2css(param) {
     .pipe(autoprefixer())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('tmp/'))
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('sass2css @ ' + new Date()));
     }));
 };
 
 function concat2style() {
   return gulp.src(filesCSS)
-    .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
-    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(concat('style.css'))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('../app_dev/assets/stylesheets/'))
     .pipe(browserSync.stream())
-    .pipe(gutil.buffer(function(err, files) {
+    .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('concat2style @ ' + new Date()));
     }));
 };
 // =============== 轉譯函式 End ===============
 
 // 起動 Server
-gulp.task('connect:dev', function() {
+gulp.task('connect:dev', function () {
   return browserSync.init({
     server: {
       baseDir: '../app_dev/'
     }
   });
 });
-gulp.task('connect:prod', function() {
+gulp.task('connect:prod', function () {
   return browserSync.init({
     server: {
       baseDir: '../app_prod/'
@@ -343,27 +350,27 @@ gulp.task('connect:prod', function() {
   });
 });
 
-gulp.task('default', ['connect:dev', 'copy:root-assets-dev', 'copy:assets-dev', 'copy:components', 'html:init', 'css:init', 'js:init'], function() {
-  gulp.watch('jade/partial/**/*.jade', function(e) {
+gulp.task('default', ['connect:dev', 'copy:root-assets-dev', 'copy:assets-dev', 'copy:components', 'html:init', 'css:init', 'js:init'], function () {
+  gulp.watch(filesJade, function (e) {
     jade2html(e.path);
   });
-  gulp.watch(['jade/layout.jade', 'jade/include/*.jade'], function(e) {
-    jade2html('jade/partial/*.jade');
+  gulp.watch(filesJadeTemplate, function (e) {
+    jade2html(filesJade);
   });
-  gulp.watch(filesSass, function(e) {
+  gulp.watch(filesSass, function (e) {
     sass2css(e.path);
   });
-  gulp.watch(['sass/require/*.sass', 'sass/include/*.sass'], function(e) {
+  gulp.watch(['sass/require/*.sass', 'sass/include/*.sass'], function (e) {
     gulp.start(['css:rebuild']);
   });
-  gulp.watch('tmp/**/*.css', function(e) {
+  gulp.watch('tmp/**/*.css', function (e) {
     gulp.start(['css:changed']);
   });
-  gulp.watch('javascript/*.js', function(e) {
+  gulp.watch('javascript/*.js', function (e) {
     gulp.start(['js:rebuild']);
   });
 });
-gulp.task('prod', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function() {
+gulp.task('prod', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function () {
   gulp.start(['connect:prod']);
 });
 // gulp.task('prod', ['usemin'], function() {
