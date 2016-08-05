@@ -18,10 +18,10 @@ var del = require('del');
 // var rev = require('gulp-rev');
 var rebuildSass = false;
 var rebuildNumber = 0;
-var hostDev = 'http://localhost:3000/'; // localhost 用
-var appIdDev = '628193067351657'; // localhost 用
-// var hostDev = 'https://edenyeh.github.io/project-name/'; // GitHub 用
-// var appIdDev = '554563908047907'; // GitHub 用
+var host = 'http://localhost:3000/'; // localhost 用
+var appId = '628193067351657'; // localhost 用
+// var host = 'https://edenyeh.github.io/project-name/'; // GitHub 用
+// var appId = '554563908047907'; // GitHub 用
 // var host = ''; // 正式用
 // var appId = ''; // 正式用
 
