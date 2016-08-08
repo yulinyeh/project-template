@@ -22,8 +22,8 @@ var host = 'http://localhost:3000/'; // localhost 用
 var appId = '628193067351657'; // localhost 用
 // var host = 'https://edenyeh.github.io/project-name/'; // GitHub 用
 // var appId = '554563908047907'; // GitHub 用
-// var host = ''; // 正式用
-// var appId = ''; // 正式用
+var hostProd = ''; // 正式用
+var appIdProd = ''; // 正式用
 
 var filesJade = [
   './jade/**/!(layout|include)/*.jade'],
@@ -67,8 +67,8 @@ gulp.task('html:pretty', ['del:prod'], function () {
   return gulp.src(filesJade)
     .pipe(jade({
       locals: {
-        host: host,
-        appId: appId,
+        host: hostProd,
+        appId: appIdProd,
         fileHtml5shiv_prod: fileHtml5shiv_prod
       },
       pretty: true
@@ -275,8 +275,8 @@ function jade2html(param) {
     .pipe(jade({
       locals: {
         dev: true,
-        host: hostDev,
-        appId: appIdDev,
+        host: host,
+        appId: appId,
         fileHtml5shiv: fileHtml5shiv,
         filesComponentCSS: filesComponentCSS,
         filesComponentJavascript: filesComponentJavascript
