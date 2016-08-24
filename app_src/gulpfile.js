@@ -34,7 +34,9 @@ var filesSass = [
   'sass/*.sass',
   'sass/**/!(include|require)/*.sass'], // Sass 檔案
   filesCSS = filesSass.map(function (file) { return file.replace('sass', 'tmp').replace('.sass', '.css'); }),
-  filesComponentCSS = [], // Component 的 CSS(ex: 'components/fontawesome/css/font-awesome.min.css')
+  filesComponentCSS = [
+    'components/normalize-css/normalize.css'
+  ], // Component 的 CSS(ex: 'components/fontawesome/css/font-awesome.min.css')
   filesComponentFont = [], // Component 的 Font(ex: 'components/fontawesome/**/fonts/*.*')
   filesCSSMinify = filesComponentCSS.concat(filesCSS),
   filesJavascript = [
