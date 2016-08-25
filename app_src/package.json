@@ -23,7 +23,7 @@
     "gulp-concat": "latest",
     "gulp-copy": "latest",
     "gulp-flatten": "latest",
-    "gulp-jade": "latest",
+    "gulp-pug": "latest",
     "gulp-notify": "latest",
     "gulp-plumber": "latest",
     "gulp-rename": "latest",

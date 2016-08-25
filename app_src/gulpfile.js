@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var plumber = require('gulp-plumber');
 var notify = require("gulp-notify");
-var jade = require('gulp-jade');
+var pug = require('gulp-pug');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
@@ -25,11 +25,11 @@ var appId = '628193067351657'; // localhost 用
 var hostProd = ''; // 正式用
 var appIdProd = ''; // 正式用
 
-var filesJade = [
-  './jade/**/!(layout|include)/*.jade'],
-  filesJadeTemplate = [
-    './jade/layouts/*.jade',
-    './jade/include/*.jade'];
+var filesPug = [
+  './pug/**/!(layout|include)/*.pug'],
+  filesPugTemplate = [
+    './pug/layouts/*.pug',
+    './pug/include/*.pug'];
 var filesSass = [
   'sass/*.sass',
   'sass/**/!(include|require)/*.sass'], // Sass 檔案
@@ -63,11 +63,11 @@ var filesSass = [
 
 // =============== 整體自動化 Start ===============
 gulp.task('html:init', function () {
-  jade2html(filesJade);
+  pug2html(filesPug);
 });
 gulp.task('html:pretty', ['del:prod'], function () {
-  return gulp.src(filesJade)
-    .pipe(jade({
+  return gulp.src(filesPug)
+    .pipe(pug({
       locals: {
         host: hostProd,
         appId: appIdProd,
@@ -270,11 +270,11 @@ gulp.task('usemin', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:componen
 // =============== 整體自動化 End ===============
 
 // =============== 轉譯函式 Start ===============
-function jade2html(param) {
-  var includeParents = filesJadeTemplate.length <= 2 ? 0 : 1;
+function pug2html(param) {
+  var includeParents = filesPugTemplate.length <= 2 ? 0 : 1;
   gulp.src(param)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(jade({
+    .pipe(pug({
       locals: {
         dev: true,
         host: host,
@@ -291,7 +291,7 @@ function jade2html(param) {
       gulp.src(param)
         .pipe(browserSync.reload({ stream: true }))
         .pipe(gutil.buffer(function (err, files) {
-          gutil.log(gutil.colors.yellow('jade2html @ ' + new Date()));
+          gutil.log(gutil.colors.yellow('pug2html @ ' + new Date()));
         }))
     });
 };
@@ -353,11 +353,11 @@ gulp.task('connect:prod', function () {
 });
 
 gulp.task('default', ['connect:dev', 'copy:root-assets-dev', 'copy:assets-dev', 'copy:components', 'html:init', 'css:init', 'js:init'], function () {
-  gulp.watch(filesJade, function (e) {
-    jade2html(e.path);
+  gulp.watch(filesPug, function (e) {
+    pug2html(e.path);
   });
-  gulp.watch(filesJadeTemplate, function (e) {
-    jade2html(filesJade);
+  gulp.watch(filesPugTemplate, function (e) {
+    pug2html(filesPug);
   });
   gulp.watch(filesSass, function (e) {
     sass2css(e.path);

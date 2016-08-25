@@ -49,15 +49,15 @@ head
   meta(name="google-site-verification", content="...")
   //- Google - 使用 hreflang 提供正確語言和地區的網址
   //- https://support.google.com/webmasters/answer/189077
-  meta(rel="alternate", href="#{host}", hreflang="zh-Hant")
+  meta(rel="alternate", href=`${host}`, hreflang="zh-Hant")
   //- MS 磚塊牆的 icon 的底色盡量用透明的, 因為磚塊牆本身有底色, 圖片有底色, 會使得磚塊底色像邊框包著 icon
   //- FB insights setting (必填 fb:app_id)
-  //- meta(property="fb:app_id", content="#{appId}")
+  //- meta(property="fb:app_id", content=`${appId}`)
   //- meta(property="fb:admins", content="100000076224411")
   //- meta(property="fb:admins", content="1476213097")
   if (dev)
     each link_src in filesComponentCSS
-      link(rel="stylesheet" href="./assets/#{link_src}")
+      link(rel="stylesheet" href=`./assets/${link_src}`)
     link(rel="stylesheet", href="./assets/stylesheets/style.css")
   else
     //build:css ./assets/stylesheets/style.min.css
@@ -65,9 +65,9 @@ head
     //endbuild
   <!--[if lt IE 9]>
   if (dev)
-    script(src="./assets/#{fileHtml5shiv[0]}")
+    script(src=`./assets/${fileHtml5shiv[0]}`)
   else
-    script(src="./assets/#{fileHtml5shiv_prod[0]}")
+    script(src=`./assets/${fileHtml5shiv_prod[0]}`)
   <![endif]-->
   block css
 body(id=pageID)
@@ -79,7 +79,7 @@ body(id=pageID)
   include ../include/footer
   if (dev)
     each script_src in filesComponentJavascript
-      script(src="./assets/#{script_src}")
+      script(src=`./assets/${script_src}`)
     script(src="./assets/javascripts/script.js")
   else
     //build:js ./assets/javascripts/script.min.js
