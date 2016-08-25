@@ -26,10 +26,10 @@ var hostProd = ''; // 正式用
 var appIdProd = ''; // 正式用
 
 var filesPug = [
-  './pug/**/!(layout|include)/*.pug'],
+  'pug/**/!(layout|include)/*.pug'],
   filesPugTemplate = [
-    './pug/layout/*.pug',
-    './pug/include/*.pug'];
+    'pug/layout/*.pug',
+    'pug/include/*.pug'];
 var filesSass = [
   'sass/*.sass',
   'sass/**/!(include|require)/*.sass'],
