@@ -28,11 +28,11 @@ var appIdProd = ''; // 正式用
 var filesPug = [
   './pug/**/!(layout|include)/*.pug'],
   filesPugTemplate = [
-    './pug/layouts/*.pug',
+    './pug/layout/*.pug',
     './pug/include/*.pug'];
 var filesSass = [
   'sass/*.sass',
-  'sass/**/!(include|require)/*.sass'], // Sass 檔案
+  'sass/**/!(include|require)/*.sass'],
   filesCSS = filesSass.map(function (file) { return file.replace('sass', 'tmp').replace('.sass', '.css'); }),
   filesComponentCSS = [
     'components/normalize-css/normalize.css'
