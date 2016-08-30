@@ -37,7 +37,7 @@ var filesSass = [
   filesComponentCSS = [
     'components/normalize-css/normalize.css'
   ], // Component 的 CSS(ex: 'components/fontawesome/css/font-awesome.min.css')
-  filesComponentFont = [], // Component 的 Font(ex: 'components/fontawesome/**/fonts/*.*')
+  filesComponentAsset = [], // Component 的 Font(ex: 'components/fontawesome/**/fonts/*.*')
   filesCSSMinify = filesComponentCSS.concat(filesCSS),
   filesJavascript = [
     'javascript/common.js'], // 自己寫的 JavaScript
@@ -179,7 +179,7 @@ gulp.task('uglify', function () {
 
 // 複製 Components
 gulp.task('copy:components', function () {
-  return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentFont))
+  return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentAsset))
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(copy('../app_dev/assets/'))
     .pipe(gutil.buffer(function (err, files) {
@@ -187,7 +187,7 @@ gulp.task('copy:components', function () {
     }));
 });
 gulp.task('copy:components-prod-font', ['del:prod'], function () {
-  return gulp.src(filesComponentFont)
+  return gulp.src(filesComponentAsset)
     .pipe(flatten({ includeParents: 1 }))
     .pipe(gulp.dest('../app_prod/assets/'))
     .pipe(gutil.buffer(function (err, files) {
