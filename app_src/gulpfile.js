@@ -35,16 +35,16 @@ var filesSass = [
   'sass/**/!(include|require)/*.sass'],
   filesCSS = filesSass.map(function (file) { return file.replace('sass', 'tmp').replace('.sass', '.css'); }),
   filesComponentCSS = [
-    'components/normalize-css/normalize.css'
-  ], // Component 的 CSS(ex: 'components/fontawesome/css/font-awesome.min.css')
-  filesComponentAsset = [], // Component 的 Font(ex: 'components/fontawesome/**/fonts/*.*')
+    'components/**/normalize-css/normalize.css'
+  ], // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css')
+  filesComponentAsset = [], // Component 的 Font(ex: 'components/**/fontawesome/**/fonts/*.*')
   filesCSSMinify = filesComponentCSS.concat(filesCSS),
   filesJavascript = [
     'javascript/common.js'], // 自己寫的 JavaScript
   filesComponentJavascript = [
-    'components/jquery/dist/jquery.min.js'], // Component 的 JavaScript
+    'components/**/jquery/dist/jquery.min.js'], // Component 的 JavaScript
   filesComponentJavascriptMap = [
-    'components/jquery/dist/jquery.min.map'], // Component 的 JavaScript Map
+    'components/**/jquery/dist/jquery.min.map'], // Component 的 JavaScript Map
   filesJavascriptMinify = filesComponentJavascript.concat(['tmp/script.uglify.js']),
   filesAssets = [
     'images/**/*.*',
@@ -181,14 +181,15 @@ gulp.task('uglify', function () {
 gulp.task('copy:components', function () {
   return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentAsset))
     .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(copy('../app_dev/assets/'))
+    .pipe(flatten({ includeParents: [1, 1] }))
+    .pipe(gulp.dest('../app_dev/assets/components/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:components @ ' + new Date()));
     }));
 });
 gulp.task('copy:components-prod-font', ['del:prod'], function () {
   return gulp.src(filesComponentAsset)
-    .pipe(flatten({ includeParents: 1 }))
+    .pipe(flatten({ includeParents: -1 }))
     .pipe(gulp.dest('../app_prod/assets/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:components-prod-font @ ' + new Date()));
@@ -271,7 +272,6 @@ gulp.task('usemin', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:componen
 
 // =============== 轉譯函式 Start ===============
 function pug2html(param) {
-  var includeParents = filesPugTemplate.length <= 2 ? 0 : 1;
   gulp.src(param)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(pug({
@@ -285,7 +285,7 @@ function pug2html(param) {
       },
       pretty: true
     }))
-    .pipe(flatten({ includeParents: includeParents }))
+    .pipe(flatten())
     .pipe(gulp.dest('../app_dev/'))
     .on('finish', function () {
       gulp.src(param)
