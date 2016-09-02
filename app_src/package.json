@@ -21,7 +21,6 @@
     "gulp": "latest",
     "gulp-autoprefixer": "latest",
     "gulp-concat": "latest",
-    "gulp-copy": "latest",
     "gulp-flatten": "latest",
     "gulp-pug": "latest",
     "gulp-notify": "latest",
