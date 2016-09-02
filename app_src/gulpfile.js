@@ -11,7 +11,9 @@ var uglify = require('gulp-uglify');
 var browserSync = require('browser-sync').create();
 var gutil = require('gulp-util');
 var flatten = require('gulp-flatten');
-var copy = require('gulp-copy');
+var flattenPath = require('gulp-flatten/lib/flatten-path');
+var glob = require('glob');
+var vinyl = require('vinyl');
 var del = require('del');
 // var usemin = require('gulp-usemin');
 // var minifyHtml = require('gulp-minify-html');
@@ -181,7 +183,7 @@ gulp.task('uglify', function () {
 gulp.task('copy:components', function () {
   return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentAsset))
     .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(flatten({ includeParents: [1, 1] }))
+    .pipe(flatten({includeParents: [1, 1]}))
     .pipe(gulp.dest('../app_dev/assets/components/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:components @ ' + new Date()));
@@ -189,7 +191,7 @@ gulp.task('copy:components', function () {
 });
 gulp.task('copy:components-prod-font', ['del:prod'], function () {
   return gulp.src(filesComponentAsset)
-    .pipe(flatten({ includeParents: -1 }))
+    .pipe(flatten({includeParents: -1}))
     .pipe(gulp.dest('../app_prod/assets/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:components-prod-font @ ' + new Date()));
@@ -201,7 +203,7 @@ gulp.task('copy:components-prod-font', ['del:prod'], function () {
 // 獨立任務(複製 images 資料夾)
 gulp.task('copy:assets-images-dev', function () {
   return gulp.src(['images/**/*.*'])
-    .pipe(copy('../app_dev/assets/'))
+    .pipe(gulp.dest('../app_dev/assets/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:assets-images-dev @ ' + new Date()));
     }));
@@ -209,7 +211,7 @@ gulp.task('copy:assets-images-dev', function () {
 // 複製根目錄資源
 gulp.task('copy:root-assets-dev', function () {
   return gulp.src(filesRootAssets)
-    .pipe(copy('../app_dev/'))
+    .pipe(gulp.dest('../app_dev/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:root-assets-dev @ ' + new Date()));
     }));
@@ -219,7 +221,7 @@ gulp.task('copy:assets-dev', function () {
   var temp = filesAssets.slice();
   temp.splice(temp.indexOf('images/**/*.*'), 1);
   return gulp.src(temp)
-    .pipe(copy('../app_dev/assets/'))
+    .pipe(gulp.dest('../app_dev/assets/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:assets-dev @ ' + new Date()));
     }));
@@ -228,7 +230,7 @@ gulp.task('copy:assets-dev', function () {
 // 複製 根 目錄資源
 gulp.task('copy:root-assets-prod', ['del:prod'], function () {
   return gulp.src(filesRootAssets)
-    .pipe(copy('../app_prod/'))
+    .pipe(gulp.dest('../app_prod/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:root-assets-prod @ ' + new Date()));
     }));
@@ -236,7 +238,7 @@ gulp.task('copy:root-assets-prod', ['del:prod'], function () {
 // 複製 images, plugins... 目錄資源
 gulp.task('copy:assets-prod', ['del:prod'], function () {
   return gulp.src(filesAssets)
-    .pipe(copy('../app_prod/assets/'))
+    .pipe(gulp.dest('../app_prod/assets/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:assets-prod @ ' + new Date()));
     }));
@@ -280,8 +282,22 @@ function pug2html(param) {
         host: host,
         appId: appId,
         fileHtml5shiv: fileHtml5shiv,
-        filesComponentCSS: filesComponentCSS,
-        filesComponentJavascript: filesComponentJavascript
+        filesComponentCSS: function() {
+          return filesComponentCSS.map(function(value, index) {
+            return _path = flattenPath(new vinyl({
+              path: __dirname + '/' + glob.sync(value)[0],
+              relative: glob.sync(value)[0]
+            }), {includeParents: [2, 1]});
+          });
+        }(),
+        filesComponentJavascript: function() {
+          return filesComponentJavascript.map(function(value, index) {
+            return _path = flattenPath(new vinyl({
+              path: __dirname + '/' + glob.sync(value)[0],
+              relative: glob.sync(value)[0]
+            }), {includeParents: [2, 1]});
+          });
+        }()
       },
       pretty: true
     }))
