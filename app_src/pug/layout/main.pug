@@ -42,6 +42,7 @@ head
   //- Tile icon for Win8 (144x144 + tile color)
   meta(name="msapplication-navbutton-color", content="#FFFFFF")
   meta(name="msapplication-TileColor", content="#FFFFFF")
+  //- MS 磚塊牆的 icon 的底色盡量用透明的, 因為磚塊牆本身有底色, 圖片有底色, 會使得磚塊底色像邊框包著 icon
   meta(name="msapplication-TileImage", content="./assets/images/icon/favicon-144-win8.png")
   //- Google - Search Console 網站驗證碼
   //- http://example.com/, http://www.example.com/, https://example.com/, https://www.example.com/ 都要加入
@@ -50,7 +51,6 @@ head
   //- Google - 使用 hreflang 提供正確語言和地區的網址
   //- https://support.google.com/webmasters/answer/189077
   meta(rel="alternate", href=`${host}`, hreflang="zh-Hant")
-  //- MS 磚塊牆的 icon 的底色盡量用透明的, 因為磚塊牆本身有底色, 圖片有底色, 會使得磚塊底色像邊框包著 icon
   //- FB insights setting (必填 fb:app_id)
   //- meta(property="fb:app_id", content=`${appId}`)
   //- meta(property="fb:admins", content="100000076224411")
