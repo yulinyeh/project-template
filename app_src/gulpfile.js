@@ -203,7 +203,7 @@ gulp.task('copy:components-prod-font', ['del:prod'], function () {
 // 獨立任務(複製 images 資料夾)
 gulp.task('copy:assets-images-dev', function () {
   return gulp.src(['images/**/*.*'])
-    .pipe(gulp.dest('../app_dev/assets/'))
+    .pipe(gulp.dest('../app_dev/assets/images/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:assets-images-dev @ ' + new Date()));
     }));
