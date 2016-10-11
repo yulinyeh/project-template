@@ -28,20 +28,16 @@ var hostProd = ''; // 正式用
 var appIdProd = ''; // 正式用
 
 var filesPug = [
-  'pug/**/!(layout|include)/*.pug'
-];
+  'pug/**/!(layout|include)/*.pug'];
 var filesPugTemplate = [
   'pug/layout/*.pug',
-  'pug/include/*.pug'
-];
+  'pug/include/*.pug'];
 var filesSass = [
   'sass/*.sass',
-  'sass/**/!(include|require)/*.sass'
-];
+  'sass/**/!(include|require)/*.sass'];
 var  filesCSS = filesSass.map(function (file) { return file.replace('sass', 'tmp').replace('.sass', '.css'); });
 var  filesComponentCSS = [
-  'components/**/normalize-css/normalize.css'
-]; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css')
+  'components/**/normalize-css/normalize.css']; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css')
 var  filesComponentAsset = []; // Component 的 Font(ex: 'components/**/fontawesome/**/fonts/*.*')
 var  filesCSSMinify = filesComponentCSS.concat(filesCSS);
 var  filesJavascript = [
@@ -59,8 +55,7 @@ var  filesRootAssets = [
   '*.txt',
   '*.ico',
   '*.jpg',
-  '*.png'
-]; // 純粹複製
+  '*.png']; // 純粹複製
 var  fileHtml5shiv = [
   'components/html5shiv/dist/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (手動複製檔案)
 var  fileHtml5shiv_prod = [
