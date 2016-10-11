@@ -69,6 +69,7 @@ gulp.task('html:init', function () {
 });
 gulp.task('html:pretty', ['del:prod'], function () {
   return gulp.src(filesPug)
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(pug({
       locals: {
         host: hostProd,
@@ -130,6 +131,7 @@ gulp.task('css:changed', function () {
 // JS
 gulp.task('js:init', function () {
   gulp.src(filesJavascript)
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(concat('script.js'))
     .pipe(gulp.dest('../app_dev/assets/javascripts/'))
     .pipe(gutil.buffer(function (err, files) {
@@ -149,6 +151,7 @@ gulp.task('js:rebuild', function () {
 // Minify
 gulp.task('concat:css-minify', ['del:prod', 'sass:compressed'], function () {
   return gulp.src(filesCSSMinify)
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('../app_prod/assets/stylesheets/'))
     .pipe(gutil.buffer(function (err, files) {
@@ -157,6 +160,7 @@ gulp.task('concat:css-minify', ['del:prod', 'sass:compressed'], function () {
 });
 gulp.task('concat:js-minify', ['del:prod', 'uglify'], function () {
   return gulp.src(filesJavascriptMinify)
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(concat('script.min.js'))
     // .pipe(sourcemaps.write('./'))
@@ -169,6 +173,7 @@ gulp.task('concat:js-minify', ['del:prod', 'uglify'], function () {
 // Uglify JavaScript 壓縮
 gulp.task('uglify', function () {
   return gulp.src('../app_dev/assets/javascripts/script.js')
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(uglify())
     .pipe(rename({
       suffix: '.uglify'
@@ -182,6 +187,7 @@ gulp.task('uglify', function () {
 // 複製 Components
 gulp.task('copy:components', function () {
   return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentAsset))
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(flatten({includeParents: [1, 1]}))
     .pipe(gulp.dest('../app_dev/assets/components/'))
@@ -191,6 +197,7 @@ gulp.task('copy:components', function () {
 });
 gulp.task('copy:components-prod-font', ['del:prod'], function () {
   return gulp.src(filesComponentAsset)
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(flatten({includeParents: -1}))
     .pipe(gulp.dest('../app_prod/assets/'))
     .pipe(gutil.buffer(function (err, files) {
@@ -203,6 +210,7 @@ gulp.task('copy:components-prod-font', ['del:prod'], function () {
 // 獨立任務(複製 images 資料夾)
 gulp.task('copy:assets-images-dev', function () {
   return gulp.src(['images/**/*.*'])
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../app_dev/assets/images/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:assets-images-dev @ ' + new Date()));
@@ -211,6 +219,7 @@ gulp.task('copy:assets-images-dev', function () {
 // 複製根目錄資源
 gulp.task('copy:root-assets-dev', function () {
   return gulp.src(filesRootAssets)
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../app_dev/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:root-assets-dev @ ' + new Date()));
@@ -221,6 +230,7 @@ gulp.task('copy:assets-dev', function () {
   var temp = filesAssets.slice();
   temp.splice(temp.indexOf('images/**/*.*'), 1);
   return gulp.src(temp)
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../app_dev/assets/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:assets-dev @ ' + new Date()));
@@ -230,6 +240,7 @@ gulp.task('copy:assets-dev', function () {
 // 複製 根 目錄資源
 gulp.task('copy:root-assets-prod', ['del:prod'], function () {
   return gulp.src(filesRootAssets)
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../app_prod/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:root-assets-prod @ ' + new Date()));
@@ -238,6 +249,7 @@ gulp.task('copy:root-assets-prod', ['del:prod'], function () {
 // 複製 images, plugins... 目錄資源
 gulp.task('copy:assets-prod', ['del:prod'], function () {
   return gulp.src(filesAssets)
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../app_prod/assets/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:assets-prod @ ' + new Date()));
@@ -260,6 +272,7 @@ gulp.task('del:prod-assets-min', function () {
 // 版本號替換（完全由前端開發時可用）
 gulp.task('usemin', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function () {
   return gulp.src('../app_prod/**/*.html')
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(usemin({
       css: [rev],
       js: [rev],
@@ -305,6 +318,7 @@ function pug2html(param) {
     .pipe(gulp.dest('../app_dev/'))
     .on('finish', function () {
       gulp.src(param)
+        .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
         .pipe(browserSync.reload({ stream: true }))
         .pipe(gutil.buffer(function (err, files) {
           gutil.log(gutil.colors.yellow('pug2html @ ' + new Date()));
