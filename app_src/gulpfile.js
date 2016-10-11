@@ -368,7 +368,7 @@ gulp.task('connect:prod', function () {
   });
 });
 
-gulp.task('default', ['connect:dev', 'copy:root-assets-dev', 'copy:assets-dev', 'copy:components', 'html:init', 'css:init', 'js:init'], function () {
+gulp.task('default', ['copy:root-assets-dev', 'copy:assets-dev', 'copy:components', 'html:init', 'css:init', 'js:init'], function () {
   gulp.watch(filesPug, function (e) {
     pug2html(e.path);
   });
@@ -387,6 +387,7 @@ gulp.task('default', ['connect:dev', 'copy:root-assets-dev', 'copy:assets-dev', 
   gulp.watch('javascript/*.js', function (e) {
     gulp.start(['js:rebuild']);
   });
+  gulp.start(['connect:dev']);
 });
 gulp.task('prod', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function () {
   gulp.start(['connect:prod']);
