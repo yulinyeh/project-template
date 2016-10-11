@@ -28,40 +28,43 @@ var hostProd = ''; // 正式用
 var appIdProd = ''; // 正式用
 
 var filesPug = [
-  'pug/**/!(layout|include)/*.pug'],
-  filesPugTemplate = [
-    'pug/layout/*.pug',
-    'pug/include/*.pug'];
+  'pug/**/!(layout|include)/*.pug'
+];
+var filesPugTemplate = [
+  'pug/layout/*.pug',
+  'pug/include/*.pug'
+];
 var filesSass = [
   'sass/*.sass',
-  'sass/**/!(include|require)/*.sass'],
-  filesCSS = filesSass.map(function (file) { return file.replace('sass', 'tmp').replace('.sass', '.css'); }),
-  filesComponentCSS = [
-    'components/**/normalize-css/normalize.css'
-  ], // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css')
-  filesComponentAsset = [], // Component 的 Font(ex: 'components/**/fontawesome/**/fonts/*.*')
-  filesCSSMinify = filesComponentCSS.concat(filesCSS),
-  filesJavascript = [
-    'javascript/common.js'], // 自己寫的 JavaScript
-  filesComponentJavascript = [
-    'components/**/jquery/dist/jquery.min.js'], // Component 的 JavaScript
-  filesComponentJavascriptMap = [
-    'components/**/jquery/dist/jquery.min.map'], // Component 的 JavaScript Map
-  filesJavascriptMinify = filesComponentJavascript.concat(['tmp/script.uglify.js']),
-  filesAssets = [
-    'images/**/*.*',
-    'plugins/**/*.*',
-    'fake_files/**/*.*'], // 純粹複製
-  filesRootAssets = [
-    '*.txt',
-    '*.ico',
-    '*.jpg',
-    '*.png'
-  ], // 純粹複製
-  fileHtml5shiv = [
-    'components/html5shiv/dist/html5shiv-printshiv.min.js'], // 舊瀏覽器支援 HTML5 Tag (手動複製檔案)
-  fileHtml5shiv_prod = [
-    'javascripts/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (Production 路徑, 手動複製檔案)
+  'sass/**/!(include|require)/*.sass'
+];
+var  filesCSS = filesSass.map(function (file) { return file.replace('sass', 'tmp').replace('.sass', '.css'); });
+var  filesComponentCSS = [
+  'components/**/normalize-css/normalize.css'
+]; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css')
+var  filesComponentAsset = []; // Component 的 Font(ex: 'components/**/fontawesome/**/fonts/*.*')
+var  filesCSSMinify = filesComponentCSS.concat(filesCSS);
+var  filesJavascript = [
+  'javascript/common.js']; // 自己寫的 JavaScript
+var  filesComponentJavascript = [
+  'components/**/jquery/dist/jquery.min.js']; // Component 的 JavaScript
+var  filesComponentJavascriptMap = [
+  'components/**/jquery/dist/jquery.min.map']; // Component 的 JavaScript Map
+var  filesJavascriptMinify = filesComponentJavascript.concat(['tmp/script.uglify.js']);
+var  filesAssets = [
+  'images/**/*.*',
+  'plugins/**/*.*',
+  'fake_files/**/*.*']; // 純粹複製
+var  filesRootAssets = [
+  '*.txt',
+  '*.ico',
+  '*.jpg',
+  '*.png'
+]; // 純粹複製
+var  fileHtml5shiv = [
+  'components/html5shiv/dist/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (手動複製檔案)
+var  fileHtml5shiv_prod = [
+  'javascripts/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (Production 路徑, 手動複製檔案)
 
 // =============== 整體自動化 Start ===============
 gulp.task('html:init', function () {
