@@ -65,6 +65,45 @@ var  fileHtml5shiv_prod = [
 gulp.task('html:init', function () {
   pug2html(filesPug);
 });
+function pug2html(param) {
+  gulp.src(param)
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(pug({
+      locals: {
+        dev: true,
+        host: host,
+        appId: appId,
+        fileHtml5shiv: fileHtml5shiv,
+        filesComponentCSS: function() {
+          return filesComponentCSS.map(function(value, index) {
+            return _path = flattenPath(new vinyl({
+              path: __dirname + '/' + glob.sync(value)[0],
+              relative: glob.sync(value)[0]
+            }), {includeParents: [2, 1]});
+          });
+        }(),
+        filesComponentJavascript: function() {
+          return filesComponentJavascript.map(function(value, index) {
+            return _path = flattenPath(new vinyl({
+              path: __dirname + '/' + glob.sync(value)[0],
+              relative: glob.sync(value)[0]
+            }), {includeParents: [2, 1]});
+          });
+        }()
+      },
+      pretty: true
+    }))
+    .pipe(flatten())
+    .pipe(gulp.dest('../app_dev/'))
+    .on('finish', function () {
+      gulp.src(param)
+        .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+        .pipe(browserSync.reload({ stream: true }))
+        .pipe(gutil.buffer(function (err, files) {
+          gutil.log(gutil.colors.yellow('pug2html @ ' + new Date()));
+        }))
+    });
+};
 gulp.task('html:pretty', ['del:prod'], function () {
   return gulp.src(filesPug)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
@@ -89,6 +128,31 @@ gulp.task('html:pretty', ['del:prod'], function () {
 gulp.task('sass:init', function () {
   return sass2css(filesSass);
 });
+function sass2css(param) {
+  var index;
+  var newPath;
+  if (typeof param === 'object') {
+    // sass 初始化
+    newPath = param;
+  } else {
+    // sass 異動時
+    index = param.indexOf('app_src/');
+    newPath = param.substring(index).replace('app_src', '.').replace('/sass', '/sass/**');
+  };
+
+  return gulp.src(newPath)
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(sourcemaps.init())
+    .pipe(sass({
+      outputStyle: 'expanded'
+    }))
+    .pipe(autoprefixer())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('tmp/'))
+    .pipe(gutil.buffer(function (err, files) {
+      gutil.log(gutil.colors.yellow('sass2css @ ' + new Date()));
+    }));
+};
 gulp.task('sass:rebuild', function () {
   rebuildSass = true;
   return sass2css(filesSass);
@@ -111,6 +175,18 @@ gulp.task('sass:compressed', function () {
 gulp.task('css:init', ['sass:init'], function () {
   return concat2style();
 });
+function concat2style() {
+  return gulp.src(filesCSS)
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(concat('style.css'))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('../app_dev/assets/stylesheets/'))
+    .pipe(browserSync.stream())
+    .pipe(gutil.buffer(function (err, files) {
+      gutil.log(gutil.colors.yellow('concat2style @ ' + new Date()));
+    }));
+};
 gulp.task('css:rebuild', ['sass:rebuild'], function () {
   concat2style();
 });
@@ -127,23 +203,14 @@ gulp.task('css:changed', function () {
   };
 });
 // JS
-gulp.task('js:init', function () {
-  gulp.src(filesJavascript)
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(concat('script.js'))
-    .pipe(gulp.dest('../app_dev/assets/javascripts/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('js:init @ ' + new Date()));
-    }));
-});
-gulp.task('js:rebuild', function () {
+gulp.task('js', function () {
   gulp.src(filesJavascript)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(concat('script.js'))
     .pipe(gulp.dest('../app_dev/assets/javascripts/'))
     .pipe(browserSync.reload({ stream: true }))
     .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('js:rebuild @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('js @ ' + new Date()));
     }));
 });
 // Minify
@@ -234,6 +301,7 @@ gulp.task('copy:assets-dev', function () {
       gutil.log(gutil.colors.yellow('copy:assets-dev @ ' + new Date()));
     }));
 });
+
 // ----- 產品版 -----
 // 複製 根 目錄資源
 gulp.task('copy:root-assets-prod', ['del:prod'], function () {
@@ -283,87 +351,6 @@ gulp.task('usemin', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:componen
 });
 // =============== 整體自動化 End ===============
 
-// =============== 轉譯函式 Start ===============
-function pug2html(param) {
-  gulp.src(param)
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(pug({
-      locals: {
-        dev: true,
-        host: host,
-        appId: appId,
-        fileHtml5shiv: fileHtml5shiv,
-        filesComponentCSS: function() {
-          return filesComponentCSS.map(function(value, index) {
-            return _path = flattenPath(new vinyl({
-              path: __dirname + '/' + glob.sync(value)[0],
-              relative: glob.sync(value)[0]
-            }), {includeParents: [2, 1]});
-          });
-        }(),
-        filesComponentJavascript: function() {
-          return filesComponentJavascript.map(function(value, index) {
-            return _path = flattenPath(new vinyl({
-              path: __dirname + '/' + glob.sync(value)[0],
-              relative: glob.sync(value)[0]
-            }), {includeParents: [2, 1]});
-          });
-        }()
-      },
-      pretty: true
-    }))
-    .pipe(flatten())
-    .pipe(gulp.dest('../app_dev/'))
-    .on('finish', function () {
-      gulp.src(param)
-        .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-        .pipe(browserSync.reload({ stream: true }))
-        .pipe(gutil.buffer(function (err, files) {
-          gutil.log(gutil.colors.yellow('pug2html @ ' + new Date()));
-        }))
-    });
-};
-
-function sass2css(param) {
-  var index;
-  var newPath;
-  if (typeof param === 'object') {
-    // sass 初始化
-    newPath = param;
-  } else {
-    // sass 異動時
-    index = param.indexOf('app_src/');
-    newPath = param.substring(index).replace('app_src', '.').replace('/sass', '/sass/**');
-  };
-
-  return gulp.src(newPath)
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(sourcemaps.init())
-    .pipe(sass({
-      outputStyle: 'expanded'
-    }))
-    .pipe(autoprefixer())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('tmp/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('sass2css @ ' + new Date()));
-    }));
-};
-
-function concat2style() {
-  return gulp.src(filesCSS)
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(concat('style.css'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('../app_dev/assets/stylesheets/'))
-    .pipe(browserSync.stream())
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('concat2style @ ' + new Date()));
-    }));
-};
-// =============== 轉譯函式 End ===============
-
 // 起動 Server
 gulp.task('connect:dev', function () {
   return browserSync.init({
@@ -380,7 +367,7 @@ gulp.task('connect:prod', function () {
   });
 });
 
-gulp.task('default', ['copy:root-assets-dev', 'copy:assets-dev', 'copy:components', 'html:init', 'css:init', 'js:init'], function () {
+gulp.task('default', ['copy:root-assets-dev', 'copy:assets-dev', 'copy:components', 'html:init', 'css:init', 'js'], function () {
   gulp.watch(filesPug, function (e) {
     pug2html(e.path);
   });
@@ -397,7 +384,7 @@ gulp.task('default', ['copy:root-assets-dev', 'copy:assets-dev', 'copy:component
     gulp.start(['css:changed']);
   });
   gulp.watch('javascript/*.js', function (e) {
-    gulp.start(['js:rebuild']);
+    gulp.start(['js']);
   });
   gulp.start(['connect:dev']);
 });
