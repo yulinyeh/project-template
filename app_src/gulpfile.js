@@ -120,6 +120,7 @@ gulp.task('html:pretty', ['del:prod'], function () {
     .pipe(rename({
       extname: '.html'
     }))
+    .pipe(flatten())
     .pipe(gulp.dest('../app_prod/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('html:pretty @ ' + new Date()));
