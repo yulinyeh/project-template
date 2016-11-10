@@ -18,7 +18,8 @@
   "dependencies": {
     "jquery": "latest",
     "html5shiv": "latest",
-    "normalize-css": "latest"
+    "normalize-css": "latest",
+    "loadcss": "latest"
   },
   "devDependencies": {
     "compass-mixins": "latest",

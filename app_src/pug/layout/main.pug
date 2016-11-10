@@ -56,11 +56,17 @@ head
   //- meta(property="fb:admins", content="1476213097")
   if (dev)
     each link_src in filesComponentCSS
-      link(rel="stylesheet" href=`./assets/${link_src}`)
-    link(rel="stylesheet", href="./assets/stylesheets/style.css")
+      link(rel="preload", href=`./assets/${link_src}`, as="style", onload="this.rel='stylesheet'")
+      noscript
+        link(rel="stylesheet", href=`./assets/${link_src}`)
+    link(rel="preload", href="./assets/stylesheets/style.css", as="style", onload="this.rel='stylesheet'")
+    noscript
+      link(rel="stylesheet", href="./assets/stylesheets/style.css")
   else
     //build:css ./assets/stylesheets/style.min.css
-    link(rel="stylesheet", href="./assets/stylesheets/style.min.css")
+    link(rel="preload", href="./assets/stylesheets/style.min.css", as="style", onload="this.rel='stylesheet'")
+    noscript
+      link(rel="stylesheet", href="./assets/stylesheets/style.min.css")
     //endbuild
   <!--[if lt IE 9]>
   if (dev)
@@ -78,11 +84,11 @@ body(id=pageID)
   include ../include/footer
   if (dev)
     each script_src in filesComponentJavascript
-      script(src=`./assets/${script_src}`)
-    script(src="./assets/javascripts/script.js")
+      script(src=`./assets/${script_src}`, async)
+    script(src="./assets/javascripts/script.js", async)
   else
     //build:js ./assets/javascripts/script.min.js
-    script(src="./assets/javascripts/script.min.js")
+    script(src="./assets/javascripts/script.min.js", async)
     //endbuild
   block javascript
 </html>

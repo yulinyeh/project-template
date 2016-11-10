@@ -43,7 +43,9 @@ var  filesCSSMinify = filesComponentCSS.concat(filesCSS);
 var  filesJavascript = [
   'javascript/common.js']; // 自己寫的 JavaScript
 var  filesComponentJavascript = [
-  'components/**/jquery/dist/jquery.min.js']; // Component 的 JavaScript
+  'components/**/jquery/dist/jquery.min.js',
+  'components/**/loadcss/src/loadCSS.js',
+  'components/**/loadcss/src/cssrelpreload.js']; // Component 的 JavaScript
 var  filesComponentJavascriptMap = [
   'components/**/jquery/dist/jquery.min.map']; // Component 的 JavaScript Map
 var  filesJavascriptMinify = filesComponentJavascript.concat(['tmp/script.uglify.js']);
