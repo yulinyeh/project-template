@@ -1,3 +1,4 @@
+// ============================== modules 使用 ==============================
 var gulp = require('gulp');
 var plumber = require('gulp-plumber');
 var notify = require("gulp-notify");
@@ -8,7 +9,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
 var rename = require("gulp-rename");
 var uglify = require('gulp-uglify');
-var browserSync = require('browser-sync').create();
+var browserSync = require('browser-sync');
 var gutil = require('gulp-util');
 var flatten = require('gulp-flatten');
 var flattenPath = require('gulp-flatten/lib/flatten-path');
@@ -18,15 +19,19 @@ var del = require('del');
 // var usemin = require('gulp-usemin');
 // var minifyHtml = require('gulp-minify-html');
 // var rev = require('gulp-rev');
-var rebuildSass = false;
-var rebuildNumber = 0;
-var host = 'http://localhost:3000/'; // localhost 用
-var appId = '628193067351657'; // localhost 用
-// var host = 'https://edenyeh.github.io/project-name/'; // GitHub 用
-// var appId = '554563908047907'; // GitHub 用
-var hostProd = ''; // 正式用
-var appIdProd = ''; // 正式用
 
+// ============================== 參數設定 ==============================
+var gulpRebuildSass = false;
+var gulpRebuildNumber = 0;
+var siteHost = 'http://localhost:3000/'; // localhost 用
+var siteAppId = '628193067351657'; // localhost 用
+// var siteHost = 'https://edenyeh.github.io/project-name/'; // GitHub 用
+// var siteAppId = '554563908047907'; // GitHub 用
+var siteHostProd = ''; // 正式用
+var siteAppIdProd = ''; // 正式用
+var siteName = '';
+
+// ============================== 檔案路徑設定 ==============================
 var filesPug = [
   'pug/**/!(layout|include)/*.pug'];
 var filesPugTemplate = [
@@ -63,7 +68,7 @@ var  fileHtml5shiv = [
 var  fileHtml5shiv_prod = [
   'javascripts/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (Production 路徑, 手動複製檔案)
 
-// =============== 整體自動化 Start ===============
+// ============================== Jade 轉 HTML ==============================
 gulp.task('html:init', function () {
   pug2html(filesPug);
 });
@@ -73,9 +78,10 @@ function pug2html(param) {
     .pipe(pug({
       locals: {
         dev: true,
-        host: host,
-        appId: appId,
+        host: siteHost,
+        appId: siteAppId,
         fileHtml5shiv: fileHtml5shiv,
+        siteName: siteName,
         filesComponentCSS: function() {
           return filesComponentCSS.map(function(value, index) {
             return _path = flattenPath(new vinyl({
@@ -100,7 +106,7 @@ function pug2html(param) {
     .on('finish', function () {
       gulp.src(param)
         .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-        .pipe(browserSync.reload({ stream: true }))
+        .pipe(browserSync.get('dev').reload({ stream: true }))
         .pipe(gutil.buffer(function (err, files) {
           gutil.log(gutil.colors.yellow('pug2html @ ' + new Date()));
         }))
@@ -111,9 +117,10 @@ gulp.task('html:pretty', ['del:prod'], function () {
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(pug({
       locals: {
-        host: hostProd,
-        appId: appIdProd,
-        fileHtml5shiv_prod: fileHtml5shiv_prod
+        host: siteHostProd,
+        appId: siteAppIdProd,
+        fileHtml5shiv_prod: fileHtml5shiv_prod,
+        siteName: siteName
       },
       pretty: true
     }))
@@ -127,7 +134,7 @@ gulp.task('html:pretty', ['del:prod'], function () {
     }));
 });
 
-// Sass 樣式
+// ============================== Sass 轉 CSS ==============================
 gulp.task('sass:init', function () {
   return sass2css(filesSass);
 });
@@ -157,7 +164,7 @@ function sass2css(param) {
     }));
 };
 gulp.task('sass:rebuild', function () {
-  rebuildSass = true;
+  gulpRebuildSass = true;
   return sass2css(filesSass);
 });
 gulp.task('sass:compressed', function () {
@@ -173,8 +180,7 @@ gulp.task('sass:compressed', function () {
     }));
 });
 
-// Concat 串連
-// CSS
+// ============================== CSS 串連 ==============================
 gulp.task('css:init', ['sass:init'], function () {
   return concat2style();
 });
@@ -185,7 +191,7 @@ function concat2style() {
     .pipe(concat('style.css'))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('../app_dev/assets/stylesheets/'))
-    .pipe(browserSync.stream())
+    .pipe(browserSync.get('dev').stream())
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('concat2style @ ' + new Date()));
     }));
@@ -194,29 +200,31 @@ gulp.task('css:rebuild', ['sass:rebuild'], function () {
   concat2style();
 });
 gulp.task('css:changed', function () {
-  if (rebuildSass === false) {
+  if (gulpRebuildSass === false) {
     concat2style();
   } else {
-    rebuildNumber++;
-    if (rebuildNumber === filesCSS.length) {
-      rebuildNumber = 0;
-      rebuildSass = false;
+    gulpRebuildNumber++;
+    if (gulpRebuildNumber === filesCSS.length) {
+      gulpRebuildNumber = 0;
+      gulpRebuildSass = false;
       concat2style();
     };
   };
 });
-// JS
+
+// ============================== JS 串連 ==============================
 gulp.task('js', function () {
   gulp.src(filesJavascript)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(concat('script.js'))
     .pipe(gulp.dest('../app_dev/assets/javascripts/'))
-    .pipe(browserSync.reload({ stream: true }))
+    .pipe(browserSync.get('dev').reload({ stream: true }))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('js @ ' + new Date()));
     }));
 });
-// Minify
+
+// ============================== Minify ==============================
 gulp.task('concat:css-minify', ['del:prod', 'sass:compressed'], function () {
   return gulp.src(filesCSSMinify)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
@@ -237,8 +245,6 @@ gulp.task('concat:js-minify', ['del:prod', 'uglify'], function () {
       gutil.log(gutil.colors.yellow('concat:js-minify @ ' + new Date()));
     }));
 });
-
-// Uglify JavaScript 壓縮
 gulp.task('uglify', function () {
   return gulp.src('../app_dev/assets/javascripts/script.js')
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
@@ -252,80 +258,99 @@ gulp.task('uglify', function () {
     }));
 });
 
-// 複製 Components
-gulp.task('copy:components', function () {
+// ============================== 複製 Components ==============================
+gulp.task('copy:components-dev', function () {
   return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentAsset))
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(flatten({includeParents: [1, 1]}))
     .pipe(gulp.dest('../app_dev/assets/components/'))
     .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:components @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('copy:components-dev @ ' + new Date()));
     }));
 });
-gulp.task('copy:components-prod-font', ['del:prod'], function () {
-  return gulp.src(filesComponentAsset)
+gulp.task('copy:components-prod', function () {
+  return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentAsset))
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(flatten({includeParents: -1}))
-    .pipe(gulp.dest('../app_prod/assets/'))
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(flatten({includeParents: [1, 1]}))
+    .pipe(gulp.dest('../app_prod/assets/components/'))
     .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:components-prod-font @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('copy:components-prod @ ' + new Date()));
     }));
 });
 
-// 複製
-// ----- 開發版 -----
-// 獨立任務(複製 images 資料夾)
-gulp.task('copy:assets-images-dev', function () {
-  return gulp.src(['images/**/*.*'])
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(gulp.dest('../app_dev/assets/images/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:assets-images-dev @ ' + new Date()));
-    }));
-});
-// 複製根目錄資源
-gulp.task('copy:root-assets-dev', function () {
+// ============================== 複製根目錄資源 ==============================
+gulp.task('copy:roots-dev', function () {
   return gulp.src(filesRootAssets)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../app_dev/'))
     .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:root-assets-dev @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('copy:roots-dev @ ' + new Date()));
     }));
 });
-// 複製 plugins...(除了 images) 目錄資源
-gulp.task('copy:assets-dev', function () {
-  var temp = filesAssets.slice();
-  temp.splice(temp.indexOf('images/**/*.*'), 1);
-  return gulp.src(temp)
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(gulp.dest('../app_dev/assets/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:assets-dev @ ' + new Date()));
-    }));
-});
-
-// ----- 產品版 -----
-// 複製 根 目錄資源
-gulp.task('copy:root-assets-prod', ['del:prod'], function () {
+gulp.task('copy:roots-prod', ['del:prod'], function () {
   return gulp.src(filesRootAssets)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../app_prod/'))
     .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:root-assets-prod @ ' + new Date()));
-    }));
-});
-// 複製 images, plugins... 目錄資源
-gulp.task('copy:assets-prod', ['del:prod'], function () {
-  return gulp.src(filesAssets)
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(gulp.dest('../app_prod/assets/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:assets-prod @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('copy:roots-prod @ ' + new Date()));
     }));
 });
 
-// 移除資料夾
+// ============================== 複製 images, plugins, fake_files 靜態資源 ==============================
+gulp.task('copy:assets-dev', ['copy:images-dev', 'copy:plugins-dev', 'copy:fake_files-dev']);
+gulp.task('copy:images-dev', function () {
+  return gulp.src(filesAssets[0])
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(gulp.dest('../app_dev/assets/images/'))
+    .pipe(gutil.buffer(function (err, files) {
+      gutil.log(gutil.colors.yellow('copy:images-dev @ ' + new Date()));
+    }));
+});
+gulp.task('copy:plugins-dev', function () {
+  return gulp.src(filesAssets[1])
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(gulp.dest('../app_dev/assets/plugins/'))
+    .pipe(gutil.buffer(function (err, files) {
+      gutil.log(gutil.colors.yellow('copy:plugins-dev @ ' + new Date()));
+    }));
+});
+gulp.task('copy:fake_files-dev', function () {
+  return gulp.src(filesAssets[2])
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(gulp.dest('../website/fake_files/'))
+    .pipe(gutil.buffer(function (err, files) {
+      gutil.log(gutil.colors.yellow('copy:fake_files-dev @ ' + new Date()));
+    }));
+});
+gulp.task('copy:assets-prod', ['copy:images-prod', 'copy:plugins-prod', 'copy:fake_files-prod']);
+gulp.task('copy:images-prod', function () {
+  return gulp.src(filesAssets[0])
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(gulp.dest('../app_prod/assets/images/'))
+    .pipe(gutil.buffer(function (err, files) {
+      gutil.log(gutil.colors.yellow('copy:images-prod @ ' + new Date()));
+    }));
+});
+gulp.task('copy:plugins-prod', function () {
+  return gulp.src(filesAssets[1])
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(gulp.dest('../app_prod/assets/plugins/'))
+    .pipe(gutil.buffer(function (err, files) {
+      gutil.log(gutil.colors.yellow('copy:plugins-prod @ ' + new Date()));
+    }));
+});
+gulp.task('copy:fake_files-prod', function () {
+  return gulp.src(filesAssets[2])
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(gulp.dest('../app_prod/fake_files/'))
+    .pipe(gutil.buffer(function (err, files) {
+      gutil.log(gutil.colors.yellow('copy:fake_files-prod @ ' + new Date()));
+    }));
+});
+
+// ============================== 移除資料夾 ==============================
 gulp.task('del:dev', function () {
   return del(['tmp/**', '../app_dev/**'], { force: true });
 });
@@ -338,7 +363,7 @@ gulp.task('del:prod-assets-min', function () {
     '../app_prod/assets/stylesheets/style.min.css'], { force: true });
 });
 
-// 版本號替換（完全由前端開發時可用）
+// ============================== 版本號替換（完全由前端開發時可用） ==============================
 gulp.task('usemin', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function () {
   return gulp.src('../app_prod/**/*.html')
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
@@ -352,25 +377,18 @@ gulp.task('usemin', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:componen
       gutil.log(gutil.colors.yellow('usemin @ ' + new Date()));
     }));
 });
-// =============== 整體自動化 End ===============
 
-// 起動 Server
+// ============================== 起動 Server ==============================
 gulp.task('connect:dev', function () {
-  return browserSync.init({
-    server: {
-      baseDir: '../app_dev/'
-    }
-  });
+  return browserSync.create('dev');
 });
 gulp.task('connect:prod', function () {
-  return browserSync.init({
-    server: {
-      baseDir: '../app_prod/'
-    }
-  });
+  return browserSync.create('prod');
 });
 
-gulp.task('default', ['copy:root-assets-dev', 'copy:assets-dev', 'copy:components', 'html:init', 'css:init', 'js'], function () {
+// ============================== 總結 ==============================
+gulp.task('copy:dev', ['copy:roots-dev', 'copy:assets-dev', 'copy:components-dev']);
+gulp.task('default', ['connect:dev', 'html:init', 'css:init', 'js'], function () {
   gulp.watch(filesPug, function (e) {
     pug2html(e.path);
   });
@@ -389,11 +407,27 @@ gulp.task('default', ['copy:root-assets-dev', 'copy:assets-dev', 'copy:component
   gulp.watch('javascript/*.js', function (e) {
     gulp.start(['js']);
   });
-  gulp.start(['connect:dev']);
+  browserSync.get('dev').init({
+    ui: false,
+    server: {
+      baseDir: '../app_dev/'
+    }
+  });
 });
-gulp.task('prod', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function () {
-  gulp.start(['connect:prod']);
+gulp.task('copy:prod', ['copy:roots-prod', 'copy:assets-prod', 'copy:components-prod']);
+gulp.task('prod', ['connect:prod', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function () {
+  browserSync.get('prod').init({
+    ui: false,
+    server: {
+      baseDir: '../app_prod/'
+    }
+  });
 });
-// gulp.task('prod', ['usemin'], function() {
-//   gulp.start(['connect:prod']);
+// gulp.task('prod', ['connect:prod', 'usemin'], function() {
+//   browserSync.get('prod').init({
+//     ui: false,
+//     server: {
+//       baseDir: '../app_prod/'
+//     }
+//   });
 // });
