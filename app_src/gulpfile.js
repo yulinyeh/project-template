@@ -112,7 +112,7 @@ function pug2html(param) {
         }))
     });
 };
-gulp.task('html:pretty', ['del:prod'], function () {
+gulp.task('html:pretty', function () {
   return gulp.src(filesPug)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(pug({
@@ -225,7 +225,7 @@ gulp.task('js', function () {
 });
 
 // ============================== Minify ==============================
-gulp.task('concat:css-minify', ['del:prod', 'sass:compressed'], function () {
+gulp.task('concat:css-minify', ['sass:compressed'], function () {
   return gulp.src(filesCSSMinify)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(concat('style.min.css'))
@@ -234,7 +234,7 @@ gulp.task('concat:css-minify', ['del:prod', 'sass:compressed'], function () {
       gutil.log(gutil.colors.yellow('concat:css-minify @ ' + new Date()));
     }));
 });
-gulp.task('concat:js-minify', ['del:prod', 'uglify'], function () {
+gulp.task('concat:js-minify', ['uglify'], function () {
   return gulp.src(filesJavascriptMinify)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(sourcemaps.init({ loadMaps: true }))
@@ -289,7 +289,7 @@ gulp.task('copy:roots-dev', function () {
       gutil.log(gutil.colors.yellow('copy:roots-dev @ ' + new Date()));
     }));
 });
-gulp.task('copy:roots-prod', ['del:prod'], function () {
+gulp.task('copy:roots-prod', function () {
   return gulp.src(filesRootAssets)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../app_prod/'))
@@ -299,7 +299,6 @@ gulp.task('copy:roots-prod', ['del:prod'], function () {
 });
 
 // ============================== 複製 images, plugins, fake_files 靜態資源 ==============================
-gulp.task('copy:assets-dev', ['copy:images-dev', 'copy:plugins-dev', 'copy:fake_files-dev']);
 gulp.task('copy:images-dev', function () {
   return gulp.src(filesAssets[0])
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
@@ -324,7 +323,6 @@ gulp.task('copy:fake_files-dev', function () {
       gutil.log(gutil.colors.yellow('copy:fake_files-dev @ ' + new Date()));
     }));
 });
-gulp.task('copy:assets-prod', ['copy:images-prod', 'copy:plugins-prod', 'copy:fake_files-prod']);
 gulp.task('copy:images-prod', function () {
   return gulp.src(filesAssets[0])
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
@@ -357,26 +355,6 @@ gulp.task('del:dev', function () {
 gulp.task('del:prod', function () {
   return del('../app_prod/**', { force: true });
 });
-gulp.task('del:prod-assets-min', function () {
-  del([
-    '../app_prod/assets/javascripts/script.min.js',
-    '../app_prod/assets/stylesheets/style.min.css'], { force: true });
-});
-
-// ============================== 版本號替換（完全由前端開發時可用） ==============================
-gulp.task('usemin', ['copy:root-assets-prod', 'copy:assets-prod', 'copy:components-prod-font', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function () {
-  return gulp.src('../app_prod/**/*.html')
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(usemin({
-      css: [rev],
-      js: [rev],
-      html: [function () { return minifyHtml({ empty: true }); }]
-    }))
-    .pipe(gulp.dest('../app_prod/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('usemin @ ' + new Date()));
-    }));
-});
 
 // ============================== 起動 Server ==============================
 gulp.task('connect:dev', function () {
@@ -387,7 +365,7 @@ gulp.task('connect:prod', function () {
 });
 
 // ============================== 總結 ==============================
-gulp.task('copy:dev', ['copy:roots-dev', 'copy:assets-dev', 'copy:components-dev']);
+gulp.task('copy:dev', ['copy:components-dev', 'copy:roots-dev', 'copy:images-dev', 'copy:plugins-dev', 'copy:fake_files-dev']);
 gulp.task('default', ['connect:dev', 'html:init', 'css:init', 'js'], function () {
   gulp.watch(filesPug, function (e) {
     pug2html(e.path);
@@ -414,20 +392,39 @@ gulp.task('default', ['connect:dev', 'html:init', 'css:init', 'js'], function ()
     }
   });
 });
-gulp.task('copy:prod', ['copy:roots-prod', 'copy:assets-prod', 'copy:components-prod']);
-gulp.task('prod', ['connect:prod', 'html:pretty', 'concat:css-minify', 'concat:js-minify'], function () {
-  browserSync.get('prod').init({
-    ui: false,
-    server: {
-      baseDir: '../app_prod/'
-    }
-  });
+gulp.task('copy:prod', ['copy:components-prod', 'copy:roots-prod', 'copy:images-prod', 'copy:plugins-prod', 'copy:fake_files-prod']);
+gulp.task('prod', ['del:prod'], function () {
+  return gulp
+    .start(['connect:prod', 'copy:prod', 'html:pretty', 'concat:css-minify', 'concat:js-minify'])
+    .on('finish', function () {
+      browserSync.get('prod').init({
+        ui: false,
+        server: {
+          baseDir: '../app_prod/'
+        }
+      });
+    })
 });
-// gulp.task('prod', ['connect:prod', 'usemin'], function() {
-//   browserSync.get('prod').init({
-//     ui: false,
-//     server: {
-//       baseDir: '../app_prod/'
-//     }
-//   });
-// });
+// --------------- 第一次編譯 ---------------
+gulp.task('init', ['del:dev'], function () {
+  gulp
+    .start(['copy:dev'])
+    .on('finish', function () {
+      gulp.start(['default']);
+    })
+})
+
+// ============================== 版本號替換（完全由前端開發時可用） ==============================
+gulp.task('usemin', ['prod'], function () {
+  gulp.src('../app_prod/**/*.html')
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(usemin({
+      css: [rev],
+      js: [rev],
+      html: [function () { return minifyHtml({ empty: true }); }]
+    }))
+    .pipe(gulp.dest('../app_prod/'))
+    .pipe(gutil.buffer(function (err, files) {
+      gutil.log(gutil.colors.yellow('usemin @ ' + new Date()));
+    }));
+});
