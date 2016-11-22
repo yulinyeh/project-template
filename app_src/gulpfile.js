@@ -395,8 +395,8 @@ gulp.task('default', ['connect:dev', 'html:init', 'css:init', 'js'], function ()
 gulp.task('copy:prod', ['copy:components-prod', 'copy:roots-prod', 'copy:images-prod', 'copy:plugins-prod', 'copy:fake_files-prod']);
 gulp.task('prod', ['del:prod'], function () {
   return gulp
-    .start(['connect:prod', 'copy:prod', 'html:pretty', 'concat:css-minify', 'concat:js-minify'])
-    .on('finish', function () {
+    .start(['connect:prod', 'copy:prod', 'html:pretty', 'concat:css-minify', 'concat:js-minify'],
+    function () {
       browserSync.get('prod').init({
         ui: false,
         server: {
@@ -409,9 +409,7 @@ gulp.task('prod', ['del:prod'], function () {
 gulp.task('init', ['del:dev'], function () {
   gulp
     .start(['copy:dev'])
-    .on('finish', function () {
-      gulp.start(['default']);
-    })
+    .start(['default']);
 })
 
 // ============================== 版本號替換（完全由前端開發時可用） ==============================
