@@ -262,7 +262,6 @@ gulp.task('uglify', function () {
 gulp.task('copy:components-dev', function () {
   return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentAsset))
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(flatten({includeParents: [1, 1]}))
     .pipe(gulp.dest('../app_dev/assets/components/'))
     .pipe(gutil.buffer(function (err, files) {
@@ -272,7 +271,6 @@ gulp.task('copy:components-dev', function () {
 gulp.task('copy:components-prod', function () {
   return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentAsset))
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(flatten({includeParents: [1, 1]}))
     .pipe(gulp.dest('../app_prod/assets/components/'))
     .pipe(gutil.buffer(function (err, files) {
