@@ -21,6 +21,32 @@ body
 img
   display: block
   object-fit: cover
+ul
+  list-style-type: none
+  margin: 0
+  padding: 0
+p
+  margin: 0
+label
+  display: block
+a,
+button,
+input,
+textarea
+  display: block
+  &:focus
+    outline: none
+button
+  cursor: pointer
+  &[disabled]
+    cursor: default
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+  margin: 0
 @import "include/header"
 @import "include/aside"
 @import "include/footer"

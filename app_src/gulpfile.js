@@ -40,32 +40,31 @@ var filesPugTemplate = [
 var filesSass = [
   'sass/*.sass',
   'sass/**/!(include|require)/*.sass'];
-var  filesCSS = filesSass.map(function (file) { return file.replace('sass', 'tmp').replace('.sass', '.css'); });
-var  filesComponentCSS = [
-  'components/**/normalize-css/normalize.css']; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css')
-var  filesComponentAsset = []; // Component 的 Font(ex: 'components/**/fontawesome/**/fonts/*.*')
-var  filesCSSMinify = filesComponentCSS.concat(filesCSS);
-var  filesJavascript = [
+var filesCSS = filesSass.map(function (file) { return file.replace('sass', 'tmp').replace('.sass', '.css'); });
+var filesComponentCSS = [
+  'components/**/normalize-css/normalize.css']; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
+var filesComponentAsset = []; // Component 的 Font(ex: 'components/**/fontawesome/**/fonts/*.*')
+var filesCSSMinify = filesComponentCSS.concat(filesCSS);
+var filesJavascript = [
   'javascript/common.js']; // 自己寫的 JavaScript
-var  filesComponentJavascript = [
+var filesComponentJavascript = [
   'components/**/jquery/dist/jquery.min.js',
   'components/**/loadcss/src/loadCSS.js',
   'components/**/loadcss/src/cssrelpreload.js']; // Component 的 JavaScript
-var  filesComponentJavascriptMap = [
+var filesComponentJavascriptMap = [
   'components/**/jquery/dist/jquery.min.map']; // Component 的 JavaScript Map
-var  filesJavascriptMinify = filesComponentJavascript.concat(['tmp/script.uglify.js']);
-var  filesAssets = [
+var filesJavascriptMinify = filesComponentJavascript.concat(['tmp/script.uglify.js']);
+var filesAssets = [
   'images/**/*.*',
-  'plugins/**/*.*',
   'fake_files/**/*.*']; // 純粹複製
-var  filesRootAssets = [
+var filesRootAssets = [
   '*.txt',
   '*.ico',
   '*.jpg',
   '*.png']; // 純粹複製
-var  fileHtml5shiv = [
+var fileHtml5shiv = [
   'components/html5shiv/dist/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (手動複製檔案)
-var  fileHtml5shiv_prod = [
+var fileHtml5shiv_prod = [
   'javascripts/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (Production 路徑, 手動複製檔案)
 
 // ============================== Jade 轉 HTML ==============================
@@ -268,15 +267,6 @@ gulp.task('copy:components-dev', function () {
       gutil.log(gutil.colors.yellow('copy:components-dev @ ' + new Date()));
     }));
 });
-gulp.task('copy:components-prod', function () {
-  return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentAsset))
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(flatten({includeParents: [1, 1]}))
-    .pipe(gulp.dest('../app_prod/assets/components/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:components-prod @ ' + new Date()));
-    }));
-});
 
 // ============================== 複製根目錄資源 ==============================
 gulp.task('copy:roots-dev', function () {
@@ -296,7 +286,7 @@ gulp.task('copy:roots-prod', function () {
     }));
 });
 
-// ============================== 複製 images, plugins, fake_files 靜態資源 ==============================
+// ============================== 複製 images, fake_files 靜態資源 ==============================
 gulp.task('copy:images-dev', function () {
   return gulp.src(filesAssets[0])
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
@@ -305,16 +295,8 @@ gulp.task('copy:images-dev', function () {
       gutil.log(gutil.colors.yellow('copy:images-dev @ ' + new Date()));
     }));
 });
-gulp.task('copy:plugins-dev', function () {
-  return gulp.src(filesAssets[1])
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(gulp.dest('../app_dev/assets/plugins/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:plugins-dev @ ' + new Date()));
-    }));
-});
 gulp.task('copy:fake_files-dev', function () {
-  return gulp.src(filesAssets[2])
+  return gulp.src(filesAssets[1])
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../website/fake_files/'))
     .pipe(gutil.buffer(function (err, files) {
@@ -329,16 +311,8 @@ gulp.task('copy:images-prod', function () {
       gutil.log(gutil.colors.yellow('copy:images-prod @ ' + new Date()));
     }));
 });
-gulp.task('copy:plugins-prod', function () {
-  return gulp.src(filesAssets[1])
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(gulp.dest('../app_prod/assets/plugins/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:plugins-prod @ ' + new Date()));
-    }));
-});
 gulp.task('copy:fake_files-prod', function () {
-  return gulp.src(filesAssets[2])
+  return gulp.src(filesAssets[1])
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../app_prod/fake_files/'))
     .pipe(gutil.buffer(function (err, files) {
@@ -363,7 +337,7 @@ gulp.task('connect:prod', function () {
 });
 
 // ============================== 總結 ==============================
-gulp.task('copy:dev', ['copy:components-dev', 'copy:roots-dev', 'copy:images-dev', 'copy:plugins-dev', 'copy:fake_files-dev']);
+gulp.task('copy:dev', ['copy:components-dev', 'copy:roots-dev', 'copy:images-dev', 'copy:fake_files-dev']);
 gulp.task('default', ['connect:dev', 'html:init', 'css:init', 'js'], function () {
   gulp.watch(filesPug, function (e) {
     pug2html(e.path);
@@ -390,7 +364,7 @@ gulp.task('default', ['connect:dev', 'html:init', 'css:init', 'js'], function ()
     }
   });
 });
-gulp.task('copy:prod', ['copy:components-prod', 'copy:roots-prod', 'copy:images-prod', 'copy:plugins-prod', 'copy:fake_files-prod']);
+gulp.task('copy:prod', ['copy:roots-prod', 'copy:images-prod', 'copy:fake_files-prod']);
 gulp.task('prod', ['del:prod'], function () {
   return gulp
     .start(['connect:prod', 'copy:prod', 'html:pretty', 'concat:css-minify', 'concat:js-minify'],

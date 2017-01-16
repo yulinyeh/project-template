@@ -28,7 +28,7 @@ head
   link(rel="icon", sizes="192x192", href="./assets/images/icon/favicon-192.png")
   //- Add to homescreen for Safari on iOS
   meta(name="apple-mobile-web-app-capable", content="yes")
-  meta(name="apple-mobile-web-app-status-bar-style", content="black")
+  meta(name="apple-mobile-web-app-status-bar-style", content="black-translucent")
   meta(name="apple-mobile-web-app-title", content="")
   link(rel="apple-touch-icon-precomposed", sizes="180x180", href="./assets/images/icon/favicon-180.png")
   link(rel="apple-touch-icon-precomposed", sizes="152x152", href="./assets/images/icon/favicon-152.png")
@@ -56,9 +56,9 @@ head
   //- meta(property="fb:admins", content="1476213097")
   if (dev)
     each link_src in filesComponentCSS
-      link(rel="preload", href=`./assets/${link_src}`, as="style", onload="this.rel='stylesheet'")
+      link(rel="preload", href=`./assets/${link_src}`.replace('node_modules', 'components').replace('plugins', 'components'), as="style", onload="this.rel='stylesheet'")
       noscript
-        link(rel="stylesheet", href=`./assets/${link_src}`)
+        link(rel="stylesheet", href=`./assets/${link_src}`.replace('node_modules', 'components').replace('plugins', 'components'))
     link(rel="preload", href="./assets/stylesheets/style.css", as="style", onload="this.rel='stylesheet'")
     noscript
       link(rel="stylesheet", href="./assets/stylesheets/style.css")
@@ -84,7 +84,7 @@ body(id=pageID)
   include ../include/footer
   if (dev)
     each script_src in filesComponentJavascript
-      script(src=`./assets/${script_src}`, async)
+      script(src=`./assets/${script_src}`.replace('node_modules', 'components').replace('plugins', 'components'), async)
     script(src="./assets/javascripts/script.js", async)
   else
     //build:js ./assets/javascripts/script.min.js
