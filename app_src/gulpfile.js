@@ -369,6 +369,12 @@ gulp.task('prod', ['del:prod'], function () {
   return gulp
     .start(['connect:prod', 'copy:prod', 'html:pretty', 'concat:css-minify', 'concat:js-minify'],
     function () {
+      gulp.watch(filesPug, function (e) {
+        pug2html(e.path);
+      });
+      gulp.watch('../../api/application/views/ecommerce/**/*.php', function (e) {
+        browserSync.get('prod').reload({ stream: true })
+      });
       browserSync.get('prod').init({
         ui: false,
         server: {
