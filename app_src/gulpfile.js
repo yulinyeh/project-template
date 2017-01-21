@@ -33,10 +33,10 @@ var siteName = '';
 
 // ============================== 檔案路徑設定 ==============================
 var filesPug = [
-  'pug/**/!(layout|include)/*.pug'];
+  'pug/!(layout|include)/**/*.pug'];
 var filesPugTemplate = [
-  'pug/layout/*.pug',
-  'pug/include/*.pug'];
+  'pug/layout/**/*.pug',
+  'pug/include/**/*.pug'];
 var filesSass = [
   'sass/*.sass',
   'sass/**/!(include|require)/*.sass'];
@@ -238,7 +238,6 @@ gulp.task('concat:js-minify', ['uglify'], function () {
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(concat('script.min.js'))
-    // .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('../app_prod/assets/javascripts/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('concat:js-minify @ ' + new Date()));
