@@ -17,9 +17,7 @@
   ],
   "dependencies": {
     "jquery": "latest",
-    "html5shiv": "latest",
-    "normalize-css": "latest",
-    "loadcss": "latest"
+    "normalize-css": "latest"
   },
   "devDependencies": {
   }
