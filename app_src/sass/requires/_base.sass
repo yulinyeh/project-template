@@ -1,0 +1,82 @@
+*,
+*:before,
+*:after
+  box-sizing: inherit
+// ::selection
+//   background-color: #90CAF9
+//   color: black
+html
+  -moz-osx-font-smoothing: grayscale
+  -webkit-font-smoothing: antialiased
+  text-rendering: optimizeLegibility
+  box-sizing: border-box
+body
+  font-family: $font-family
+  line-height: 1.6
+  margin: 0
++headings
+  margin: 0
+.img
+  display: block
+  object-fit: cover
+  &[src=""]
+    content: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")
+    background-color: transparent
+.main
+  display: block
+.fig
+  margin: 0
+.btn,
+.inp,
+.ddl,
+.area
+  display: block
+  border: none
+  transition: background-color .4s
+  &:focus
+    outline: none
+.btn
+  background-color: transparent
+  cursor: pointer
+  padding: 0
+.inp,
+.ddl,
+.area
+  &.error,
+  &.error:focus
+    color: map-get($color, "error")
+    border-color: map-get($color, "error")
+    box-shadow: 0 0 4px 1px map-get($color, "error")
+    &::placeholder
+      color: lighten(map-get($color, "error"), 20%)
+.inp,
+.area
+  transition: box-shadow .4s
+  &:focus
+    outline: none
+  &[type="radio"]
+    &:focus
+      box-shadow: none
+.area
+  resize: none
+.text
+  margin: 0
+.list
+  list-style: none
+  margin: 0
+  padding: 0
+.link
+  color: inherit
+  display: block
+  text-decoration: none
+  transition: color .4s
+.svg
+  display: block
+.mark
+  background-color: transparent
+.tb
+  width: 100%
+  border-collapse: collapse
+// ============================== 以上為各網站通用 ==============================
+
+// ============================== 以下為各網站客製 ==============================

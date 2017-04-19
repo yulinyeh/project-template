@@ -16,6 +16,7 @@ var flattenPath = require('gulp-flatten/lib/flatten-path');
 var glob = require('glob');
 var vinyl = require('vinyl');
 var del = require('del');
+var merge2 = require('merge2');
 // var usemin = require('gulp-usemin');
 // var minifyHtml = require('gulp-minify-html');
 // var rev = require('gulp-rev');
@@ -37,14 +38,9 @@ var filesPug = [
 var filesPugTemplate = [
   'pug/layout/**/*.pug',
   'pug/include/**/*.pug'];
-var filesSass = [
-  'sass/*.sass',
-  'sass/**/!(include|require)/*.sass'];
-var filesCSS = filesSass.map(function (file) { return file.replace('sass', 'tmp').replace('.sass', '.css'); });
 var filesComponentCSS = [
   'components/**/normalize-css/normalize.css']; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
 var filesComponentAsset = []; // Component 的 Font(ex: 'components/**/fontawesome/**/fonts/*.*')
-var filesCSSMinify = filesComponentCSS.concat(filesCSS);
 var filesJavascript = [
   'javascript/common.js']; // 自己寫的 JavaScript
 var filesComponentJavascript = [
@@ -53,7 +49,6 @@ var filesComponentJavascript = [
   'components/**/loadcss/src/cssrelpreload.js']; // Component 的 JavaScript
 var filesComponentJavascriptMap = [
   'components/**/jquery/dist/jquery.min.map']; // Component 的 JavaScript Map
-var filesJavascriptMinify = filesComponentJavascript.concat(['tmp/script.uglify.js']);
 var filesAssets = [
   'images/**/*.*',
   'fake_files/**/*.*']; // 純粹複製
@@ -67,8 +62,8 @@ var fileHtml5shiv = [
 var fileHtml5shiv_prod = [
   'javascripts/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (Production 路徑, 手動複製檔案)
 
-// ============================== Jade 轉 HTML ==============================
-gulp.task('html:init', function () {
+// ============================== Pug 轉 HTML ==============================
+gulp.task('pug:dev', function () {
   pug2html(filesPug);
 });
 function pug2html(param) {
@@ -111,7 +106,7 @@ function pug2html(param) {
         }))
     });
 };
-gulp.task('html:pretty', function () {
+gulp.task('pug:prod', function () {
   return gulp.src(filesPug)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(pug({
@@ -129,130 +124,68 @@ gulp.task('html:pretty', function () {
     .pipe(flatten())
     .pipe(gulp.dest('../app_prod/'))
     .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('html:pretty @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('pug:prod @ ' + new Date()));
     }));
 });
 
 // ============================== Sass 轉 CSS ==============================
-gulp.task('sass:init', function () {
-  return sass2css(filesSass);
-});
-function sass2css(param) {
-  var index;
-  var newPath;
-  if (typeof param === 'object') {
-    // sass 初始化
-    newPath = param;
-  } else {
-    // sass 異動時
-    index = param.indexOf('app_src/');
-    newPath = param.substring(index).replace('app_src', '.').replace('/sass', '/sass/**');
-  };
-
-  return gulp.src(newPath)
+gulp.task('sass:dev', function () {
+  return gulp.src(['sass/main.sass'])
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(sourcemaps.init())
-    .pipe(sass({
-      outputStyle: 'expanded'
+    .pipe(sass({ outputStyle: 'expanded' }))
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions'],
+      remove: false
     }))
-    .pipe(autoprefixer())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('tmp/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('sass2css @ ' + new Date()));
-    }));
-};
-gulp.task('sass:rebuild', function () {
-  gulpRebuildSass = true;
-  return sass2css(filesSass);
-});
-gulp.task('sass:compressed', function () {
-  return gulp.src(filesSass)
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(sass({
-      outputStyle: 'compressed'
+    .pipe(rename({
+      basename: 'style'
     }))
-    .pipe(autoprefixer())
-    .pipe(gulp.dest('tmp/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('sass:compressed @ ' + new Date()));
-    }));
-});
-
-// ============================== CSS 串連 ==============================
-gulp.task('css:init', ['sass:init'], function () {
-  return concat2style();
-});
-function concat2style() {
-  return gulp.src(filesCSS)
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(concat('style.css'))
-    .pipe(sourcemaps.write())
     .pipe(gulp.dest('../app_dev/assets/stylesheets/'))
     .pipe(browserSync.get('dev').stream())
     .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('concat2style @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('sass:dev @ ' + new Date()));
     }));
-};
-gulp.task('css:rebuild', ['sass:rebuild'], function () {
-  concat2style();
-});
-gulp.task('css:changed', function () {
-  if (gulpRebuildSass === false) {
-    concat2style();
-  } else {
-    gulpRebuildNumber++;
-    if (gulpRebuildNumber === filesCSS.length) {
-      gulpRebuildNumber = 0;
-      gulpRebuildSass = false;
-      concat2style();
-    };
-  };
-});
+})
+gulp.task('sass:prod', function () {
+  return merge2(
+    gulp.src(filesComponentCSS)
+      .pipe(sourcemaps.init({ loadMaps: true })),
+    gulp.src(['sass/main.sass'])
+      .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+      .pipe(sass({ outputStyle: 'compressed' }))
+      .pipe(autoprefixer({
+        browsers: ['last 2 versions'],
+        remove: false
+      })))
+    .pipe(concat('style.min.css'))
+    .pipe(gulp.dest('../app_prod/assets/stylesheets/'))
+    .pipe(gutil.buffer(function (err, files) {
+      gutil.log(gutil.colors.yellow('sass:prod @ ' + new Date()));
+    }));
+})
 
 // ============================== JS 串連 ==============================
-gulp.task('js', function () {
+gulp.task('js:dev', function () {
   gulp.src(filesJavascript)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(concat('script.js'))
     .pipe(gulp.dest('../app_dev/assets/javascripts/'))
     .pipe(browserSync.get('dev').reload({ stream: true }))
     .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('js @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('js:dev @ ' + new Date()));
     }));
 });
-
-// ============================== Minify ==============================
-gulp.task('concat:css-minify', ['sass:compressed'], function () {
-  return gulp.src(filesCSSMinify)
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(concat('style.min.css'))
-    .pipe(gulp.dest('../app_prod/assets/stylesheets/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('concat:css-minify @ ' + new Date()));
-    }));
-});
-gulp.task('concat:js-minify', ['uglify'], function () {
-  return gulp.src(filesJavascriptMinify)
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(sourcemaps.init({ loadMaps: true }))
+gulp.task('js:prod', function () {
+  merge2(
+    gulp.src(filesComponentJavascript)
+      .pipe(sourcemaps.init({ loadMaps: true })),
+    gulp.src(filesJavascript)
+      .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+      .pipe(uglify()))
     .pipe(concat('script.min.js'))
     .pipe(gulp.dest('../app_prod/assets/javascripts/'))
     .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('concat:js-minify @ ' + new Date()));
-    }));
-});
-gulp.task('uglify', function () {
-  return gulp.src('../app_dev/assets/javascripts/script.js')
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(uglify())
-    .pipe(rename({
-      suffix: '.uglify'
-    }))
-    .pipe(gulp.dest('tmp/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('uglify @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('js:prod @ ' + new Date()));
     }));
 });
 
@@ -321,7 +254,7 @@ gulp.task('copy:fake_files-prod', function () {
 
 // ============================== 移除資料夾 ==============================
 gulp.task('del:dev', function () {
-  return del(['tmp/**', '../app_dev/**'], { force: true });
+  return del('../app_dev/**', { force: true });
 });
 gulp.task('del:prod', function () {
   return del('../app_prod/**', { force: true });
@@ -337,24 +270,18 @@ gulp.task('connect:prod', function () {
 
 // ============================== 總結 ==============================
 gulp.task('copy:dev', ['copy:components-dev', 'copy:roots-dev', 'copy:images-dev', 'copy:fake_files-dev']);
-gulp.task('default', ['connect:dev', 'html:init', 'css:init', 'js'], function () {
+gulp.task('default', ['connect:dev', 'pug:dev', 'sass:dev', 'js:dev'], function () {
   gulp.watch(filesPug, function (e) {
     pug2html(e.path);
   });
   gulp.watch(filesPugTemplate, function (e) {
     pug2html(filesPug);
   });
-  gulp.watch(filesSass, function (e) {
-    sass2css(e.path);
-  });
-  gulp.watch(['sass/require/*.sass', 'sass/include/*.sass'], function (e) {
-    gulp.start(['css:rebuild']);
-  });
-  gulp.watch('tmp/**/*.css', function (e) {
-    gulp.start(['css:changed']);
+  gulp.watch(['sass/**/*.sass'], function (e) {
+    gulp.start(['sass:dev']);
   });
   gulp.watch('javascript/*.js', function (e) {
-    gulp.start(['js']);
+    gulp.start(['js:dev']);
   });
   browserSync.get('dev').init({
     ui: false,
@@ -366,14 +293,8 @@ gulp.task('default', ['connect:dev', 'html:init', 'css:init', 'js'], function ()
 gulp.task('copy:prod', ['copy:roots-prod', 'copy:images-prod', 'copy:fake_files-prod']);
 gulp.task('prod', ['del:prod'], function () {
   return gulp
-    .start(['connect:prod', 'copy:prod', 'html:pretty', 'concat:css-minify', 'concat:js-minify'],
+    .start(['connect:prod', 'copy:prod', 'pug:prod', 'sass:prod', 'js:prod'],
     function () {
-      gulp.watch(filesPug, function (e) {
-        pug2html(e.path);
-      });
-      gulp.watch('../../api/application/views/ecommerce/**/*.php', function (e) {
-        browserSync.get('prod').reload({ stream: true })
-      });
       browserSync.get('prod').init({
         ui: false,
         server: {

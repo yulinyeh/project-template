@@ -22,7 +22,5 @@
     "loadcss": "latest"
   },
   "devDependencies": {
-    "compass-mixins": "latest",
-    "breakpoint-sass": "latest"
   }
 }
