@@ -40,7 +40,7 @@ var filesPugTemplate = [
   'pug/include/**/*.pug'];
 var filesComponentCSS = [
   'components/**/normalize-css/normalize.css']; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
-var filesComponentAsset = []; // Component 的 Font(ex: 'components/**/fontawesome/**/fonts/*.*')
+var filesComponentAsset = []; // Component 的 Font(ex: 'components/**/fontawesome/fonts/*.*')
 var filesJavascript = [
   'javascript/common.js']; // 自己寫的 JavaScript
 var filesComponentJavascript = [

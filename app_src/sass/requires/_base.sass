@@ -16,7 +16,8 @@ body
   margin: 0
 +headings
   margin: 0
-.img
+.img,
+.vdo
   display: block
   object-fit: cover
   &[src=""]
@@ -29,7 +30,8 @@ body
 .btn,
 .inp,
 .ddl,
-.area
+.area,
+.lbl
   display: block
   border: none
   transition: background-color .4s
@@ -44,11 +46,11 @@ body
 .area
   &.error,
   &.error:focus
-    color: map-get($color, "error")
-    border-color: map-get($color, "error")
-    box-shadow: 0 0 4px 1px map-get($color, "error")
+    color: map-get($color, "error") !important
+    border-color: map-get($color, "error") !important
+    box-shadow: 0 0 4px 1px map-get($color, "error") !important
     &::placeholder
-      color: lighten(map-get($color, "error"), 20%)
+      color: lighten(map-get($color, "error"), 20%) !important
 .inp,
 .area
   transition: box-shadow .4s
@@ -57,10 +59,15 @@ body
   &[type="radio"]
     &:focus
       box-shadow: none
+.inp
+  &[type="number"]
+    +hide-spin
 .area
   resize: none
 .text
   margin: 0
+  &.error
+    color: map-get($color, "error") !important
 .list
   list-style: none
   margin: 0
@@ -72,6 +79,9 @@ body
   transition: color .4s
 .svg
   display: block
+  &.error
+    polygon
+      fill: map-get($color, "error") !important
 .mark
   background-color: transparent
 .tb
