@@ -12,7 +12,6 @@ var uglify = require('gulp-uglify');
 var browserSync = require('browser-sync');
 var gutil = require('gulp-util');
 var flatten = require('gulp-flatten');
-var flattenPath = require('gulp-flatten/lib/flatten-path');
 var glob = require('glob');
 var vinyl = require('vinyl');
 var del = require('del');
@@ -76,18 +75,12 @@ function pug2html(param) {
         siteName: siteName,
         filesComponentCSS: function() {
           return filesComponentCSS.map(function(value, index) {
-            return _path = flattenPath(new vinyl({
-              path: __dirname + '/' + glob.sync(value)[0],
-              relative: glob.sync(value)[0]
-            }), {includeParents: [2, 1]});
+            return glob.sync(value)[0];
           });
         }(),
         filesComponentJavascript: function() {
           return filesComponentJavascript.map(function(value, index) {
-            return _path = flattenPath(new vinyl({
-              path: __dirname + '/' + glob.sync(value)[0],
-              relative: glob.sync(value)[0]
-            }), {includeParents: [2, 1]});
+            return glob.sync(value)[0];
           });
         }()
       },
@@ -191,7 +184,6 @@ gulp.task('js:prod', function () {
 gulp.task('copy:components-dev', function () {
   return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentAsset))
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(flatten({includeParents: [1, 1]}))
     .pipe(gulp.dest('../app_dev/assets/components/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:components-dev @ ' + new Date()));

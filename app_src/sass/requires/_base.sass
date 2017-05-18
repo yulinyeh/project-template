@@ -41,6 +41,7 @@ body
   background-color: transparent
   cursor: pointer
   padding: 0
+  position: relative
   .comp-loading-icon
     width: 24px
     height: 24px
@@ -53,7 +54,11 @@ body
     path
       fill: white
   &[disabled],
-  &.disabled
+  &.disabled,
+  &[disabled]:hover,
+  &.disabled:hover,
+  &[disabled]:active,
+  &.disabled:active
     opacity: .7
     box-shadow: none
     cursor: default
