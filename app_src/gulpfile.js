@@ -38,14 +38,14 @@ var filesPugTemplate = [
   'pug/layout/**/*.pug',
   'pug/include/**/*.pug'];
 var filesComponentCSS = [
-  'components/**/normalize-css/normalize.css']; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
+  'node_modules/**/normalize.css/normalize.css']; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
 var filesComponentAsset = []; // Component 的 Font(ex: 'components/**/fontawesome/fonts/*.*')
 var filesJavascript = [
   'javascript/common.js']; // 自己寫的 JavaScript
 var filesComponentJavascript = [
-  'components/**/jquery/dist/jquery.min.js']; // Component 的 JavaScript
+  'node_modules/**/jquery/dist/jquery.min.js']; // NPM 的 JavaScript
 var filesComponentJavascriptMap = [
-  'components/**/jquery/dist/jquery.min.map']; // Component 的 JavaScript Map
+  'node_modules/**/jquery/dist/jquery.min.map']; // NPM 的 JavaScript Map
 var filesAssets = [
   'images/**/*.*',
   'fake_files/**/*.*']; // 純粹複製
@@ -54,10 +54,6 @@ var filesRootAssets = [
   '*.ico',
   '*.jpg',
   '*.png']; // 純粹複製
-var fileHtml5shiv = [
-  'components/html5shiv/dist/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (手動複製檔案)
-var fileHtml5shiv_prod = [
-  'javascripts/html5shiv-printshiv.min.js']; // 舊瀏覽器支援 HTML5 Tag (Production 路徑, 手動複製檔案)
 
 // ============================== Pug 轉 HTML ==============================
 gulp.task('pug:dev', function () {
@@ -71,7 +67,6 @@ function pug2html(param) {
         dev: true,
         host: siteHost,
         appId: siteAppId,
-        fileHtml5shiv: fileHtml5shiv,
         siteName: siteName,
         filesComponentCSS: function() {
           return filesComponentCSS.map(function(value, index) {
@@ -104,7 +99,6 @@ gulp.task('pug:prod', function () {
       locals: {
         host: siteHostProd,
         appId: siteAppIdProd,
-        fileHtml5shiv_prod: fileHtml5shiv_prod,
         siteName: siteName
       },
       pretty: true

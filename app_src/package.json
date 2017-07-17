@@ -31,5 +31,9 @@
     "gulp-uglify": "latest",
     "gulp-util": "latest",
     "merge2": "latest"
+  },
+  "dependencies": {
+    "jquery": "latest",
+    "normalize.css": "latest"
   }
 }
