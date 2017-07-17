@@ -30,7 +30,7 @@ body
 .btn,
 .inp,
 .ddl,
-.area,
+.tarea,
 .lbl
   display: block
   border: none
@@ -70,7 +70,7 @@ body
     height: 100%
 .inp,
 .ddl,
-.area
+.tarea
   &.error,
   &.error:focus
     color: map-get($color, "error") !important
@@ -79,7 +79,7 @@ body
     &::placeholder
       color: lighten(map-get($color, "error"), 20%) !important
 .inp,
-.area
+.tarea
   transition: box-shadow .4s
   &:focus
     outline: none
@@ -89,7 +89,7 @@ body
 .inp
   &[type="number"]
     +hide-spin
-.area
+.tarea
   resize: none
 .text
   margin: 0
