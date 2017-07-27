@@ -52,6 +52,7 @@ html(lang="zh-Hant-TW", xmlns:og="http://ogp.me/ns#", xmlns:fb="http://www.faceb
     //- meta(property="fb:app_id", content=appId)
     //- meta(property="fb:admins", content="100000076224411")
     //- meta(property="fb:admins", content="1476213097")
+    meta(http-equiv="cache-control", content="max-age=0")
     if (dev)
       each link_src in filesComponentCSS
         link(rel="stylesheet", href=`./assets/${link_src}`.replace('node_modules', 'components').replace('plugins', 'components'))

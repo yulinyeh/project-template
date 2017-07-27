@@ -16,6 +16,7 @@ var glob = require('glob');
 var vinyl = require('vinyl');
 var del = require('del');
 var merge2 = require('merge2');
+var imagemin = require('gulp-imagemin');
 // var usemin = require('gulp-usemin');
 // var minifyHtml = require('gulp-minify-html');
 // var rev = require('gulp-rev');
@@ -206,6 +207,7 @@ gulp.task('copy:roots-prod', function () {
 gulp.task('copy:images-dev', function () {
   return gulp.src(filesAssets[0])
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(imagemin())
     .pipe(gulp.dest('../app_dev/assets/images/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:images-dev @ ' + new Date()));
@@ -222,6 +224,7 @@ gulp.task('copy:fake_files-dev', function () {
 gulp.task('copy:images-prod', function () {
   return gulp.src(filesAssets[0])
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(imagemin())
     .pipe(gulp.dest('../app_prod/assets/images/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:images-prod @ ' + new Date()));

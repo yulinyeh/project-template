@@ -22,6 +22,7 @@
     "gulp-autoprefixer": "latest",
     "gulp-concat": "latest",
     "gulp-flatten": "latest",
+    "gulp-imagemin": "latest",
     "gulp-notify": "latest",
     "gulp-plumber": "latest",
     "gulp-pug": "latest",
