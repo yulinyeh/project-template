@@ -17,6 +17,7 @@ var vinyl = require('vinyl');
 var del = require('del');
 var merge2 = require('merge2');
 var imagemin = require('gulp-imagemin');
+var cleanCSS = require('gulp-clean-css');
 // var usemin = require('gulp-usemin');
 // var minifyHtml = require('gulp-minify-html');
 // var rev = require('gulp-rev');
@@ -135,6 +136,7 @@ gulp.task('sass:dev', function () {
 gulp.task('sass:prod', function () {
   return merge2(
     gulp.src(filesComponentCSS)
+      .pipe(cleanCSS())
       .pipe(sourcemaps.init({ loadMaps: true })),
     gulp.src(['sass/main.sass'])
       .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
