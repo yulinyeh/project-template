@@ -1,6 +1,5 @@
 // https://github.com/nuxt/nuxt.js/blob/dev/lib/common/options.js#L170
 // console.log(process.env.NODE_ENV) // npm run dev: 'development', npm run build: 'production', npm run generate: 'production'
-// console.log(process.env.STATIC) // npm run dev: undefined, npm run build: undefined, npm run generate: 'true'
 module.exports = {
   /*
   ** Build configuration
