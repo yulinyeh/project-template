@@ -1,17 +1,25 @@
 // https://github.com/nuxt/nuxt.js/blob/dev/lib/common/options.js#L170
 // console.log(process.env.NODE_ENV) // npm run dev: 'development', npm run build: 'production', npm run generate: 'production'
+// const webpack = require('webpack')
 module.exports = {
   /*
   ** Build configuration
   */
   build: {
     extractCSS: true,
-    vendor: ['common-tags', 'lodash', 'uuid/v1'],
-    extend (config, { isClient }) {
-      // Extend only webpack config for client-bundle
-      // if (isClient) {
-      //   config.devtool = 'eval-source-map'
-      // }
+    vendor: ['common-tags', 'uuid/v1'],
+    extend (config, { dev, isClient }) {
+      // 使用 moment without locale
+      // config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
+      // 在各 .vue 裡可視情況分類套件並載入
+      // config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+      //   async: 'common-in-lazy',
+      //   minChunks: ({ resource } = {}) => (
+      //     resource &&
+      //     resource.includes('node_modules') &&
+      //     (/moment/.test(resource) || /accounting/.test(resource))
+      //   )
+      // }))
     }
   },
   /*
