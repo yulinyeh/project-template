@@ -8,19 +8,17 @@ module.exports = {
   build: {
     extractCSS: true,
     vendor: ['common-tags', 'uuid/v1'],
-    extend (config, { dev, isClient }) {
-      // 使用 moment without locale
-      // config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
-      // 在各 .vue 裡可視情況分類套件並載入
-      // config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+    plugins: [
+      // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // 使用 moment without locale
+      // new webpack.optimize.CommonsChunkPlugin({ // 在各 .vue 裡可視情況分類套件並載入
       //   async: 'common-in-lazy',
       //   minChunks: ({ resource } = {}) => (
       //     resource &&
       //     resource.includes('node_modules') &&
       //     (/moment/.test(resource) || /accounting/.test(resource))
       //   )
-      // }))
-    }
+      // })
+    ]
   },
   /*
   ** Headers
