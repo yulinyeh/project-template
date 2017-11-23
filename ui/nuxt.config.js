@@ -89,11 +89,24 @@ module.exports = {
   ** Modules
   */
   modules: [
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
     // ['@nuxtjs/google-tag-manager', { id: 'GTM-KV9327S' }],
+    '@/modules/tapable'
   ],
   /*
   ** Single page application is served under "./"
   */
-  router: { base: '/' }
+  router: { base: '/' },
+  /*
+  ** Customize runtime options for rendering pages
+  */
+  render: {
+    // 尚無法得知此以下設定是否有效
+    // bundleRenderer: {
+    //   shouldPreload: (file, type) => ['script', 'style', 'font'].includes(type)
+    // },
+    http2: { push: true },
+    static: { maxAge: '15m' },
+    gzip: { threshold: 9 }
+  }
 }
