@@ -6,6 +6,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    dll: true,
     extractCSS: true,
     vendor: ['common-tags', 'uuid/v1'],
     plugins: [
@@ -91,7 +92,8 @@ module.exports = {
   modules: [
     '@nuxtjs/pwa',
     // ['@nuxtjs/google-tag-manager', { id: 'GTM-KV9327S' }],
-    '@/modules/tapable'
+    '@/modules/tapable',
+    '@/modules/custom-loaders'
   ],
   /*
   ** Single page application is served under "./"
