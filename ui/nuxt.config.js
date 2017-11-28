@@ -6,7 +6,6 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    dll: true,
     extractCSS: true,
     vendor: ['common-tags', 'uuid/v1'],
     plugins: [
