@@ -1,5 +1,5 @@
 <template lang="pug">
-  main.main
+  .layout-default
     app-header
     nuxt(:nuxtChildKey="$route.fullPath")
     app-footer
