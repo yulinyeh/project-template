@@ -3,9 +3,9 @@
 </template>
 
 <script>
-export default {
-  name: 'AppFooter'
-}
+  export default {
+    name: 'AppFooter'
+  }
 </script>
 
 <style lang="sass" scoped src="@/assets/sass/components/app-footer.sass"></style>
