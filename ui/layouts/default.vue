@@ -1,8 +1,10 @@
 <template lang="pug">
   .layout-default
-    app-header
-    nuxt(:nuxtChildKey="$route.fullPath")
-    app-footer
+    //- app-aside
+    .scroll-area
+      app-header
+      nuxt(:nuxtChildKey="$route.fullPath")
+      app-footer
 </template>
 
 <script>
