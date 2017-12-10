@@ -8,7 +8,7 @@ module.exports = {
   build: {
     // analyze: true,
     extractCSS: true,
-    vendor: ['common-tags', 'uuid/v1'],
+    vendor: ['common-tags', 'uuid/v1'], // 會被包在 common.[hash].js 裡面
     plugins: [
       // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // 使用 moment without locale
       // new webpack.optimize.CommonsChunkPlugin({ // 在各 .vue 裡可視情況分類套件並載入
@@ -84,12 +84,16 @@ module.exports = {
   ** Plugins
   */
   plugins: [
+    // 這裡只是註明 server 會不會用到這些 plugins, 為了省記憶體
+    // 如果沒有將套件寫在 vendor 的設定裡, 就是包在各自的頁面裡
+    // 除非利用 webpack.optimize.CommonsChunkPlugin, 才會再包在 common-in-lazy.[hash].js 裡
     { src: '@/plugins/velocity', ssr: false }
   ],
   /*
   ** Modules
   */
   modules: [
+    // 自製 modules 時機：會利用到 NUXT 的 life circle, 或是想把一些邏輯當範本使用
     '@nuxtjs/pwa',
     // ['@nuxtjs/google-tag-manager', { id: 'GTM-KV9327S' }],
     '@/modules/tapable',
