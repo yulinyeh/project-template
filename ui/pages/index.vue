@@ -8,9 +8,20 @@
 
   export default {
     name: 'PageIndex',
+    // fetch ({ store, params }) {
+    //   // 【SSR】用於此頁面載入時更新 store 的 state 資料
+    //   return axios.get('http://my-api/stars')
+    //   .then((res) => {
+    //     store.commit('setStars', res.data)
+    //   })
+    // },
     data () {
       return {}
     },
+    // asyncData (context) {
+    //   // 【SSR】用於此頁面載入時更新此頁的 data 資料
+    //   return { project: 'nuxt' }
+    // },
     head () {
       return {
         title: '',
