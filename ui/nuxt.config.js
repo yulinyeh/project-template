@@ -22,6 +22,13 @@ module.exports = {
     ]
   },
   /*
+  ** Create environment variables that will be shared for the client and server-side.
+  ** 可在此設定任何參數, 任何一處 .js 都可利用 process.env 取得設定
+  ** 但要注意不可以直接在 pug 中使用, 因為 pug 是預設使用 this 中的資料
+  ** 必須要先在 data 中建立參數, 再把 process.env 中的參數指定到 data 中
+  */
+  env: {},
+  /*
   ** Headers
   ** Common headers are already provided by @nuxtjs/pwa preset
   */
