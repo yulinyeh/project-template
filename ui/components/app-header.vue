@@ -8,4 +8,4 @@
   }
 </script>
 
-<style lang="sass" scoped src="@/assets/sass/components/app-header.sass"></style>
+<style lang="sass" scoped src="@/assets/sass/components/app-header.sass">

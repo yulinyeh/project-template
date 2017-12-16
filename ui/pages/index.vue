@@ -1,5 +1,5 @@
 <template lang="pug">
-  main.main.page-index
+  main.page-index
 </template>
 
 <script>
@@ -44,5 +44,4 @@
   }
 </script>
 
-<style lang="sass" scoped src="@/assets/sass/pages/index.sass"></style>
-
+<style lang="sass" scoped src="@/assets/sass/pages/index.sass">

@@ -8,4 +8,4 @@
   }
 </script>
 
-<style lang="sass" scoped src="@/assets/sass/components/app-footer.sass"></style>
+<style lang="sass" scoped src="@/assets/sass/components/app-footer.sass">
