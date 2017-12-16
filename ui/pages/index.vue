@@ -1,6 +1,5 @@
 <template lang="pug">
-  .page-index
-    main.main
+  main.main.page-index
 </template>
 
 <script>
