@@ -14,13 +14,13 @@
     //     store.commit('setStars', res.data)
     //   })
     // },
-    data () {
-      return {}
-    },
     // asyncData (context) {
     //   // 【SSR】用於此頁面載入時更新此頁的 data 資料
     //   return { project: 'nuxt' }
     // },
+    data () {
+      return {}
+    },
     head () {
       return {
         title: '',

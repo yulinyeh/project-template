@@ -1,6 +1,7 @@
 // https://github.com/nuxt/nuxt.js/blob/dev/lib/common/options.js#L170
 // console.log(process.env.NODE_ENV) // npm run dev: 'development', npm run build: 'production', npm run generate: 'production'
 // const webpack = require('webpack')
+const routerBase = '/'
 module.exports = {
   /*
   ** Build configuration
@@ -40,14 +41,14 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'keywords', name: 'keywords', content: 'fund程式,模擬基金投資,基金競賽,基金比賽' },
+      { hid: 'keywords', name: 'keywords', content: '' },
       { hid: 'description', name: 'description', content: '' },
       { property: 'og:type', content: 'website' },
-      { property: 'og:site_name', content: '中華民國證券投資信託暨顧問商業同業公會' },
-      { hid: 'og:url', property: 'og:url', content: process.env.NODE_ENV === 'development' ? 'http://172.18.1.82:3000/' : 'http://taiwanfund.event-fundrich.com/' },
+      { property: 'og:site_name', content: '' },
+      { hid: 'og:url', property: 'og:url', content: process.env.NODE_ENV === 'development' ? `http://${process.env.HOST}:${process.env.PORT}${routerBase}` : `https://${process.env.HOST}${routerBase}` },
       { hid: 'og:title', property: 'og:title', content: '' },
       { hid: 'og:description', property: 'og:description', content: '' },
-      { hid: 'og:image', property: 'og:image', content: process.env.NODE_ENV === 'development' ? 'http://172.18.1.82:3000/og.jpg' : 'http://taiwanfund.event-fundrich.com/og.jpg' },
+      { hid: 'og:image', property: 'og:image', content: process.env.NODE_ENV === 'development' ? `http://${process.env.HOST}:${process.env.PORT}${routerBase}og.jpg` : `https://${process.env.HOST}${routerBase}og.jpg` },
       { hid: 'og:image:type', property: 'og:image:type', content: 'image/jpeg' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '628' },
@@ -109,7 +110,7 @@ module.exports = {
   /*
   ** Single page application is served under "./"
   */
-  router: { base: '/' },
+  router: { base: routerBase },
   /*
   ** Customize runtime options for rendering pages
   */

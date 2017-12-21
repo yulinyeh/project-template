@@ -1,5 +1,5 @@
 {
-  "name": "feature-testing-the-water",
+  "name": "project-template",
   "version": "1.0.0",
   "description": "基金以議題的方式作分類，簡易列表及查詢。",
   "author": "葉宇霖 <4229697+yulinyeh@users.noreply.github.com>",
@@ -16,11 +16,10 @@
     "velocity-animate": "latest"
   },
   "scripts": {
-    "dev": "NODE_ENV=development HOST=172.18.1.82 nuxt",
-    "build": "NODE_ENV=production nuxt build",
+    "dev": "NODE_ENV=development HOST=172.18.1.82 PORT=3000 nuxt",
+    "build": "NODE_ENV=production HOST=172.18.1.82 nuxt build",
     "start": "nuxt start",
     "generate": "NODE_ENV=production nuxt generate",
-    "generate-test": "cross-env NODE_ENV=production SERVER_ENV=test nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
   },
