@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "babel-eslint": "latest",
+    "cross-env": "latest",
     "eslint": "latest",
     "eslint-config-standard": "latest",
     "eslint-loader": "latest",
