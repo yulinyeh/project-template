@@ -9,6 +9,7 @@
 
 <script>
   import AppHeader from '~/components/app-header.vue'
+  import AppAside from '~/components/app-aside.vue'
   import AppFooter from '~/components/app-footer.vue'
 
   export default {
@@ -29,6 +30,7 @@
     },
     components: {
       AppHeader,
+      AppAside,
       AppFooter
     }
   }
