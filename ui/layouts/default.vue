@@ -14,11 +14,6 @@
 
   export default {
     name: 'LayoutDefault',
-    head () {
-      return {
-        titleTemplate: '%s - 網站名稱'
-      }
-    },
     computed: {
       routerViewKey () {
         // 用來決定是否替換 nuxt 中所有的 dom，如果是用 $route.fullPath 的話，網址有稍稍異動，就會重新整理 dom

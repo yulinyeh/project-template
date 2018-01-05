@@ -5,7 +5,6 @@
   "author": "葉宇霖 <4229697+yulinyeh@users.noreply.github.com>",
   "private": true,
   "dependencies": {
-    "@nuxtjs/google-tag-manager": "latest",
     "@nuxtjs/pwa": "latest",
     "common-tags": "latest",
     "hamburgers": "latest",

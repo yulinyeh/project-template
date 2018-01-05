@@ -37,6 +37,7 @@ module.exports = {
     htmlAttrs: {
       lang: 'zh-Hant-TW'
     },
+    titleTemplate: '%s - 網站名稱',
     title: '',
     meta: [
       { charset: 'utf-8' },
@@ -102,8 +103,7 @@ module.exports = {
   */
   modules: [
     // 自製 modules 時機：會利用到 NUXT 的 life circle, 或是想把一些邏輯當範本使用
-    '@nuxtjs/pwa',
-    // ['@nuxtjs/google-tag-manager', { id: 'GTM-KV9327S' }],
+    // '@nuxtjs/pwa',
     '@/modules/tapable',
     '@/modules/custom-loaders'
   ],
