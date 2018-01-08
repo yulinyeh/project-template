@@ -51,7 +51,7 @@
             innerHTML: oneLineTrim`
               []` }
         ],
-        __dangerouslyDisableSanitizersByTagID: { 'application/ld+json': ['innerHTML'] } // 未實測這樣的方式可以編譯嗎
+        __dangerouslyDisableSanitizersByTagID: { 'application/ld+json': ['innerHTML'] }
       }
     }
   }
