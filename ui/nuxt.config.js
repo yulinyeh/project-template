@@ -96,6 +96,8 @@ module.exports = {
     // 這裡只是註明 server 會不會用到這些 plugins, 為了省記憶體
     // 如果沒有將套件寫在 vendor 的設定裡, 就是包在各自的頁面裡
     // 除非利用 webpack.optimize.CommonsChunkPlugin, 才會再包在 common-in-lazy.[hash].js 裡
+    // { src: '@/plugins/global-site-tag', ssr: false },
+    // { src: '@/plugins/facebook-pixel', ssr: false },
     { src: '@/plugins/velocity', ssr: false }
   ],
   /*
