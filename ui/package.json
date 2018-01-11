@@ -16,9 +16,9 @@
   },
   "scripts": {
     "dev": "NODE_ENV=development HOST=172.18.1.82 PORT=3000 nuxt",
-    "build": "NODE_ENV=production HOST=172.18.1.82 nuxt build",
+    "build": "NODE_ENV=production HOST=www.fundrich.com.tw nuxt build",
     "start": "nuxt start",
-    "generate": "NODE_ENV=production nuxt generate",
+    "generate": "NODE_ENV=production HOST=www.fundrich.com.tw nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
   },
