@@ -14,7 +14,8 @@ export default ({ app }) => {
   window.gtag = function () { window.dataLayer.push(arguments) }
   window.gtag('js', new Date())
 
-  app.router.afterEach((to, from) => {
+  app.router.afterEach((to, from, next) => {
+    console.dir(next)
     // window.gtag('config', 'UA-75421763-13') // 安裝第一個 Google Analytics 與送出 PageView
     // window.gtag('config', 'UA-75421763-1') // 安裝第二個 Google Analytics 與送出 PageView
     // window.gtag('config', 'AW-858679249') // 安裝 Google Adwords
