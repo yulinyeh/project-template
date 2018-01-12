@@ -30,3 +30,5 @@
     }
   }
 </script>
+
+<style lang="sass" scoped src="@/assets/sass/layouts/default.sass">
