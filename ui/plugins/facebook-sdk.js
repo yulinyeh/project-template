@@ -15,8 +15,7 @@ export default ({ app, route }) => {
     fjs.parentNode.insertBefore(js, fjs)
   }(document, 'script', 'facebook-jssdk'))
 
-  app.router.afterEach((to, from, next) => {
-    console.dir(next)
+  app.router.afterEach((to, from) => {
     // window.FB.AppEvents.logPageView() // 送出 Facebook SDK PageView
   })
 }
