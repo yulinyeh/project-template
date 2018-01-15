@@ -1,6 +1,6 @@
 export default ({ app }) => {
   if (process.env.NODE_ENV !== 'production') return false
-  (function (f, b, e, v, n, t, s) {
+  ((f, b, e, v, n, t, s) => {
     if (f.fbq) return false
     n = f.fbq = function () {
       n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)
@@ -15,7 +15,7 @@ export default ({ app }) => {
     t.src = v
     s = b.getElementsByTagName(e)[0]
     s.parentNode.insertBefore(t, s)
-  }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js'))
+  })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js')
   // window.fbq('init', '1691931001077188') // 安裝 Facebook Pixel
 
   app.router.afterEach((to, from) => {

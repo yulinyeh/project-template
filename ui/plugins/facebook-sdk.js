@@ -1,4 +1,5 @@
 export default ({ app, route }) => {
+  if (process.env.NODE_ENV !== 'production') return false
   window.fbAsyncInit = function () {
     window.FB.init({
       appId: '1061200460616036',
@@ -6,14 +7,14 @@ export default ({ app, route }) => {
       version: 'v2.11'
     })
   };
-  (function (d, s, id) {
+  ((d, s, id) => {
     var js
     var fjs = d.getElementsByTagName(s)[0]
     if (d.getElementById(id)) { return }
     js = d.createElement(s); js.id = id
     js.src = 'https://connect.facebook.net/zh_TW/sdk.js'
     fjs.parentNode.insertBefore(js, fjs)
-  }(document, 'script', 'facebook-jssdk'))
+  })(document, 'script', 'facebook-jssdk')
 
   app.router.afterEach((to, from) => {
     // window.FB.AppEvents.logPageView() // 送出 Facebook SDK PageView
