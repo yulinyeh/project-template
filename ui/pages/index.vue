@@ -3,8 +3,6 @@
 </template>
 
 <script>
-  import { oneLineTrim } from 'common-tags'
-
   export default {
     name: 'PageIndex',
     // fetch ({ store, params }) {
@@ -48,8 +46,8 @@
         script: [
           { hid: 'application/ld+json',
             type: 'application/ld+json',
-            innerHTML: oneLineTrim`
-              []` }
+            innerHTML: JSON.stringify([])
+          }
         ],
         __dangerouslyDisableSanitizersByTagID: { 'application/ld+json': ['innerHTML'] }
       }
