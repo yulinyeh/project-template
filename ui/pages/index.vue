@@ -1,5 +1,6 @@
 <template lang="pug">
   main.page-index
+    //- .ld-json(v-html="`<script type=\"application/ld+json\">${structuredData}</script>`")
 </template>
 
 <script>
@@ -31,6 +32,9 @@
     //   //   // 還不是因為 watch $route 一開始不會被觸發，要變動一次才會
     //   //   return { order: this.$route.query }
     //   // }
+    //   structuredData () {
+    //     return JSON.stringify({})
+    //   }
     // },
     head () {
       return {
@@ -42,14 +46,7 @@
         ],
         bodyAttrs: {
           id: 'page-index'
-        },
-        script: [
-          { hid: 'application/ld+json',
-            type: 'application/ld+json',
-            innerHTML: JSON.stringify([])
-          }
-        ],
-        __dangerouslyDisableSanitizersByTagID: { 'application/ld+json': ['innerHTML'] }
+        }
       }
     }
   }
