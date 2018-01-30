@@ -2,7 +2,8 @@ export default ({ app, route }) => {
   if (process.env.NODE_ENV !== 'production') return false
   window.fbAsyncInit = function () {
     window.FB.init({
-      appId: '1061200460616036',
+      appId: process.env.NODE_ENV === 'self' ? '1061200460616036' : '331606597252844',
+      autoLogAppEvents: true,
       xfbml: true,
       version: 'v2.11'
     })
@@ -17,6 +18,6 @@ export default ({ app, route }) => {
   })(document, 'script', 'facebook-jssdk')
 
   app.router.afterEach((to, from) => {
-    // window.FB.AppEvents.logPageView() // 送出 Facebook SDK PageView
+    if (window.FB) window.FB.AppEvents.logPageView() // 送出 Facebook SDK PageView
   })
 }
