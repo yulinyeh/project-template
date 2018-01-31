@@ -53,7 +53,7 @@ module.exports = {
       { hid: 'og:image:type', property: 'og:image:type', content: 'image/jpeg' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '628' },
-      { 'http-equiv': 'cache-control', content: 'max-age=0' } // 活動站需要時時更新，從 client 端指定沒有 cache 週期
+      { 'http-equiv': 'cache-control', content: 'max-age=900' } // 活動站需要時時更新，從 client 端指定沒有 cache 週期
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: './favicon.ico' },
@@ -107,8 +107,8 @@ module.exports = {
   modules: [
     // 自製 modules 時機：會利用到 NUXT 的 life circle, 或是想把一些邏輯當範本使用
     // '@nuxtjs/pwa',
-    '@/modules/tapable',
-    '@/modules/custom-loaders'
+    // '@/modules/tapable',
+    // '@/modules/custom-loaders'
   ],
   /*
   ** Single page application is served under "./"
