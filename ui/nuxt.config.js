@@ -34,11 +34,16 @@ module.exports = {
   ** Common headers are already provided by @nuxtjs/pwa preset
   */
   head: {
-    htmlAttrs: {
-      lang: 'zh-Hant-TW'
-    },
     titleTemplate: '%s - 網站名稱',
     title: '',
+    htmlAttrs: {
+      lang: 'zh-Hant-TW',
+      prefix: 'og: http://ogp.me/ns#'
+    },
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: './favicon.ico' },
+      { rel: 'icon', type: 'image/png', href: './favicon.png' }
+    ],
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -54,10 +59,6 @@ module.exports = {
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '628' },
       { 'http-equiv': 'cache-control', content: 'max-age=900' } // 活動站需要時時更新，從 client 端指定沒有 cache 週期
-    ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: './favicon.ico' },
-      { rel: 'icon', type: 'image/png', href: './favicon.png' }
     ]
   },
   /*

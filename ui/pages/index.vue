@@ -39,14 +39,14 @@
     head () {
       return {
         title: '',
+        bodyAttrs: {
+          id: 'page-index'
+        },
         meta: [
           { hid: 'description', name: 'description', content: '' },
           { hid: 'og:title', property: 'og:title', content: '' },
           { hid: 'og:description', property: 'og:description', content: '' }
-        ],
-        bodyAttrs: {
-          id: 'page-index'
-        }
+        ]
       }
     }
   }
