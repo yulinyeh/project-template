@@ -122,8 +122,9 @@ module.exports = {
     // bundleRenderer: {
     //   shouldPreload: (file, type) => ['script', 'style', 'font'].includes(type)
     // },
-    http2: { push: true },
-    static: { maxAge: '15m' },
-    gzip: { threshold: 9 }
+    http2: { push: true, shouldPush: (file, type) => type === 'script' },
+    static: { maxAge: 60 * 15 },
+    gzip: { threshold: 9 },
+    csp: true
   }
 }
