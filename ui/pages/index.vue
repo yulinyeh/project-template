@@ -48,6 +48,10 @@
           { hid: 'og:description', property: 'og:description', content: '' }
         ]
       }
+    },
+    mounted () {
+      // if (!window.velocity) require('velocity-animate')
+      // if (!window.jQuery) window.$ = window.jQuery = require('jquery')
     }
   }
 </script>

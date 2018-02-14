@@ -17,7 +17,7 @@ module.exports = {
       //   minChunks: ({ resource } = {}) => (
       //     resource &&
       //     resource.includes('node_modules') &&
-      //     (/moment/.test(resource) || /accounting/.test(resource))
+      //     (/velocity-animate/.test(resource) || /jquery/.test(resource))
       //   )
       // })
     ]
@@ -99,8 +99,7 @@ module.exports = {
     // 除非利用 webpack.optimize.CommonsChunkPlugin, 才會再包在 common-in-lazy.[hash].js 裡
     // { src: '@/plugins/global-site-tag', ssr: false },
     // { src: '@/plugins/facebook-pixel', ssr: false },
-    // { src: '@/plugins/facebook-sdk', ssr: false },
-    { src: '@/plugins/velocity', ssr: false }
+    // { src: '@/plugins/facebook-sdk', ssr: false }
   ],
   /*
   ** Modules
