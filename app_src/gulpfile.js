@@ -104,8 +104,11 @@ gulp.task('default', ['connect:dev', 'pug:dev'], function () {
   gulp.watch(filesPugTemplate, function (e) {
     pug2html(filesPug);
   });
-  gulp.watch(['sass/**/*.sass'], function (e) {
+  gulp.watch(['sass/*.sass'], function (e) {
     pug2html(e.path.replace('/app_src/sass/', '/app_src/pug/pages/').replace('.sass', '.pug'));
+  });
+  gulp.watch(['sass/requires/*.sass'], function (e) {
+    pug2html(filesPug);
   });
   browserSync.get('dev').init({
     ui: false,
