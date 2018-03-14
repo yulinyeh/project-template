@@ -1,0 +1,20 @@
+block params
+doctype html
+html(lang="zh-Hant-TW", xmlns:og="http://ogp.me/ns#", xmlns:fb="http://www.facebook.com/2008/fbml")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    block head
+    meta(name="viewport", content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no")
+    if (dev)
+      each link_src in filesComponentCSS
+        link(rel="stylesheet", href=`./assets/${link_src}`.replace('node_modules', 'components').replace('plugins', 'components'))
+      link(rel="stylesheet", href="./assets/stylesheets/style.css")
+    block css
+  body(id=pageID)
+    block content
+    if (dev)
+      each script_src in filesComponentJavascript
+        script(src=`./assets/${script_src}`.replace('node_modules', 'components').replace('plugins', 'components'))
+    block javascript
