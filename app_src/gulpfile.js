@@ -32,11 +32,6 @@ var filesComponentJavascriptMap = [
   'node_modules/**/jquery/dist/jquery.min.map']; // NPM 的 JavaScript Map
 var filesAssets = [
   'images/**/*.*']; // 純粹複製
-var filesRootAssets = [
-  '*.txt',
-  '*.ico',
-  '*.jpg',
-  '*.png']; // 純粹複製
 
 // ============================== Pug 轉 HTML ==============================
 gulp.task('pug:dev', function () {
