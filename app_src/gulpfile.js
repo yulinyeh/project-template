@@ -6,7 +6,6 @@ var pug = require('gulp-pug');
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
-var rename = require("gulp-rename");
 var browserSync = require('browser-sync');
 var gutil = require('gulp-util');
 var flatten = require('gulp-flatten');
@@ -68,25 +67,6 @@ function pug2html(param) {
     });
 };
 
-// ============================== Sass 轉 CSS ==============================
-gulp.task('sass:dev', function () {
-  return gulp.src(['sass/main.sass'])
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(sass({ outputStyle: 'expanded' }))
-    .pipe(autoprefixer({
-      browsers: ['last 2 versions'],
-      remove: false
-    }))
-    .pipe(rename({
-      basename: 'style'
-    }))
-    .pipe(gulp.dest('../app_dev/assets/stylesheets/'))
-    .pipe(browserSync.get('dev').stream())
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('sass:dev @ ' + new Date()));
-    }));
-})
-
 // ============================== 複製 Components ==============================
 gulp.task('copy:components-dev', function () {
   return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentAsset))
@@ -120,7 +100,7 @@ gulp.task('connect:dev', function () {
 
 // ============================== 總結 ==============================
 gulp.task('copy:dev', ['copy:components-dev', 'copy:images-dev']);
-gulp.task('default', ['connect:dev', 'pug:dev', 'sass:dev'], function () {
+gulp.task('default', ['connect:dev', 'pug:dev'], function () {
   gulp.watch(filesPug, function (e) {
     pug2html(e.path);
   });
@@ -128,7 +108,7 @@ gulp.task('default', ['connect:dev', 'pug:dev', 'sass:dev'], function () {
     pug2html(filesPug);
   });
   gulp.watch(['sass/**/*.sass'], function (e) {
-    gulp.start(['sass:dev']);
+    pug2html(e.path.replace('/app_src/sass/', '/app_src/pug/pages/').replace('.sass', '.pug'));
   });
   browserSync.get('dev').init({
     ui: false,

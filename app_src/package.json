@@ -26,9 +26,9 @@
     "gulp-notify": "latest",
     "gulp-plumber": "latest",
     "gulp-pug": "latest",
-    "gulp-rename": "latest",
     "gulp-sass": "latest",
-    "gulp-util": "latest"
+    "gulp-util": "latest",
+    "jstransformer-sass": "latest"
   },
   "dependencies": {
     "jquery": "latest"
