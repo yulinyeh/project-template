@@ -10,10 +10,6 @@ var glob = require('glob');
 var del = require('del');
 var imagemin = require('gulp-imagemin');
 
-// ============================== 參數設定 ==============================
-var gulpRebuildSass = false;
-var gulpRebuildNumber = 0;
-
 // ============================== 檔案路徑設定 ==============================
 var filesPug = [
   'pug/!(layout|include)/**/*.pug'];
