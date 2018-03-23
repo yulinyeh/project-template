@@ -63,10 +63,10 @@ html(lang="zh-Hant-TW", xmlns:og="http://ogp.me/ns#", xmlns:fb="http://www.faceb
       //endbuild
     block css
   body(id=pageID)
-    include ../include/header
-    include ../include/aside
+    include ../partials/header
+    include ../partials/aside
     block content
-    include ../include/footer
+    include ../partials/footer
     if (dev)
       each script_src in filesComponentJavascript
         script(src=`./assets/${script_src}`.replace('node_modules', 'components').replace('plugins', 'components'))

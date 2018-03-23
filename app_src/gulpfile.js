@@ -35,10 +35,10 @@ var siteName = '';
 
 // ============================== 檔案路徑設定 ==============================
 var filesPug = [
-  'pug/!(layout|include)/**/*.pug'];
+  'pug/!(layouts|partials)/**/*.pug'];
 var filesPugTemplate = [
-  'pug/layout/**/*.pug',
-  'pug/include/**/*.pug'];
+  'pug/layouts/**/*.pug',
+  'pug/partials/**/*.pug'];
 var filesComponentCSS = [
   'node_modules/**/normalize.css/normalize.css']; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
 var filesComponentAsset = []; // Component 的 Font(ex: 'components/**/fontawesome/fonts/*.*')
