@@ -40,22 +40,14 @@ var filesPugTemplate = [
   'pug/layouts/**/*.pug',
   'pug/partials/**/*.pug'];
 var filesComponentCSS = [
-  'node_modules/**/normalize.css/normalize.css']; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
-var filesComponentAsset = []; // Component 的 Font(ex: 'components/**/fontawesome/fonts/*.*')
-var filesJavascript = [
-  'javascript/common.js']; // 自己寫的 JavaScript
+  'node_modules/**/normalize.css/normalize.css']; // NPM 的 CSS(ex: 'node_modules/**/fontawesome/css/font-awesome.min.css')
+var filesComponentAsset = []; // NPM 的 Font(ex: 'node_modules/**/fontawesome/fonts/*.*')
 var filesComponentJavascript = [
   'node_modules/**/jquery/dist/jquery.min.js']; // NPM 的 JavaScript
 var filesComponentJavascriptMap = [
   'node_modules/**/jquery/dist/jquery.min.map']; // NPM 的 JavaScript Map
-var filesAssets = [
-  'images/**/*.*',
-  'fake_files/**/*.*']; // 純粹複製
-var filesRootAssets = [
-  '*.txt',
-  '*.ico',
-  '*.jpg',
-  '*.png']; // 純粹複製
+var filesJavascript = [
+  'javascript/common.js']; // 自己寫的 JavaScript
 
 // ============================== Pug 轉 HTML ==============================
 gulp.task('pug:dev', function () {
@@ -187,57 +179,21 @@ gulp.task('copy:components-dev', function () {
     }));
 });
 
-// ============================== 複製根目錄資源 ==============================
-gulp.task('copy:roots-dev', function () {
-  return gulp.src(filesRootAssets)
+// ============================== 複製 static 靜態資源 ==============================
+gulp.task('copy:static-dev', function () {
+  return gulp.src('static/**/*.*')
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../app_dev/'))
     .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:roots-dev @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('copy:static-dev @ ' + new Date()));
     }));
 });
-gulp.task('copy:roots-prod', function () {
-  return gulp.src(filesRootAssets)
+gulp.task('copy:static-prod', function () {
+  return gulp.src('static/**/*.*')
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../app_prod/'))
     .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:roots-prod @ ' + new Date()));
-    }));
-});
-
-// ============================== 複製 images, fake_files 靜態資源 ==============================
-gulp.task('copy:images-dev', function () {
-  return gulp.src(filesAssets[0])
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(imagemin())
-    .pipe(gulp.dest('../app_dev/assets/images/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:images-dev @ ' + new Date()));
-    }));
-});
-gulp.task('copy:fake_files-dev', function () {
-  return gulp.src(filesAssets[1])
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(gulp.dest('../website/fake_files/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:fake_files-dev @ ' + new Date()));
-    }));
-});
-gulp.task('copy:images-prod', function () {
-  return gulp.src(filesAssets[0])
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(imagemin())
-    .pipe(gulp.dest('../app_prod/assets/images/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:images-prod @ ' + new Date()));
-    }));
-});
-gulp.task('copy:fake_files-prod', function () {
-  return gulp.src(filesAssets[1])
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(gulp.dest('../app_prod/fake_files/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:fake_files-prod @ ' + new Date()));
+      gutil.log(gutil.colors.yellow('copy:static-prod @ ' + new Date()));
     }));
 });
 
@@ -258,7 +214,7 @@ gulp.task('connect:prod', function () {
 });
 
 // ============================== 總結 ==============================
-gulp.task('copy:dev', ['copy:components-dev', 'copy:roots-dev', 'copy:images-dev', 'copy:fake_files-dev']);
+gulp.task('copy:dev', ['copy:components-dev', 'copy:static-dev']);
 gulp.task('default', ['connect:dev', 'pug:dev', 'sass:dev', 'js:dev'], function () {
   gulp.watch(filesPug, function (e) {
     pug2html(e.path);
@@ -279,7 +235,7 @@ gulp.task('default', ['connect:dev', 'pug:dev', 'sass:dev', 'js:dev'], function 
     }
   });
 });
-gulp.task('copy:prod', ['copy:roots-prod', 'copy:images-prod', 'copy:fake_files-prod']);
+gulp.task('copy:prod', ['copy:static-prod']);
 gulp.task('prod', ['del:prod'], function () {
   return gulp
     .start(['connect:prod', 'copy:prod', 'pug:prod', 'sass:prod', 'js:prod'],
