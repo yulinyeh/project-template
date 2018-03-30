@@ -18,12 +18,6 @@ var filesPugTemplate = [
   'pug/include/**/*.pug'];
 var filesComponentCSS = []; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
 var filesComponentAsset = []; // Component 的 Font(ex: 'components/**/fontawesome/fonts/*.*')
-var filesComponentJavascript = [
-  'node_modules/**/jquery/dist/jquery.min.js']; // NPM 的 JavaScript
-var filesComponentJavascriptMap = [
-  'node_modules/**/jquery/dist/jquery.min.map']; // NPM 的 JavaScript Map
-var filesAssets = [
-  'images/**/*.*']; // 純粹複製
 
 // ============================== Pug 轉 HTML ==============================
 gulp.task('pug:dev', function () {
@@ -37,11 +31,6 @@ function pug2html(param) {
         dev: true,
         filesComponentCSS: function() {
           return filesComponentCSS.map(function(value, index) {
-            return glob.sync(value)[0];
-          });
-        }(),
-        filesComponentJavascript: function() {
-          return filesComponentJavascript.map(function(value, index) {
             return glob.sync(value)[0];
           });
         }()
@@ -62,22 +51,11 @@ function pug2html(param) {
 
 // ============================== 複製 Components ==============================
 gulp.task('copy:components-dev', function () {
-  return gulp.src(filesComponentJavascript.concat(filesComponentJavascriptMap).concat(filesComponentCSS).concat(filesComponentAsset))
+  return gulp.src(filesComponentCSS.concat(filesComponentAsset))
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(gulp.dest('../app_dev/assets/components/'))
     .pipe(gutil.buffer(function (err, files) {
       gutil.log(gutil.colors.yellow('copy:components-dev @ ' + new Date()));
-    }));
-});
-
-// ============================== 複製 images 靜態資源 ==============================
-gulp.task('copy:images-dev', function () {
-  return gulp.src(filesAssets[0])
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(imagemin())
-    .pipe(gulp.dest('../app_dev/assets/images/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:images-dev @ ' + new Date()));
     }));
 });
 
@@ -103,7 +81,7 @@ gulp.task('connect:dev', function () {
 });
 
 // ============================== 總結 ==============================
-gulp.task('copy:dev', ['copy:components-dev', 'copy:images-dev', 'copy:static-dev']);
+gulp.task('copy:dev', ['copy:components-dev', 'copy:static-dev']);
 gulp.task('default', ['connect:dev', 'pug:dev'], function () {
   gulp.watch(filesPug, function (e) {
     pug2html(e.path);
