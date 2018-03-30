@@ -81,6 +81,17 @@ gulp.task('copy:images-dev', function () {
     }));
 });
 
+// ============================== 複製 static 靜態資源 ==============================
+gulp.task('copy:static-dev', function () {
+  return gulp.src('static/**/*.*')
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(imagemin())
+    .pipe(gulp.dest('../app_dev/'))
+    .pipe(gutil.buffer(function (err, files) {
+      gutil.log(gutil.colors.yellow('copy:static-dev @ ' + new Date()));
+    }));
+});
+
 // ============================== 移除資料夾 ==============================
 gulp.task('del:dev', function () {
   return del('../app_dev/**', { force: true });
@@ -92,7 +103,7 @@ gulp.task('connect:dev', function () {
 });
 
 // ============================== 總結 ==============================
-gulp.task('copy:dev', ['copy:components-dev', 'copy:images-dev']);
+gulp.task('copy:dev', ['copy:components-dev', 'copy:images-dev', 'copy:static-dev']);
 gulp.task('default', ['connect:dev', 'pug:dev'], function () {
   gulp.watch(filesPug, function (e) {
     pug2html(e.path);
