@@ -23,8 +23,6 @@ var cleanCSS = require('gulp-clean-css');
 // var rev = require('gulp-rev');
 
 // ============================== 參數設定 ==============================
-var gulpRebuildSass = false;
-var gulpRebuildNumber = 0;
 var siteHost = 'http://localhost:3000/'; // localhost 用
 var siteAppId = '628193067351657'; // localhost 用
 // var siteHost = 'https://edenyeh.github.io/project-name/'; // GitHub 用
