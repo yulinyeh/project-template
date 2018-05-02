@@ -11,6 +11,11 @@
   import AppHeader from '~/components/app-header.vue'
   import AppAside from '~/components/app-aside.vue'
   import AppFooter from '~/components/app-footer.vue'
+  if (process.browser) {
+    // if (!window.jQuery) window.$ = window.jQuery = require('jquery')
+    // if (!window.velocity) window.velocity = require('velocity-animate')
+    // if (!window.jQuery.fn.slick) require('slick-carousel')
+  }
 
   export default {
     name: 'LayoutDefault',

@@ -18,7 +18,10 @@
     //   return { project: 'nuxt' }
     // },
     data () {
-      // 如果 $route 被更新了，會觸發 data 重新 initialization
+      // 當 $route 被更新了，會將 data 重新 init 成 server side 計算好的值
+      // 如果需要將 client side 計算好的值留住：
+      // 1.【需雙向綁定】將值存到 $store, 而不要放在 data
+      // 2.【單純計算、紀錄】將值放在此 component 的全域
       return {}
     },
     // computed: {
@@ -50,8 +53,6 @@
       }
     },
     mounted () {
-      // if (!window.velocity) require('velocity-animate')
-      // if (!window.jQuery) window.$ = window.jQuery = require('jquery')
     }
   }
 </script>
