@@ -2,7 +2,7 @@ export default ({ app, route }) => {
   if (process.env.NODE_ENV !== 'production') return false
   window.fbAsyncInit = function () {
     window.FB.init({
-      appId: process.env.NODE_ENV === 'self' ? '1061200460616036' : '331606597252844',
+      appId: process.env.fbAppID,
       autoLogAppEvents: true,
       xfbml: true,
       version: 'v2.11'

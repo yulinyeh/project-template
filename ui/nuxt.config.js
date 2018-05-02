@@ -1,6 +1,7 @@
 // https://github.com/nuxt/nuxt.js/blob/dev/lib/common/options.js#L170
 // console.log(process.env.NODE_ENV) // npm run dev: 'development', npm run build: 'production', npm run generate: 'production'
 // const webpack = require('webpack')
+const fbAppID = process.env.NODE_ENV === 'production' ? '1061200460616036' : '331606597252844'
 const routerBase = '/'
 module.exports = {
   /*
@@ -28,7 +29,9 @@ module.exports = {
   ** 但要注意不可以直接在 pug 中使用, 因為 pug 是預設使用 this 中的資料
   ** 必須要先在 data 中建立參數, 再把 process.env 中的參數指定到 data 中
   */
-  env: {},
+  env: {
+    fbAppID
+  },
   /*
   ** Headers
   ** Common headers are already provided by @nuxtjs/pwa preset
@@ -58,6 +61,7 @@ module.exports = {
       { hid: 'og:image:type', property: 'og:image:type', content: 'image/jpeg' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '628' },
+      { property: 'fb:app_id', content: fbAppID },
       { 'http-equiv': 'cache-control', content: 'max-age=900' } // 活動站需要時時更新，從 client 端指定沒有 cache 週期
     ]
   },
