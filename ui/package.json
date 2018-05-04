@@ -10,8 +10,7 @@
     "lodash": "latest",
     "normalize.css": "latest",
     "nuxt": "latest",
-    "uuid": "latest",
-    "velocity-animate": "latest"
+    "uuid": "latest"
   },
   "scripts": {
     "dev": "NODE_ENV=development HOST=172.18.1.82 PORT=3000 nuxt",

@@ -10,7 +10,7 @@ module.exports = {
   build: {
     // analyze: true,
     extractCSS: true,
-    vendor: ['uuid/v1', 'velocity-animate'], // 會被包在 common.[hash].js 裡面
+    vendor: ['uuid/v1'], // 會被包在 common.[hash].js 裡面
     plugins: [
       // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // 使用 moment without locale
       // new webpack.optimize.CommonsChunkPlugin({ // 在各 .vue 裡可視情況分類套件並載入
@@ -18,7 +18,7 @@ module.exports = {
       //   minChunks: ({ resource } = {}) => (
       //     resource &&
       //     resource.includes('node_modules') &&
-      //     (/velocity-animate/.test(resource) || /jquery/.test(resource))
+      //     (/jquery/.test(resource) || /velocity-animate/.test(resource))
       //   )
       // })
     ]
