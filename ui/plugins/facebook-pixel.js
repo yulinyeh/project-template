@@ -1,5 +1,5 @@
 export default ({ app }) => {
-  if (process.env.NODE_ENV !== 'production') return false
+  if (process.env.NODE_ENV !== 'production') { return false }
   ((f, b, e, v, n, t, s) => {
     if (f.fbq) return false
     n = f.fbq = function () {
