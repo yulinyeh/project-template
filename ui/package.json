@@ -2,7 +2,7 @@
   "name": "project-template",
   "version": "1.0.0",
   "description": "基金以議題的方式作分類，簡易列表及查詢。",
-  "author": "葉宇霖 <4229697+yulinyeh@users.noreply.github.com>",
+  "author": "FundRich 基富通",
   "private": true,
   "dependencies": {
     "@nuxtjs/pwa": "latest",
