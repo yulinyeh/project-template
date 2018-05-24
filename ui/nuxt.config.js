@@ -44,8 +44,8 @@ module.exports = {
       prefix: 'og: http://ogp.me/ns#'
     },
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: './favicon.ico' },
-      { rel: 'icon', type: 'image/png', href: './favicon.png' }
+      { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' },
+      { rel: 'icon', type: 'image/png', href: 'favicon.png' }
     ],
     meta: [
       { charset: 'utf-8' },
