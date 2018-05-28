@@ -1,7 +1,20 @@
 // https://github.com/nuxt/nuxt.js/blob/dev/lib/common/options.js#L170
 // console.log(process.env.NODE_ENV) // npm run dev: 'development', npm run build: 'production', npm run generate: 'production'
 // const webpack = require('webpack')
-const fbAppID = process.env.NODE_ENV === 'production' ? '1061200460616036' : '331606597252844'
+const fbAppID = process.env.SERVER === 'prod' ? '1061200460616036' : '331606597252844'
+const fbAdmins = 286133171723936
+const serverHostname = {
+  dev: 'http://172.18.1.82:3000',
+  sit: 'http://testwebawslb.event-fundrich.com',
+  uat: 'http://testsite.fundrich.com.tw',
+  prod: 'https://www.fundrich.com.tw'
+}
+const axiosBaseURL = {
+  dev: ['http://testwebapisaws.event-fundrich.com', 'http://testwebapisawslb.event-fundrich.com'], // 前為 server 內部位置, 後為 client 外部位置
+  sit: ['http://testwebapisaws.event-fundrich.com', 'http://testwebapisawslb.event-fundrich.com'],
+  uat: ['http://172.18.22.100:80/FRSWebApi', 'http://testapis.fundrich.com.tw'],
+  prod: ['http://172.18.22.100:80/FRSWebApi', 'https://apis.fundrich.com.tw']
+}
 const routerBase = '/'
 module.exports = {
   /*
@@ -10,7 +23,7 @@ module.exports = {
   build: {
     // analyze: true,
     extractCSS: true,
-    vendor: ['uuid/v1'], // 會被包在 common.[hash].js 裡面
+    // vendor: ['uuid/v1'], // 會被包在 common.[hash].js 裡面
     plugins: [
       // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // 使用 moment without locale
       // new webpack.optimize.CommonsChunkPlugin({ // 在各 .vue 裡可視情況分類套件並載入
@@ -30,14 +43,17 @@ module.exports = {
   ** 必須要先在 data 中建立參數, 再把 process.env 中的參數指定到 data 中
   */
   env: {
-    fbAppID
+    nodeServer: process.env.SERVER,
+    fbAppID,
+    serverHostname,
+    routerBase
   },
   /*
   ** Headers
   ** Common headers are already provided by @nuxtjs/pwa preset
   */
   head: {
-    titleTemplate: '%s - 網站名稱',
+    titleTemplate: '%s - FundRich 基富通',
     title: '',
     htmlAttrs: {
       lang: 'zh-Hant-TW',
@@ -49,26 +65,28 @@ module.exports = {
     ],
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
       { hid: 'keywords', name: 'keywords', content: '' },
       { hid: 'description', name: 'description', content: '' },
       { property: 'og:type', content: 'website' },
-      { property: 'og:site_name', content: '' },
-      { hid: 'og:url', property: 'og:url', content: process.env.NODE_ENV === 'development' ? `http://${process.env.HOST}:${process.env.PORT}${routerBase}` : `https://${process.env.HOST}${routerBase}` },
+      { property: 'og:site_name', content: 'FundRich 基富通 - 網路基金銷售平台' },
+      { hid: 'og:url', property: 'og:url', content: `${serverHostname[process.env.SERVER]}${routerBase}` },
       { hid: 'og:title', property: 'og:title', content: '' },
       { hid: 'og:description', property: 'og:description', content: '' },
-      { hid: 'og:image', property: 'og:image', content: process.env.NODE_ENV === 'development' ? `http://${process.env.HOST}:${process.env.PORT}${routerBase}og.jpg` : `https://${process.env.HOST}${routerBase}og.jpg` },
+      { hid: 'og:image', property: 'og:image', content: `${serverHostname[process.env.SERVER]}${routerBase}og.jpg` },
       { hid: 'og:image:type', property: 'og:image:type', content: 'image/jpeg' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '628' },
       { property: 'fb:app_id', content: fbAppID },
+      { property: 'fb:admins', content: fbAdmins },
+      { property: 'fb:pages', content: fbAdmins },
       { 'http-equiv': 'cache-control', content: 'max-age=900' } // 活動站需要時時更新，從 client 端指定沒有 cache 週期
     ]
   },
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#269384' },
+  loading: { color: '#ba9764' },
   /*
   ** Customize app manifest
   */
@@ -77,21 +95,23 @@ module.exports = {
     ogDescription: false // 設定為 false，就不會跟頁面中的 head: { meta: [{ hid: 'og:description' }] } 資訊重複
   },
   manifest: {
-    start_url: 'http://taiwanfund.event-fundrich.com/?utm_source=web_app_manifest&utm_campaign=2017_taiwanfund_race',
-    name: '創造勝利 fund 程式',
-    short_name: 'fund 程式',
-    background_color: '#FFF', // splash screen 背景色
-    theme_color: '#269384', // 狀態列顏色
+    start_url: `${serverHostname[process.env.SERVER]}${routerBase}?utm_source=web_app_manifest&utm_campaign=${routerBase}`,
+    name: '',
+    short_name: '',
+    display: 'standalone',
+    background_color: '#ffffff', // splash screen 背景色
+    theme_color: '#ba9764', // 狀態列顏色
     orientation: 'portrait', // portrait: 直式, landscape: 橫式
-    description: '全國大專院校基金投資模擬競賽',
-    lang: 'zh-Hant-TW'
+    description: '',
+    lang: 'zh-Hant-TW',
+    publicPath: `${routerBase}_nuxt/`
+    // workbox: {}
   },
   /*
   ** CSS
   */
   css: [
     'normalize.css',
-    'hamburgers/dist/hamburgers.min.css',
     '@/assets/sass/main.sass'
   ],
   /*
@@ -121,6 +141,9 @@ module.exports = {
   /*
   ** Customize runtime options for rendering pages
   */
+  cache: {
+    maxAge: 60 * 15
+  },
   render: {
     // 尚無法得知此以下設定是否有效
     // bundleRenderer: {
@@ -130,5 +153,14 @@ module.exports = {
     static: { maxAge: 60 * 15 },
     gzip: { threshold: 9 },
     csp: true
+  },
+  messages: {
+    error_404: '查無此頁面資訊',
+    server_error: '伺服器異常',
+    nuxtjs: 'Nuxt.js',
+    back_to_home: '返回首頁',
+    server_error_details: '此應用發生錯誤，因此頁面無法提供服務。如果您是此應用的所有者，可從 log 查訊更詳盡的錯誤訊息。',
+    client_error: '錯誤',
+    client_error_details: '產生此頁面時發生錯誤。可從開發者工具查閱更詳細的錯誤訊息。'
   }
 }

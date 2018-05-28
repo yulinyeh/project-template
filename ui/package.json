@@ -1,32 +1,43 @@
 {
   "name": "project-template",
   "version": "1.0.0",
-  "description": "基金以議題的方式作分類，簡易列表及查詢。",
+  "description": "",
   "author": "FundRich 基富通",
   "private": true,
   "dependencies": {
-    "@nuxtjs/pwa": "latest",
-    "hamburgers": "latest",
-    "lodash": "latest",
     "normalize.css": "latest",
-    "nuxt": "latest",
-    "uuid": "latest"
+    "nuxt": "latest"
   },
   "scripts": {
-    "dev": "NODE_ENV=development HOST=172.18.1.82 PORT=3000 nuxt",
-    "build": "NODE_ENV=production HOST=www.fundrich.com.tw nuxt build",
-    "start": "nuxt start",
-    "generate": "NODE_ENV=production HOST=www.fundrich.com.tw nuxt generate",
+    "dev": "cross-env NODE_ENV=development HOST=172.18.1.82 PORT=3000 SERVER=dev nuxt",
+    "build-sit": "cross-env NODE_ENV=production HOST=0.0.0.0 PORT=3333 SERVER=sit nuxt build",
+    "build-uat": "cross-env NODE_ENV=production HOST=0.0.0.0 PORT=3333 SERVER=uat nuxt build",
+    "build-prod": "cross-env NODE_ENV=production HOST=0.0.0.0 PORT=3333 SERVER=prod nuxt build",
+    "start-sit": "cross-env HOST=0.0.0.0 PORT=3333 SERVER=sit pm2 start ./node_modules/nuxt/bin/nuxt-start --instances 1 --name theme-fund",
+    "start-uat": "cross-env HOST=0.0.0.0 PORT=3333 SERVER=uat pm2 start ./node_modules/nuxt/bin/nuxt-start --instances 1 --name theme-fund",
+    "start-prod": "cross-env HOST=0.0.0.0 PORT=3333 SERVER=prod pm2 start ./node_modules/nuxt/bin/nuxt-start --instances 1 --name theme-fund",
+    "restart-sit": "pm2 restart theme-fund",
+    "restart-uat": "pm2 restart theme-fund",
+    "restart-prod": "pm2 restart theme-fund",
+    "delete-sit": "pm2 delete theme-fund",
+    "delete-uat": "pm2 delete theme-fund",
+    "delete-prod": "pm2 delete theme-fund",
+    "generate-sit": "NODE_ENV=production SERVER=sit nuxt generate",
+    "generate-uat": "NODE_ENV=production SERVER=uat nuxt generate",
+    "generate-prod": "NODE_ENV=production SERVER=prod nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
   },
   "devDependencies": {
+    "ajv": "latest",
     "babel-eslint": "latest",
     "cross-env": "latest",
     "eslint": "latest",
     "eslint-config-standard": "latest",
     "eslint-loader": "latest",
     "eslint-plugin-html": "latest",
+    "eslint-plugin-import": "latest",
+    "eslint-plugin-node": "latest",
     "eslint-plugin-promise": "latest",
     "eslint-plugin-standard": "latest",
     "node-sass": "latest",
@@ -35,7 +46,7 @@
     "sass-loader": "latest"
   },
   "engines": {
-    "node": "8.9.4",
+    "node": "8.11.2",
     "npm": "5.6.0"
   }
 }
