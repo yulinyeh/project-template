@@ -130,10 +130,15 @@ module.exports = {
   */
   modules: [
     // 自製 modules 時機：會利用到 NUXT 的 life circle, 或是想把一些邏輯當範本使用
+    '@nuxtjs/axios'
     // '@nuxtjs/pwa',
     // '@/modules/tapable',
     // '@/modules/custom-loaders'
   ],
+  axios: {
+    baseURL: axiosBaseURL[process.env.SERVER][0],
+    browserBaseURL: axiosBaseURL[process.env.SERVER][1]
+  },
   /*
   ** Single page application is served under "./"
   */

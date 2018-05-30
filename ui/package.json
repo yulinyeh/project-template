@@ -5,6 +5,7 @@
   "author": "FundRich 基富通",
   "private": true,
   "dependencies": {
+    "@nuxtjs/axios": "latest",
     "normalize.css": "latest",
     "nuxt": "latest"
   },
