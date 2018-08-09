@@ -160,12 +160,12 @@ module.exports = {
     csp: true
   },
   messages: {
-    error_404: '查無此頁面資訊',
-    server_error: '伺服器異常',
     nuxtjs: 'Nuxt.js',
-    back_to_home: '返回首頁',
-    server_error_details: '此應用發生錯誤，因此頁面無法提供服務。如果您是此應用的所有者，可從 log 查訊更詳盡的錯誤訊息。',
-    client_error: '錯誤',
-    client_error_details: '產生此頁面時發生錯誤。可從開發者工具查閱更詳細的錯誤訊息。'
+    server_error: '網站忙碌中',
+    server_error_details: '目前網站訪客過多，請按F5重新整理或稍後再試，敬請見諒。',
+    client_error: '網站忙碌中',
+    client_error_details: '目前網站訪客過多，請按F5重新整理或稍後再試，敬請見諒。',
+    error_404: '您所前往的頁面並不存在，請返回基富通首頁重新查詢。',
+    back_to_home: '返回首頁'
   }
 }

@@ -25,7 +25,7 @@
         // 或是用類似
         // this.$route.query.list ? this.$route.query.list : ''
         // 的方式， list 這個變數有異動，才更新
-        return this.$route.query.list ? this.$route.query.list : ''
+        return this.$route.name
       }
     },
     components: {
