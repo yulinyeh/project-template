@@ -1,10 +1,10 @@
 @font-face
-  font-family: custom-font
+  font-family: Custom
   src: local(source-han-sans-traditional), local("Noto Sans CJK TC"), local("Microsoft JhengHei UI"), local("Microsoft JhengHei"), local("PingFang TC"), local("Heiti TC")
   unicode-range: U+4E00-9FFF
 @font-face
-  font-family: custom-font
-  src: local(Raleway), local(Arial), local(sans-serif)
+  font-family: Custom
+  src: local(Roboto), local(Arial), local(sans-serif)
   unicode-range: U+00-024F
 *,
 *:before,
@@ -21,11 +21,19 @@ html
   font-size: $root-font-size * 1px
 body,
 button,
-input,
-optgroup,
 select,
+optgroup,
+input,
 textarea
-  font-family: custom-font
+  font-family: Custom
++media
+  body,
+  button,
+  select,
+  optgroup,
+  input,
+  textarea
+    font-family: Roboto, "Noto Sans TC", Custom
 body
   line-height: 1.6
   margin: 0
