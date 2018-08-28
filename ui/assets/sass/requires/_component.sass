@@ -1,0 +1,64 @@
+.tb
+  width: 100%
+  border-collapse: collapse
+.th,
+.td
+  padding: 0
+.primary-btn
+  font-size: 16 / $root-font-size * 1rem
+  background-color: map-get($color, "ci-golden")
+  color: white
+  border: solid 1px transparent
+  border-radius: 4px
+  &.link
+    color: white
+  +media
+    &:hover
+      background-color: mix(map-get($color, "ci-golden"), black, 80%)
+.icon-lbl,
+.icon-btn
+  position: relative
+  padding: 0 16px 0 calc(8px + #{24 / $root-font-size * 1rem} + 8px)
+  border: solid 1px map-get($color, "light-blue-grey")
+  border-radius: 6px
+  font-size: 16 / $root-font-size * 1rem
+  white-space: nowrap
+  text-align: left
+  .img
+    position: absolute
+    top: 50%
+    left: 8px
+    transform: translateY(-50%)
+    width: 24 / $root-font-size * 1rem
+    height: 24 / $root-font-size * 1rem
+.icon-lbl
+  padding-left: 0
+  padding-right: 0
+  background-color: white
+  transition: border .4s
+  .inp,
+  .ddl
+    background-color: transparent
+    padding-left: calc(8px + #{24 / $root-font-size * 1rem} + 8px)
+    height: 42 / $root-font-size * 1rem
+  .img
+    pointer-events: none
+  &.active
+    border-color: map-get($color, "ci-golden")
+    .inp
+      border-color: transparent
+.icon-btn
+  .text
+    display: block
+    width: 100%
+    overflow: hidden
+.rr-1-color
+  color: map-get($color, "apple-green")
+.rr-2-color
+  color: map-get($color, "deep-sky-blue")
+.rr-3-color
+  color: map-get($color, "yellow-orange")
+.rr-4-color
+  color: map-get($color, "red-orange")
+.rr-5-color
+  color: map-get($color, "cherry-red")
