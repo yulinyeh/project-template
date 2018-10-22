@@ -16,11 +16,11 @@ export default ({ app }) => {
 
   app.router.afterEach((to, from) => {
     // 因為網頁標題沒有更新的很即時，所以延遲一下發送
-    // window.setTimeout(() => {
-    //   window.gtag('config', 'UA-75421763-13', { 'page_title': window.document.title, 'page_path': to.path }) // 安裝第一個 Google Analytics 與送出 PageView
-    //   window.gtag('config', 'UA-75421763-1', { 'page_title': window.document.title, 'page_path': to.path }) // 安裝第二個 Google Analytics 與送出 PageView
-    // }, 512)
-    // window.gtag('config', 'AW-858679249') // 安裝 Google Adwords
-    // window.gtag('event', 'conversion', { 'send_to': 'AW-858679249/-STTCPaxg3sQ0c-5mQM' }) // 送出 Google Adwords 事件
+    window.setTimeout(() => {
+      window.gtag('config', 'UA-75421763-17', { page_title: window.document.title, page_location: to.path }) // 安裝第一個 Google Analytics 與送出 PageView
+      window.gtag('config', 'UA-75421763-1', { page_title: window.document.title, page_location: to.path }) // 安裝第二個 Google Analytics 與送出 PageView
+    }, 512)
+    window.gtag('config', 'AW-858679249') // 安裝 Google Adwords
+    window.gtag('event', 'conversion', { send_to: 'AW-858679249/-STTCPaxg3sQ0c-5mQM' }) // 送出 Google Adwords 事件
   })
 }
