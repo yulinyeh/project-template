@@ -1,53 +1,43 @@
 {
-  "name": "project-template",
+  "name": "feature-open-account",
   "version": "1.0.0",
-  "description": "",
-  "author": "FundRich 基富通",
+  "description": "系統名稱",
+  "author": "yulinyeh",
   "private": true,
-  "dependencies": {
-    "@nuxtjs/axios": "latest",
-    "normalize.css": "latest",
-    "nuxt": "latest"
-  },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development HOST=172.18.1.82 PORT=3000 SERVER=dev nuxt",
-    "build-sit": "cross-env NODE_ENV=production HOST=0.0.0.0 PORT=3333 SERVER=sit nuxt build",
-    "build-uat": "cross-env NODE_ENV=production HOST=0.0.0.0 PORT=3333 SERVER=uat nuxt build",
-    "build-prod": "cross-env NODE_ENV=production HOST=0.0.0.0 PORT=3333 SERVER=prod nuxt build",
-    "start-sit": "cross-env HOST=0.0.0.0 PORT=3333 SERVER=sit pm2 start ./node_modules/nuxt/bin/nuxt-start --instances 1 --name theme-fund",
-    "start-uat": "cross-env HOST=0.0.0.0 PORT=3333 SERVER=uat pm2 start ./node_modules/nuxt/bin/nuxt-start --instances 1 --name theme-fund",
-    "start-prod": "cross-env HOST=0.0.0.0 PORT=3333 SERVER=prod pm2 start ./node_modules/nuxt/bin/nuxt-start --instances 1 --name theme-fund",
-    "restart-sit": "pm2 restart theme-fund",
-    "restart-uat": "pm2 restart theme-fund",
-    "restart-prod": "pm2 restart theme-fund",
-    "delete-sit": "pm2 delete theme-fund",
-    "delete-uat": "pm2 delete theme-fund",
-    "delete-prod": "pm2 delete theme-fund",
+    "dev": "cross-env HOST=192.168.1.108 PORT=3000 NODE_ENV=development SERVER=dev nuxt",
+    "build-sit": "cross-env HOST=0.0.0.0 PORT=3333 NODE_ENV=production SERVER=sit nuxt build",
+    "build-uat": "cross-env HOST=0.0.0.0 PORT=3333 NODE_ENV=production SERVER=uat nuxt build",
+    "build-pre": "cross-env HOST=0.0.0.0 PORT=3333 NODE_ENV=production SERVER=pre nuxt build",
+    "build-prod": "cross-env HOST=0.0.0.0 PORT=3333 NODE_ENV=production SERVER=prod nuxt build",
+    "start-sit": "cross-env HOST=0.0.0.0 PORT=3333 SERVER=sit nuxt start",
+    "start-uat": "cross-env HOST=0.0.0.0 PORT=3333 SERVER=uat nuxt start",
+    "start-pre": "cross-env HOST=0.0.0.0 PORT=3333 SERVER=pre nuxt start",
+    "start-prod": "cross-env HOST=0.0.0.0 PORT=3333 SERVER=prod nuxt start",
     "generate-sit": "NODE_ENV=production SERVER=sit nuxt generate",
     "generate-uat": "NODE_ENV=production SERVER=uat nuxt generate",
+    "generate-pre": "NODE_ENV=production SERVER=pre nuxt generate",
     "generate-prod": "NODE_ENV=production SERVER=prod nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
   },
-  "devDependencies": {
-    "ajv": "latest",
-    "babel-eslint": "latest",
+  "dependencies": {
+    "@nuxtjs/axios": "latest",
+    "@nuxtjs/pwa": "latest",
     "cross-env": "latest",
-    "eslint": "latest",
-    "eslint-config-standard": "latest",
-    "eslint-loader": "latest",
-    "eslint-plugin-html": "latest",
-    "eslint-plugin-import": "latest",
-    "eslint-plugin-node": "latest",
-    "eslint-plugin-promise": "latest",
-    "eslint-plugin-standard": "latest",
-    "node-sass": "latest",
-    "pug": "latest",
-    "pug-loader": "latest",
-    "sass-loader": "latest"
+    "normalize.css": "latest",
+    "nuxt": "latest"
   },
-  "engines": {
-    "node": "8.11.2",
-    "npm": "5.6.0"
+  "devDependencies": {
+    "acorn": "latest",
+    "babel-eslint": "latest",
+    "eslint": "latest",
+    "eslint-loader": "latest",
+    "eslint-plugin-vue": "latest",
+    "node-sass": "latest",
+    "nodemon": "latest",
+    "pug": "latest",
+    "pug-plain-loader": "latest",
+    "sass-loader": "latest"
   }
 }

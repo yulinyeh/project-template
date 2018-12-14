@@ -1,11 +1,11 @@
-export default ({ app, route }) => {
+export default ({ app }) => {
   if (process.env.NODE_ENV !== 'production') return false
   window.fbAsyncInit = function () {
     window.FB.init({
       appId: process.env.fbAppID,
       autoLogAppEvents: true,
       xfbml: true,
-      version: 'v2.11'
+      version: 'v3.2'
     })
   };
   ((d, s, id) => {
@@ -17,7 +17,8 @@ export default ({ app, route }) => {
     fjs.parentNode.insertBefore(js, fjs)
   })(document, 'script', 'facebook-jssdk')
 
-  app.router.afterEach((to, from) => {
+  app.router.afterEach(() => {
+    // 不會監聽 History State API 事件, 要自己發送
     if (window.FB) window.FB.AppEvents.logPageView() // 送出 Facebook SDK PageView
   })
 }

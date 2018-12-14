@@ -1,9 +1,22 @@
-# 專案樣板
+# feature-open-account
 
-> 前端開發資料夾為 `/ui`  
-> 使用 [NUXT](https://nuxtjs.org/) framework
+> 系統名稱
 
-## 開發說明
+## Build Setup
 
-`/ui` 為前端所使用的資料夾，後端及假資料可在同層級另外新增目錄。  
-前端開發指令可至 `/ui` 資料夾中觀看 **README.md**。
+``` bash
+# install dependencies
+$ npm install
+
+# serve with hot reload at localhost:3000
+$ npm run dev
+
+# build for production and launch server
+$ npm run build
+$ npm start
+
+# generate static project
+$ npm run generate
+```
+
+For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).

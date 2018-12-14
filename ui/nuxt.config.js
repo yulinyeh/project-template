@@ -1,79 +1,69 @@
-// https://github.com/nuxt/nuxt.js/blob/dev/lib/common/options.js#L170
-// console.log(process.env.NODE_ENV) // npm run dev: 'development', npm run build: 'production', npm run generate: 'production'
-// const webpack = require('webpack')
+const routerBase = ''
 const fbAppID = process.env.SERVER === 'prod' ? '1061200460616036' : '331606597252844'
 const fbAdmins = 286133171723936
+const utmCampaign = 'open_account'
 const serverHostname = {
-  dev: 'http://172.18.1.82:3000',
-  sit: 'http://testwebawslb.event-fundrich.com',
-  uat: 'http://testsite.fundrich.com.tw',
-  prod: 'https://www.fundrich.com.tw'
+  dev: 'https://www.fundrich.com.tw', // 開發環境
+  sit: 'https://testwebawslb.fundrich-event.com', // 系統集成測試（AWS）
+  uat: 'http://testweb.fundrich.com.tw', // 用戶驗收測試（業演）
+  pre: 'http://testsite.fundrich.com.tw', // 正式環境（竹北）
+  prod: 'https://www.fundrich.com.tw' // 正式環境
 }
 const axiosBaseURL = {
-  dev: ['http://testwebapisaws.event-fundrich.com', 'http://testwebapisawslb.event-fundrich.com'], // 前為 server 內部位置, 後為 client 外部位置
-  sit: ['http://testwebapisaws.event-fundrich.com', 'http://testwebapisawslb.event-fundrich.com'],
-  uat: ['http://172.18.22.100:80/FRSWebApi', 'http://testapis.fundrich.com.tw'],
-  prod: ['http://172.18.22.100:80/FRSWebApi', 'https://apis.fundrich.com.tw']
+  dev: ['https://www.fundrich.com.tw/', 'https://www.fundrich.com.tw/'], // 前為 server 內部位置, 後為 client 外部位置
+  sit: ['http://testwebapisaws.fundrich-event.com/', '/'],
+  uat: ['http://172.18.22.100/', '/'],
+  pre: ['http://172.18.22.100/', '/'],
+  prod: ['http://172.18.22.100/', '/']
 }
-const routerBase = '/'
+
 module.exports = {
+  mode: 'universal',
+
   /*
-  ** Build configuration
-  */
-  build: {
-    // analyze: true,
-    extractCSS: true,
-    // vendor: ['uuid/v1'], // 會被包在 common.[hash].js 裡面
-    plugins: [
-      // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // 使用 moment without locale
-      // new webpack.optimize.CommonsChunkPlugin({ // 在各 .vue 裡可視情況分類套件並載入
-      //   async: 'common-in-lazy',
-      //   minChunks: ({ resource } = {}) => (
-      //     resource &&
-      //     resource.includes('node_modules') &&
-      //     (/jquery/.test(resource) || /velocity-animate/.test(resource))
-      //   )
-      // })
-    ]
-  },
-  /*
-  ** Create environment variables that will be shared for the client and server-side.
-  ** 可在此設定任何參數, 任何一處 .js 都可利用 process.env 取得設定
-  ** 但要注意不可以直接在 pug 中使用, 因為 pug 是預設使用 this 中的資料
-  ** 必須要先在 data 中建立參數, 再把 process.env 中的參數指定到 data 中
-  */
+   * Create environment variables that will be shared for the client and server-side.
+   */
   env: {
     nodeServer: process.env.SERVER,
     fbAppID,
     serverHostname,
     routerBase
   },
+
   /*
-  ** Headers
-  ** Common headers are already provided by @nuxtjs/pwa preset
+  ** Headers of the page
   */
   head: {
     titleTemplate: '%s - FundRich 基富通',
-    title: '',
+    title: '網頁標題',
     htmlAttrs: {
       lang: 'zh-Hant-TW',
       prefix: 'og: http://ogp.me/ns#'
     },
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' },
-      { rel: 'icon', type: 'image/png', href: 'favicon.png' }
+      { rel: 'icon', type: 'image/x-icon', href: `${routerBase}/favicon.ico` },
+      { rel: 'icon', type: 'image/png', href: `${routerBase}/favicon.png` },
+      { rel: 'apple-touch-startup-image', href: `${routerBase}/launch-640x1136.png`, media: '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: `${routerBase}/launch-750x1294.png`, media: '(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: `${routerBase}/launch-1242x2148.png`, media: '(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: `${routerBase}/launch-1125x2436.png`, media: '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: `${routerBase}/launch-1536x2048.png`, media: '(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: `${routerBase}/launch-1668x2224.png`, media: '(min-device-width: 834px) and (max-device-width: 834px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: `${routerBase}/launch-2048x2732.png`, media: '(min-device-width: 1024px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)' }
     ],
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
-      { hid: 'keywords', name: 'keywords', content: '' },
-      { hid: 'description', name: 'description', content: '' },
+      { name: 'apple-mobile-web-app-capable', content: 'yes' },
+      { name: 'apple-mobile-web-app-status-bar-style', content: 'white' },
+      { hid: 'keywords', name: 'keywords', content: '基富通,買基金,折扣優惠' },
+      { hid: 'description', name: 'description', content: '基富通提供股票基金、債券基金、配息基金，等超過二千多級別的基金商品！並有基金淨值、基金搜尋、基金排行、智能理財多種投資理財工具，是您定期定額、單筆基金投資的好選擇！' },
       { property: 'og:type', content: 'website' },
       { property: 'og:site_name', content: 'FundRich 基富通 - 網路基金銷售平台' },
-      { hid: 'og:url', property: 'og:url', content: `${serverHostname[process.env.SERVER]}${routerBase}` },
-      { hid: 'og:title', property: 'og:title', content: '' },
-      { hid: 'og:description', property: 'og:description', content: '' },
-      { hid: 'og:image', property: 'og:image', content: `${serverHostname[process.env.SERVER]}${routerBase}og.jpg` },
+      { hid: 'og:url', property: 'og:url', content: `${serverHostname[process.env.SERVER]}${routerBase || '/'}` },
+      { hid: 'og:title', property: 'og:title', content: '網頁標題 - FundRich 基富通' },
+      { hid: 'og:description', property: 'og:description', content: '基富通提供股票基金、債券基金、配息基金，等超過二千多級別的基金商品！並有基金淨值、基金搜尋、基金排行、智能理財多種投資理財工具，是您定期定額、單筆基金投資的好選擇！' },
+      { hid: 'og:image', property: 'og:image', content: `${serverHostname[process.env.SERVER]}${routerBase}/og.jpg` },
       { hid: 'og:image:type', property: 'og:image:type', content: 'image/jpeg' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '628' },
@@ -81,72 +71,77 @@ module.exports = {
       { property: 'fb:admins', content: fbAdmins },
       { property: 'fb:pages', content: fbAdmins },
       { 'http-equiv': 'cache-control', content: 'max-age=900' } // 活動站需要時時更新，從 client 端指定沒有 cache 週期
-    ]
+    ],
+    script: [
+      { hid: 'global-variable', type: 'text/javascript', innerHTML: `var MAGIC_DOMAIN = '${serverHostname[process.env.SERVER]}'; var MAGIC_DOMAIN_API = '${axiosBaseURL[process.env.SERVER][1]}';`, body: true }
+    ],
+    __dangerouslyDisableSanitizersByTagID: { 'global-variable': ['innerHTML'] }
   },
+
   /*
   ** Customize the progress-bar color
   */
   loading: { color: '#ba9764' },
+
   /*
-  ** Customize app manifest
-  */
+   ** Customize app manifest
+   */
   meta: {
     ogTitle: false, // 設定為 false，就不會跟頁面中的 head: { meta: [{ hid: 'og:title' }] } 資訊重複
     ogDescription: false // 設定為 false，就不會跟頁面中的 head: { meta: [{ hid: 'og:description' }] } 資訊重複
   },
   manifest: {
-    start_url: `${serverHostname[process.env.SERVER]}${routerBase}?utm_source=web_app_manifest&utm_campaign=${routerBase}`,
-    name: '',
-    short_name: '',
+    start_url: `${serverHostname[process.env.SERVER]}${routerBase || '/'}?utm_source=web_app_manifest&utm_campaign=${utmCampaign}`,
+    name: '基富通系統名稱',
+    short_name: '系統名稱',
     display: 'standalone',
     background_color: '#ffffff', // splash screen 背景色
     theme_color: '#ba9764', // 狀態列顏色
     orientation: 'portrait', // portrait: 直式, landscape: 橫式
-    description: '',
+    description: '系統化整理基富通所有基金',
     lang: 'zh-Hant-TW',
-    publicPath: `${routerBase}_nuxt/`
-    // workbox: {}
+    publicPath: `${routerBase}/_nuxt`
   },
+
   /*
-  ** CSS
+  ** Global CSS
   */
-  css: [
-    'normalize.css',
-    '@/assets/sass/main.sass'
-  ],
+  css: ['normalize.css', '@/assets/sass/main.sass'],
+
   /*
-  ** Plugins
+  ** Plugins to load before mounting the App
   */
   plugins: [
-    // 這裡只是註明 server 會不會用到這些 plugins, 為了省記憶體
-    // 如果沒有將套件寫在 vendor 的設定裡, 就是包在各自的頁面裡
-    // 除非利用 webpack.optimize.CommonsChunkPlugin, 才會再包在 common-in-lazy.[hash].js 裡
-    { src: '@/plugins/web-font-loader', ssr: false }
-    // { src: '@/plugins/global-site-tag', ssr: false },
-    // { src: '@/plugins/facebook-pixel', ssr: false },
-    // { src: '@/plugins/facebook-sdk', ssr: false }
+    { src: '@/plugins/facebook-sdk', ssr: false },
+    { src: '@/plugins/google-sdk', ssr: false },
+    { src: '@/plugins/facebook-pixel', ssr: false }
   ],
+
   /*
-  ** Modules
+  ** Nuxt.js modules
   */
   modules: [
-    // 自製 modules 時機：會利用到 NUXT 的 life circle, 或是想把一些邏輯當範本使用
-    '@nuxtjs/axios'
-    // '@nuxtjs/pwa',
-    // '@/modules/tapable',
-    // '@/modules/custom-loaders'
+    // Doc: https://github.com/nuxt-community/axios-module#usage
+    '@nuxtjs/axios',
+    ['@nuxtjs/pwa', { workbox: false }]
   ],
+  /*
+  ** Axios module configuration
+  */
   axios: {
+    // See https://github.com/nuxt-community/axios-module#options
     baseURL: axiosBaseURL[process.env.SERVER][0],
     browserBaseURL: axiosBaseURL[process.env.SERVER][1]
   },
+
   /*
-  ** Single page application is served under "./"
-  */
+   * Single page application is served under "./"
+   */
   router: { base: routerBase },
+
   /*
-  ** Customize runtime options for rendering pages
-  */
+   * Customize runtime options for rendering pages
+   */
   cache: {
     maxAge: 60 * 15
   },
@@ -155,18 +150,31 @@ module.exports = {
     // bundleRenderer: {
     //   shouldPreload: (file, type) => ['script', 'style', 'font'].includes(type)
     // },
-    http2: { push: true, shouldPush: (file, type) => type === 'script' },
+    http2: { push: true, pushAssets: (req, res, publicPath, preloadFiles) => preloadFiles
+      .filter(f => f.asType === 'script' && f.file === 'runtime.js')
+      .map(f => `<${publicPath}${f.file}>; rel=preload; as=${f.asType}`) },
     static: { maxAge: 60 * 15 },
-    gzip: { threshold: 9 },
-    csp: true
+    compressor: { threshold: 9 },
+    csp: false
   },
-  messages: {
-    nuxtjs: 'Nuxt.js',
-    server_error: '網站忙碌中',
-    server_error_details: '目前網站訪客過多，請按F5重新整理或稍後再試，敬請見諒。',
-    client_error: '網站忙碌中',
-    client_error_details: '目前網站訪客過多，請按F5重新整理或稍後再試，敬請見諒。',
-    error_404: '您所前往的頁面並不存在，請返回基富通首頁重新查詢。',
-    back_to_home: '返回首頁'
+
+  /*
+  ** Build configuration
+  */
+  build: {
+    /*
+    ** You can extend webpack config here
+    */
+    extend(config, ctx) {
+      // Run ESLint on save
+      if (ctx.isDev && ctx.isClient) {
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /(node_modules)/
+        })
+      }
+    }
   }
 }

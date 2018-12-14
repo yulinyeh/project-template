@@ -16,10 +16,11 @@ export default ({ app }) => {
     s = b.getElementsByTagName(e)[0]
     s.parentNode.insertBefore(t, s)
   })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js')
-  // window.fbq('init', '1691931001077188') // 安裝 Facebook Pixel
+  window.fbq('init', '1691931001077188') // 安裝 Facebook Pixel
+  // 會監聽 History State API 事件, 送一次之後, 之後會自己送
+  window.fbq('track', 'PageView') // 送出 Facebook Pixel PageView
+  window.fbq('trackCustom', 'Overview_01_CS_PV')
 
-  app.router.afterEach((to, from) => {
-    // window.fbq('track', 'PageView') // 送出 Facebook Pixel PageView
-    // window.fbq('trackCustom', 'YearEnd_01_CS_PV') // 送出 Facebook Pixel 事件
+  app.router.afterEach(() => {
   })
 }
