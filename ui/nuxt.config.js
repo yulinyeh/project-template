@@ -165,6 +165,21 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
+    // analyze: true,
+    // optimization: { // 目前 Nuxt.js 會自己將模組綁在一起, 但如果還是想要將些許模組放到另一個檔案, 可以參照以下設定
+    //   minimize: true,
+    //   minimizer: [],
+    //   splitChunks: {
+    //     automaticNameDelimiter: '.',
+    //     cacheGroups: {
+    //       commons: {
+    //         test: /[\\/]node_modules[\\/](velocity-animate|jquery)[\\/]/,
+    //         name: 'common-in-lazy',
+    //         chunks: 'all',
+    //       }
+    //     }
+    //   }
+    // },
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
