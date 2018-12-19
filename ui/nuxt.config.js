@@ -1,7 +1,7 @@
 const routerBase = ''
 const fbAppID = process.env.SERVER === 'prod' ? '1061200460616036' : '331606597252844'
 const fbAdmins = 286133171723936
-const utmCampaign = 'open_account'
+const utmCampaign = 'project_name'
 const serverHostname = {
   dev: 'https://www.fundrich.com.tw', // 開發環境
   sit: 'https://testwebawslb.fundrich-event.com', // 系統集成測試（AWS）
