@@ -6,6 +6,6 @@ main.page-index 首頁
 export default {
   name: 'PagesIndex'
 }
-<script>
+</script>
 
 <style lang="sass" scoped src="@/assets/sass/pages/index.sass" />
