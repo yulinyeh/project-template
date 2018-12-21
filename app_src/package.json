@@ -16,15 +16,19 @@
     "url": "https://github.com/edenyeh/MyInitialProject/issues"
   },
   "devDependencies": {
+    "babel": "latest",
+    "babel-preset-es2015": "latest",
+    "babel-preset-minify": "latest",
     "browser-sync": "latest",
     "del": "latest",
-    "gulp": "latest",
+    "gulp": "3.x",
     "gulp-flatten": "latest",
     "gulp-imagemin": "latest",
     "gulp-notify": "latest",
     "gulp-plumber": "latest",
     "gulp-pug": "latest",
     "gulp-util": "latest",
+    "jstransformer-babel": "latest",
     "jstransformer-sass": "latest"
   },
   "dependencies": {
