@@ -18,7 +18,6 @@
   "devDependencies": {
     "babel": "latest",
     "babel-preset-es2015": "latest",
-    "babel-preset-minify": "latest",
     "browser-sync": "latest",
     "del": "latest",
     "gulp": "3.x",
@@ -29,7 +28,8 @@
     "gulp-pug": "latest",
     "gulp-util": "latest",
     "jstransformer-babel": "latest",
-    "jstransformer-sass": "latest"
+    "jstransformer-sass": "latest",
+    "jstransformer-uglify-js": "latest"
   },
   "dependencies": {
     "jquery": "latest"
