@@ -89,8 +89,14 @@ gulp.task('default', ['connect:dev', 'pug:dev'], function () {
   gulp.watch(filesPugTemplate, function (e) {
     pug2html(filesPug);
   });
-  gulp.watch(['sass/*.sass'], function (e) {
-    pug2html(e.path.replace('/app_src/sass/', '/app_src/pug/pages/').replace('.sass', '.pug'));
+  gulp.watch(['sass/*.sass', 'js/*.js'], function (e) {
+    pug2html(e
+      .path
+      .replace('/app_src/sass/', '/app_src/pug/pages/')
+      .replace('/app_src/js/', '/app_src/pug/pages/')
+      .replace('.sass', '.pug')
+      .replace('.js', '.pug')
+    );
   });
   gulp.watch(['sass/requires/*.sass'], function (e) {
     pug2html(filesPug);
