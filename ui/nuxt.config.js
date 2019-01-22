@@ -157,6 +157,15 @@ module.exports = {
     compressor: { threshold: 9 },
     csp: false
   },
+  messages: {
+    nuxtjs: 'Nuxt.js',
+    server_error: '網站忙碌中',
+    server_error_details: '目前網站訪客過多，請按F5重新整理或稍後再試，敬請見諒。',
+    client_error: '網站忙碌中',
+    client_error_details: '目前網站訪客過多，請按F5重新整理或稍後再試，敬請見諒。',
+    error_404: '您所前往的頁面並不存在，請返回基富通首頁重新查詢。',
+    back_to_home: '返回首頁'
+  },
 
   /*
   ** Build configuration
@@ -181,6 +190,7 @@ module.exports = {
     //   }
     // },
     extend(config, ctx) {
+      config.node = { fs: 'empty' }
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
