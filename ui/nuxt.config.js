@@ -112,6 +112,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '@/plugins/mixin' },
     { src: '@/plugins/facebook-sdk', ssr: false },
     { src: '@/plugins/google-sdk', ssr: false },
     { src: '@/plugins/facebook-pixel', ssr: false }
