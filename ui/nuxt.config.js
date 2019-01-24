@@ -27,7 +27,24 @@ module.exports = {
     nodeServer: process.env.SERVER,
     fbAppID,
     serverHostname,
-    routerBase
+    routerBase,
+    staticURL: {
+      checkOut: '/FundWeb/Cart/Cart_Step01.aspx',
+      watchList: '/FundWeb/Review/WatchList.aspx',
+      fundInfo: '/fund.html?id=',
+      signIn: '/login.html?redirect='
+    },
+    axios: {
+      serverBaseURL: axiosBaseURL[process.env.SERVER][0],
+      clientBaseURL: axiosBaseURL[process.env.SERVER][1],
+      getMenu: '/ThemeFund/MenuDataInfo',
+      getFilter: '/ThemeFund/FilterDataInfo',
+      getTrending: '/ThemeFund/HotKeywords',
+      getSuggestion: '/ThemeFund/KwSuggestion',
+      postFunds: '/ThemeFund/FundsDataInfo',
+      getWatchingList: '/default/v1/users/watchFunds',
+      postWatchingList: '/default/v1/users/watchFunds'
+    }
   },
 
   /*

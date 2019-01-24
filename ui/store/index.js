@@ -7,8 +7,16 @@ const createStore = () => {
     modules: {
       common
     },
-    state: {},
-    getters: {},
+    state: {
+      hostname: '', // 用於 Structured Data 的絕對路徑
+      isIE11: false // 是否為 ie11
+    },
+    getters: {
+      gtagEventCategory: (state, getters) => {
+        // return (state.route.params && state.route.params.list && state.route.params.list.length > 0) ? `${process.env.routerBase}/${state.route.params.list}` : process.env.routerBase
+        return process.env.routerBase
+      }
+    },
     mutations: {
       setHostname (state, value) {
         state.hostname = value

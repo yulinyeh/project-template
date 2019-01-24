@@ -1,5 +1,5 @@
 <template lang="pug">
-  .layout-default
+  .layout-default(@click="closeEverything($event)")
     .network-status(:class="{ 'is-offline': isOffline }")
       nuxt
       app-footer(:angel="{ name: 'Sachiel', color: '#0a3735' }")
