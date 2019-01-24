@@ -2,20 +2,17 @@ const routerBase = ''
 const fbAppID = process.env.SERVER === 'prod' ? '1061200460616036' : '331606597252844'
 const fbAdmins = 286133171723936
 const utmCampaign = 'project_name'
-const serverHostname = {
-  dev: 'https://www.fundrich.com.tw', // 開發環境
-  sit: 'https://testwebawslb.fundrich-event.com', // 系統集成測試（AWS）
-  uat: 'http://testweb.fundrich.com.tw', // 用戶驗收測試（業演）
-  pre: 'http://testsite.fundrich.com.tw', // 正式環境（竹北）
-  prod: 'https://www.fundrich.com.tw' // 正式環境
-}
-const axiosBaseURL = {
-  dev: ['https://www.fundrich.com.tw/', 'https://www.fundrich.com.tw/'], // 前為 server 內部位置, 後為 client 外部位置
-  sit: ['http://testwebapisaws.fundrich-event.com/', '/'],
-  uat: ['http://172.18.22.100/', '/'],
-  pre: ['http://172.18.22.100/', '/'],
-  prod: ['http://172.18.22.100/', '/']
-}
+const serverHostname = Object({
+  dev: 'https://www.fundrich.com.tw' // 開發環境、系統集成測試（AWS）、用戶驗收測試（業演）、正式環境（竹北）、正式環境
+}, require('../../common-elements/assets/js/data/server-hostname.json'))
+const axiosBaseURL = Object({
+  dev: ['https://www.fundrich.com.tw/', 'https://www.fundrich.com.tw/'] // 前為 server 內部位置, 後為 client 外部位置
+}, require('../../common-elements/assets/js/data/axios-base-url.json'))
+const staticURL = require('../../common-elements/assets/js/data/static-url.json')
+const axiosServiceURL = Object.assign({
+  serverBaseURL: axiosBaseURL[process.env.SERVER][0],
+  clientBaseURL: axiosBaseURL[process.env.SERVER][1]
+}, require('../../common-elements/assets/js/data/axios-service-url.json'))
 
 module.exports = {
   mode: 'universal',
@@ -24,27 +21,12 @@ module.exports = {
    * Create environment variables that will be shared for the client and server-side.
    */
   env: {
-    nodeServer: process.env.SERVER,
-    fbAppID,
-    serverHostname,
     routerBase,
-    staticURL: {
-      checkOut: '/FundWeb/Cart/Cart_Step01.aspx',
-      watchList: '/FundWeb/Review/WatchList.aspx',
-      fundInfo: '/fund.html?id=',
-      signIn: '/login.html?redirect='
-    },
-    axios: {
-      serverBaseURL: axiosBaseURL[process.env.SERVER][0],
-      clientBaseURL: axiosBaseURL[process.env.SERVER][1],
-      getMenu: '/ThemeFund/MenuDataInfo',
-      getFilter: '/ThemeFund/FilterDataInfo',
-      getTrending: '/ThemeFund/HotKeywords',
-      getSuggestion: '/ThemeFund/KwSuggestion',
-      postFunds: '/ThemeFund/FundsDataInfo',
-      getWatchingList: '/default/v1/users/watchFunds',
-      postWatchingList: '/default/v1/users/watchFunds'
-    }
+    fbAppID,
+    nodeServer: process.env.SERVER,
+    serverHostname,
+    staticURL,
+    axios: axiosServiceURL
   },
 
   /*
