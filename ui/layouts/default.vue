@@ -1,6 +1,8 @@
 <template lang="pug">
   .layout-default(@click="closeEverything($event)")
     .network-status(:class="{ 'is-offline': isOffline }")
+      app-header
+      shopping-list
       nuxt
       app-footer(:angel="{ name: 'Sachiel', color: '#0a3735' }")
       .loading-mask(v-show="isDataLoading")
@@ -12,17 +14,21 @@
 </template>
 
 <script>
+  import AppHeader from '../../../common-elements/components/app-header.vue'
   import AppFooter from '../../../common-elements/components/app-footer.vue'
   import DialogPopup from '../../../common-elements/components/popups/dialog-popup.vue'
   import ToastPopup from '../../../common-elements/components/popups/toast-popup.vue'
   import OnAirLight from '../../../common-elements/components/on-air-light.vue'
+  import ShoppingList from '../../../common-elements/components/shopping-list.vue'
   export default {
     name: 'LayoutsDefault',
     components: {
+      AppHeader,
       AppFooter,
       DialogPopup,
       ToastPopup,
-      OnAirLight
+      OnAirLight,
+      ShoppingList
     },
     data () {
       return {
