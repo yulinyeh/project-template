@@ -6,7 +6,7 @@ const serverHostname = Object({
   dev: 'https://www.fundrich.com.tw' // 開發環境、系統集成測試（AWS）、用戶驗收測試（業演）、正式環境（竹北）、正式環境
 }, require('../../common-elements/assets/js/data/server-hostname.json'))
 const axiosBaseURL = Object({
-  dev: ['https://www.fundrich.com.tw/', 'https://www.fundrich.com.tw/'] // 前為 server 內部位置, 後為 client 外部位置
+  dev: ['https://www.fundrich.com.tw', 'https://www.fundrich.com.tw'] // 前為 server 內部位置, 後為 client 外部位置
 }, require('../../common-elements/assets/js/data/axios-base-url.json'))
 const staticURL = require('../../common-elements/assets/js/data/static-url.json')
 const axiosServiceURL = Object.assign({
