@@ -1,6 +1,4 @@
-<template lang="pug">
-  include ../../../common-elements/assets/pug/layouts/error
-</template>
+<template lang="pug" src="../../../common-elements/assets/pug/layouts/error.pug" />
 
 <script>
   export default {
