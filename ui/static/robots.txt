@@ -2,7 +2,7 @@
 
 # 允許所有爬蟲爬所有頁面，一張頁面延遲30秒爬完再爬下一頁面
 User-agent: *
-Allow: /
+Disallow:
 Crawl-delay: 10
 
 # 不允許以下爬蟲來爬頁面
