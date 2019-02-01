@@ -1,11 +1,18 @@
 # www.robotstxt.org/
 
-# Allow crawling of all content
+# 允許所有爬蟲爬所有頁面，一張頁面延遲30秒爬完再爬下一頁面
 User-agent: *
-#Disallow:
+Allow: /
+Crawl-delay: 10
 
-# To exclude all robots from part of the server
-#User-agent: *
-#Disallow: /cgi-bin/
-#Disallow: /tmp/
-#Disallow: /junk/
+# 不允許以下爬蟲來爬頁面
+User-agent: AhrefsBot
+User-agent: Baiduspider
+User-agent: Ezooms
+User-agent: MJ12bot
+User-agent: YandexBot
+Disallow: /
+
+# Sitemap 檔案路徑
+Sitemap: https://www.fundrich.com.tw/sitemap.xml
+Sitemap: https://www.fundrich.com.tw/theme-fund/sitemap.xml
