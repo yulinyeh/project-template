@@ -73,7 +73,7 @@ module.exports = {
     ],
     script: [
       { hid: 'global-variable-magic', type: 'text/javascript', innerHTML: `var MAGIC_DOMAIN = '${serverHostname[process.env.SERVER]}'; var MAGIC_DOMAIN_API = '${axiosBaseURL[process.env.SERVER][1]}';`, body: true },
-      { hid: 'global-variable-twca',  type: 'text/javascript', innerHTML: `var twca_cn = 'www.fundrich.com.tw'`, body: true },
+      { hid: 'global-variable-twca',  type: 'text/javascript', innerHTML: `var twca_cn = 'www.fundrich.com.tw';`, body: true },
       { type: 'text/javascript', src: '//ssllogo.twca.com.tw/twcaseal_v3.js', body: true }
     ],
     __dangerouslyDisableSanitizersByTagID: { 'global-variable-magic': ['innerHTML'], 'global-variable-twca': ['innerHTML'] }
