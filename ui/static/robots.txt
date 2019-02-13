@@ -8,6 +8,7 @@ Crawl-delay: 10
 # 不允許以下爬蟲來爬頁面
 User-agent: AhrefsBot
 User-agent: Baiduspider
+User-Agent: Sogou web spider
 User-agent: Ezooms
 User-agent: MJ12bot
 User-agent: YandexBot
