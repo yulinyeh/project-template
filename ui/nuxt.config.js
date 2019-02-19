@@ -52,7 +52,7 @@ module.exports = {
     ],
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+      { name: 'viewport', content: 'width=device-width,initial-scale=1.0,viewport-fit=cover' },
       { name: 'apple-mobile-web-app-capable', content: 'yes' },
       { name: 'apple-mobile-web-app-status-bar-style', content: 'white' },
       { hid: 'keywords', name: 'keywords', content: '基富通,買基金,折扣優惠' },
