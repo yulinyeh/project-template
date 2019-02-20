@@ -3,7 +3,8 @@
     .network-status(:class="{ 'is-offline': isOffline }")
       app-header
       shopping-list
-      nuxt
+      //- ref="nuxt" 要保留，有 js 會用到此資源
+      nuxt(ref="nuxt")
       app-footer(:angel="{ name: 'Sachiel', color: '#0a3735' }")
       .loading-mask(v-show="isDataLoading")
       transition(name="v-delay")
