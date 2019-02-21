@@ -25,8 +25,11 @@
     "@nuxtjs/axios": "latest",
     "@nuxtjs/pwa": "latest",
     "cross-env": "latest",
+    "jquery": "latest",
+    "lodash": "latest",
     "normalize.css": "latest",
-    "nuxt": "latest"
+    "nuxt": "latest",
+    "velocity-animate": "latest"
   },
   "devDependencies": {
     "acorn": "latest",
