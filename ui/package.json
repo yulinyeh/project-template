@@ -24,6 +24,8 @@
   "dependencies": {
     "@nuxtjs/axios": "latest",
     "@nuxtjs/pwa": "latest",
+    "accounting": "latest",
+    "axios-extensions": "latest",
     "cross-env": "latest",
     "jquery": "latest",
     "lodash": "latest",

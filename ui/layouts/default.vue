@@ -3,6 +3,7 @@
     .network-status(:class="{ 'is-offline': isOffline }")
       .js-scroll-top
       app-header
+      auto-complete.desktop-component
       shopping-list
       //- ref="nuxt" 要保留，有 js 會用到此資源
       nuxt(ref="nuxt")
@@ -20,6 +21,7 @@
   import AppHeader from '../../../common-elements/components/app-header.vue'
   import AppFooter from '../../../common-elements/components/app-footer.vue'
   import ShoppingList from '../../../common-elements/components/shopping-list.vue'
+  import AutoComplete from '../../../common-elements/components/auto-complete.vue'
   import GoTop from '../../../common-elements//components/go-top.vue'
   import DialogPopup from '../../../common-elements/components/popups/dialog-popup.vue'
   import ToastPopup from '../../../common-elements/components/popups/toast-popup.vue'
@@ -35,6 +37,7 @@
       AppHeader,
       AppFooter,
       ShoppingList,
+      AutoComplete,
       GoTop,
       DialogPopup,
       ToastPopup,

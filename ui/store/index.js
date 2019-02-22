@@ -36,7 +36,7 @@ export const actions = {
     // Nuxt 事件紀錄
     const fs = require('fs')
     try {
-      fs.appendFile(`logs/theme-fund-nuxt-${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}.log`, `${Date()}    ${Date.now()}    NuxtServerInit${req ? '    ' + req.headers['user-agent'] : ''}\r\n`, err => { if (err) global.console.dir(err) })
+      fs.appendFile(`logs/project-name-nuxt-${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}.log`, `${Date()}    ${Date.now()}    NuxtServerInit${req ? '    ' + req.headers['user-agent'] : ''}\r\n`, err => { if (err) global.console.dir(err) })
     } catch (_error) { global.console.dir(_error) }
   }
 }
