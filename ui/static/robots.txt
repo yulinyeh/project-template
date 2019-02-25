@@ -1,18 +1,18 @@
-# www.robotstxt.org/
+# Robot Rules for: www.fundrich.com.tw
 
-# 允許所有爬蟲爬所有頁面，一張頁面延遲30秒爬完再爬下一頁面
 User-agent: *
 Disallow:
 
-# 不允許以下爬蟲來爬頁面
+# Block bad bots
 User-agent: AhrefsBot
 User-agent: Baiduspider
-User-Agent: Sogou web spider
 User-agent: Ezooms
 User-agent: MJ12bot
+User-Agent: Sogou web spider
 User-agent: YandexBot
+User-agent: ZoominfoBot
 Disallow: /
 
-# Sitemap 檔案路徑
+# Sitemap path
 Sitemap: https://www.fundrich.com.tw/sitemap.xml
 Sitemap: https://www.fundrich.com.tw/theme-fund/sitemap.xml
