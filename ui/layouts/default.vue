@@ -5,6 +5,7 @@
       app-header
       auto-complete.desktop-component
       shopping-list
+      breadcrumbs-trail(:breadcrumbs="breadcrumbs")
       //- ref="nuxt" 要保留，有 js 會用到此資源
       nuxt(ref="nuxt")
       app-footer(:angel="{ name: 'Sachiel', color: '#0a3735' }")
@@ -22,6 +23,7 @@
   import AppFooter from '../../../common-elements/components/app-footer.vue'
   import ShoppingList from '../../../common-elements/components/shopping-list.vue'
   import AutoComplete from '../../../common-elements/components/auto-complete.vue'
+  import BreadcrumbsTrail from '../../../common-elements/components/breadcrumbs-trail.vue'
   import GoTop from '../../../common-elements//components/go-top.vue'
   import DialogPopup from '../../../common-elements/components/popups/dialog-popup.vue'
   import ToastPopup from '../../../common-elements/components/popups/toast-popup.vue'
@@ -38,6 +40,7 @@
       AppFooter,
       ShoppingList,
       AutoComplete,
+      BreadcrumbsTrail,
       GoTop,
       DialogPopup,
       ToastPopup,
@@ -47,6 +50,16 @@
       return {
         ...require('../../../common-elements/assets/js/layouts/default/data'),
         isGoTopVisible: false // 是否顯示置頂按鈕
+      }
+    },
+    computed: {
+      breadcrumbs () {
+        let breadcrumbs = [{
+          id: `${this.$store.state.hostname}${process.env.routerBase}`,
+          path: '/',
+          name: ['基金總覽']
+        }]
+        return breadcrumbs
       }
     },
     beforeMount () {
