@@ -57,7 +57,7 @@
         let breadcrumbs = [{
           id: `${this.$store.state.hostname}${process.env.routerBase}`,
           path: '/',
-          name: ['基金總覽']
+          name: ['系統名稱']
         }]
         return breadcrumbs
       }
