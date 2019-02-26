@@ -22,28 +22,28 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "@nuxtjs/axios": "latest",
-    "@nuxtjs/pwa": "latest",
-    "accounting": "latest",
-    "axios-extensions": "latest",
-    "cross-env": "latest",
-    "jquery": "latest",
-    "lodash": "latest",
-    "normalize.css": "latest",
-    "nuxt": "latest",
-    "velocity-animate": "latest"
+    "@nuxtjs/axios": "5.3.6",
+    "@nuxtjs/pwa": "3.0.0-beta.8",
+    "accounting": "0.4.1",
+    "axios-extensions": "3.0.5",
+    "cross-env": "5.2.0",
+    "jquery": "3.3.1",
+    "lodash": "4.17.11",
+    "normalize.css": "8.0.1",
+    "nuxt": "2.4.3",
+    "velocity-animate": "1.5.2"
   },
   "devDependencies": {
-    "acorn": "latest",
-    "babel-eslint": "latest",
-    "eslint": "latest",
-    "eslint-loader": "latest",
-    "eslint-plugin-vue": "latest",
-    "node-sass": "latest",
-    "nodemon": "latest",
-    "pug": "latest",
-    "pug-plain-loader": "latest",
-    "sass-loader": "latest"
+    "acorn": "6.1.0",
+    "babel-eslint": "10.0.1",
+    "eslint": "5.14.1",
+    "eslint-loader": "2.1.2",
+    "eslint-plugin-vue": "5.2.2",
+    "node-sass": "4.11.0",
+    "nodemon": "1.18.10",
+    "pug": "2.0.3",
+    "pug-plain-loader": "1.0.0",
+    "sass-loader": "7.1.0"
   },
   "engines": {
     "node": "10.15.0",
