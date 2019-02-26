@@ -6,7 +6,7 @@ export const modules = {
 }
 
 export const state = () => ({
-  featureName: 'homepage', // 功能名稱，用於 sitemap 超連結變色
+  featureName: 'ProjectName', // 功能名稱，用於 sitemap 超連結變色
   hostname: '', // 用於 Structured Data 的絕對路徑
   isIE11: false // 是否為 ie11
 })
