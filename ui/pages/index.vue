@@ -25,7 +25,7 @@ export default {
           // Nuxt 事件紀錄
           const fs = require('fs')
           try {
-            fs.appendFile(`logs/homepage-nuxt-${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}.log`, `${Date()}    ${Date.now()}    FetchFail${req ? '    ' + req.headers['user-agent'] : ''}    無法取得熱門關鍵字資料：格式錯誤或不存在    路徑：${route.fullPath}\r\n`, err => { if (err) global.console.dir(err) })
+            fs.appendFile(`logs/project-name-nuxt-${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}.log`, `${Date()}    ${Date.now()}    FetchFail${req ? '    ' + req.headers['user-agent'] : ''}    無法取得熱門關鍵字資料：格式錯誤或不存在    路徑：${route.fullPath}\r\n`, err => { if (err) global.console.dir(err) })
           } catch (_error) { global.console.dir(_error) }
           // 進入錯誤顯示頁面
           return error({ statusCode: 404, message: '無法取得熱門關鍵字資料：格式錯誤或不存在' })
@@ -35,13 +35,13 @@ export default {
         const fs = require('fs')
         if (_err.response && _err.response.data && _err.response.data.Message) {
           try {
-            fs.appendFile(`logs/homepage-nuxt-${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}.log`, `${Date()}    ${Date.now()}    FetchError${req ? '    ' + req.headers['user-agent'] : ''}    ${_err.response.data.Message}    路徑：${route.fullPath}\r\n`, err => { if (err) global.console.dir(err) })
+            fs.appendFile(`logs/project-name-nuxt-${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}.log`, `${Date()}    ${Date.now()}    FetchError${req ? '    ' + req.headers['user-agent'] : ''}    ${_err.response.data.Message}    路徑：${route.fullPath}\r\n`, err => { if (err) global.console.dir(err) })
           } catch (_error) { global.console.dir(_error) }
           // 進入錯誤顯示頁面
           return error({ statusCode: 404, message: `無法取得熱門關鍵字資料：${_err.response.data.Message}` })
         } else {
           try {
-            fs.appendFile(`logs/homepage-nuxt-${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}.log`, `${Date()}    ${Date.now()}    FetchError${req ? '    ' + req.headers['user-agent'] : ''}    ${_err}    路徑：${route.fullPath}\r\n`, err => { if (err) global.console.dir(err) })
+            fs.appendFile(`logs/project-name-nuxt-${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}.log`, `${Date()}    ${Date.now()}    FetchError${req ? '    ' + req.headers['user-agent'] : ''}    ${_err}    路徑：${route.fullPath}\r\n`, err => { if (err) global.console.dir(err) })
           } catch (_error) { global.console.dir(_error) }
           // 進入錯誤顯示頁面
           return error({ statusCode: 404, message: `無法取得熱門關鍵字資料：${_err}` })
