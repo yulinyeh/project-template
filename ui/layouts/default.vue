@@ -8,7 +8,7 @@
       breadcrumbs-trail(:breadcrumbs="breadcrumbs")
       //- ref="nuxt" 要保留，有 js 會用到此資源
       nuxt(ref="nuxt")
-      app-footer(:angel="{ name: 'Sachiel', color: '#0a3735' }")
+      app-footer(:angel="{ name: 'project-name', color: '#0a3735' }")
       go-top(:class="{ active: isGoTopVisible }")
       .loading-mask(v-show="isDataLoading")
       transition(name="v-delay")
