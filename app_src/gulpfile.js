@@ -1,116 +1,78 @@
 // ============================== modules 使用 ==============================
-var gulp = require('gulp');
-var plumber = require('gulp-plumber');
-var notify = require("gulp-notify");
-var pug = require('gulp-pug');
-var browserSync = require('browser-sync');
-var gutil = require('gulp-util');
-var flatten = require('gulp-flatten');
-var glob = require('glob');
-var del = require('del');
-var imagemin = require('gulp-imagemin');
+var { src, dest, task, series, parallel, watch } = require('gulp')
+var browserSync = require('browser-sync').create()
+var del = require('del')
+var flatten = require('gulp-flatten')
+var imagemin = require('gulp-imagemin')
+var notify = require("gulp-notify")
+var plumber = require('gulp-plumber')
+var pug = require('gulp-pug')
+var glob = require('glob')
 
 // ============================== 檔案路徑設定 ==============================
 var filesPug = [
-  'pug/!(layout|include)/**/*.pug'];
+  'pug/!(layout|include)/**/*.pug']
 var filesPugTemplate = [
   'pug/layout/**/*.pug',
-  'pug/include/**/*.pug'];
-var filesComponentCSS = []; // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
-var filesComponentAsset = []; // Component 的 Font(ex: 'components/**/fontawesome/fonts/*.*')
+  'pug/include/**/*.pug']
+var filesComponentCSS = [] // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
+var filesComponentAsset = [] // Component 的 Font(ex: 'components/**/fontawesome/fonts/*.*')
 
 // ============================== Pug 轉 HTML ==============================
-gulp.task('pug:dev', function () {
-  pug2html(filesPug);
-});
-function pug2html(param) {
-  gulp.src(param)
+function pug2html(path) {
+  return src(path)
     .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
     .pipe(pug({
       locals: {
         dev: true,
-        filesComponentCSS: function() {
-          return filesComponentCSS.map(function(value, index) {
-            return glob.sync(value)[0];
-          });
-        }()
-      },
-      pretty: true
-    }))
+        filesComponentCSS: (() => filesComponentCSS.map(value => glob.sync(value)[0]))()},
+      pretty: true}))
     .pipe(flatten())
-    .pipe(gulp.dest('../app_dev/'))
-    .on('finish', function () {
-      gulp.src(param)
-        .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-        .pipe(browserSync.get('dev').reload({ stream: true }))
-        .pipe(gutil.buffer(function (err, files) {
-          gutil.log(gutil.colors.yellow('pug2html @ ' + new Date()));
-        }))
-    });
-};
+    .pipe(dest('../app_dev/'))
+}
+task('pug2html', () => pug2html(filesPug))
 
 // ============================== 複製 Components ==============================
-gulp.task('copy:components-dev', function () {
-  return gulp.src(filesComponentCSS.concat(filesComponentAsset))
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(gulp.dest('../app_dev/assets/components/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:components-dev @ ' + new Date()));
-    }));
-});
+task('copyComponents', cb => {
+  if (filesComponentCSS.concat(filesComponentAsset).length === 0) cb()
+  else return src(filesComponentCSS.concat(filesComponentAsset)).pipe(dest('../app_dev/assets/components/'))
+})
 
 // ============================== 複製 static 靜態資源 ==============================
-gulp.task('copy:static-dev', function () {
-  return gulp.src('static/**/*.*')
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
-    .pipe(imagemin())
-    .pipe(gulp.dest('../app_dev/'))
-    .pipe(gutil.buffer(function (err, files) {
-      gutil.log(gutil.colors.yellow('copy:static-dev @ ' + new Date()));
-    }));
-});
+task('copyStatic', () => src('static/**/*.*').pipe(imagemin()).pipe(dest('../app_dev/')))
 
 // ============================== 移除資料夾 ==============================
-gulp.task('del:dev', function () {
-  return del('../app_dev/**', { force: true });
-});
+task('deleteEverything', () => del('../app_dev/**', { force: true }))
 
-// ============================== 起動 Server ==============================
-gulp.task('connect:dev', function () {
-  return browserSync.create('dev');
-});
-
-// ============================== 總結 ==============================
-gulp.task('copy:dev', ['copy:components-dev', 'copy:static-dev']);
-gulp.task('default', ['connect:dev', 'pug:dev'], function () {
-  gulp.watch(filesPug, function (e) {
-    pug2html(e.path);
-  });
-  gulp.watch(filesPugTemplate, function (e) {
-    pug2html(filesPug);
-  });
-  gulp.watch(['sass/*.sass', 'js/*.js'], function (e) {
-    pug2html(e
-      .path
-      .replace('/app_src/sass/', '/app_src/pug/pages/')
-      .replace('/app_src/js/', '/app_src/pug/pages/')
-      .replace('.sass', '.pug')
-      .replace('.js', '.pug')
-    );
-  });
-  gulp.watch(['sass/requires/*.sass'], function (e) {
-    pug2html(filesPug);
-  });
-  browserSync.get('dev').init({
-    ui: false,
-    server: {
-      baseDir: '../app_dev/'
-    }
-  });
-});
-// --------------- 第一次編譯 ---------------
-gulp.task('init', ['del:dev'], function () {
-  gulp
-    .start(['copy:dev'])
-    .start(['default']);
+// ============================== 開啟頁面 ==============================
+task('openPage', cb => {
+  browserSync.init({ ui: false, server: { baseDir: '../app_dev/' } })
+  cb()
 })
+
+// ============================== 監聽檔案 ==============================
+task('watchEverything', cb => {
+  watch(filesPug).on('all', async (stats, path) => {
+    await pug2html(path)
+    browserSync.reload()
+  })
+  watch(filesPugTemplate).on('all', async () => {
+    await pug2html(filesPug)
+    browserSync.reload()
+  })
+  watch(['sass/*.sass', 'js/*.js']).on('all', async (stats, path) => {
+    await pug2html('pug/' + path.replace(/^sass/i, 'pages').replace(/^js/i, 'pages').replace(/.sass$/i, '.pug').replace(/.js$/i, '.pug'))
+    browserSync.reload()
+  })
+  watch(['sass/requires/*.sass']).on('all', async () => {
+    await pug2html(filesPug)
+    browserSync.reload()
+  })
+  cb()
+})
+
+// ============================== 專案開發 ==============================
+task('default', series('pug2html', 'watchEverything', 'openPage'))
+
+// ============================== 專案初始化 ==============================
+task('init', series('deleteEverything', parallel('copyComponents', 'copyStatic'), 'default'))
