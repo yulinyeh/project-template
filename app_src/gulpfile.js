@@ -32,13 +32,13 @@ function pug2html(path) {
 }
 task('pug2html', () => pug2html(filesPug))
 
-// ============================== 複製 Components ==============================
+// ============================== 複製套件 ==============================
 task('copyComponents', cb => {
   if (filesComponentCSS.concat(filesComponentAsset).length === 0) cb()
   else return src(filesComponentCSS.concat(filesComponentAsset)).pipe(dest('../app_dev/assets/components/'))
 })
 
-// ============================== 複製 static 靜態資源 ==============================
+// ============================== 複製靜態資源 ==============================
 task('copyStatic', () => src('static/**/*.*').pipe(imagemin()).pipe(dest('../app_dev/')))
 
 // ============================== 移除資料夾 ==============================
