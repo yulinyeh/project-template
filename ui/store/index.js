@@ -28,10 +28,11 @@ export const mutations = {
 }
 
 export const actions = {
-  nuxtServerInit ({ commit }, { req }) {
+  async nuxtServerInit ({ dispatch, commit }, { req }) {
     // nuxtServerInit is called by Nuxt.js before server-rendering every page
     commit('setHostname', process.env.serverHostname[process.env.nodeServer])
     if (req) commit('setIE11Result', req.headers['user-agent'].indexOf('Trident') >= 0)
+    await dispatch('common/fetchTrendings')
 
     // Nuxt 事件紀錄
     const fs = require('fs')

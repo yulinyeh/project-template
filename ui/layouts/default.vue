@@ -3,7 +3,7 @@
     .network-status(:class="{ 'is-offline': isOffline }")
       .js-scroll-top
       app-header
-      auto-complete.desktop-component
+      auto-complete
       shopping-list
       breadcrumbs-trail(:breadcrumbs="breadcrumbs")
       //- ref="nuxt" 要保留，有 js 會用到此資源
