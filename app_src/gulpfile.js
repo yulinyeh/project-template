@@ -1,32 +1,32 @@
 // ============================== modules 使用 ==============================
-var { src, dest, task, series, parallel, watch } = require('gulp')
-var browserSync = require('browser-sync').create()
-var del = require('del')
-var flatten = require('gulp-flatten')
-var imagemin = require('gulp-imagemin')
-var notify = require("gulp-notify")
-var plumber = require('gulp-plumber')
-var pug = require('gulp-pug')
-var glob = require('glob')
+const { src, dest, task, series, parallel, watch } = require('gulp')
+const browserSync = require('browser-sync').create()
+const del = require('del')
+const flatten = require('gulp-flatten')
+const imagemin = require('gulp-imagemin')
+const notify = require('gulp-notify')
+const plumber = require('gulp-plumber')
+const pug = require('gulp-pug')
+const glob = require('glob')
 
 // ============================== 檔案路徑設定 ==============================
-var filesPug = [
+let filesPug = [
   'pug/!(layout|include)/**/*.pug']
-var filesPugTemplate = [
+let filesPugTemplate = [
   'pug/layout/**/*.pug',
   'pug/include/**/*.pug']
-var filesComponentCSS = [] // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
-var filesComponentAsset = [] // Component 的 Font(ex: 'components/**/fontawesome/fonts/*.*')
+let filesComponentCSS = [] // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
+let filesComponentAsset = [] // Component 的 Font(ex: 'components/**/fontawesome/fonts/*.*')
 
 // ============================== Pug 轉 HTML ==============================
 function pug2html(path) {
   return src(path)
-    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error.message %>") }))
+    .pipe(plumber({ errorHandler: notify.onError('Error: <%= error.message %>') }))
     .pipe(pug({
       locals: {
         dev: true,
-        filesComponentCSS: (() => filesComponentCSS.map(value => glob.sync(value)[0]))()},
-      pretty: true}))
+        filesComponentCSS: (() => filesComponentCSS.map(value => glob.sync(value)[0]))() },
+      pretty: true }))
     .pipe(flatten())
     .pipe(dest('../app_dev/'))
 }
