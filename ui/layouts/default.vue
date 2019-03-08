@@ -24,7 +24,7 @@
   import ShoppingList from '../../../common-elements/components/shopping-list.vue'
   import AutoComplete from '../../../common-elements/components/auto-complete.vue'
   import BreadcrumbsTrail from '../../../common-elements/components/breadcrumbs-trail.vue'
-  import GoTop from '../../../common-elements//components/go-top.vue'
+  import GoTop from '../../../common-elements/components/go-top.vue'
   import DialogPopup from '../../../common-elements/components/popups/dialog-popup.vue'
   import ToastPopup from '../../../common-elements/components/popups/toast-popup.vue'
   import OnAirLight from '../../../common-elements/components/on-air-light.vue'
