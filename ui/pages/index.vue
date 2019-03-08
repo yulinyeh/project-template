@@ -3,7 +3,6 @@ main.page-index
 </template>
 
 <script>
-import axios from '../../../common-elements/assets/js/plugins/axios.js'
 export default {
   name: 'PagesIndex',
   head () {
