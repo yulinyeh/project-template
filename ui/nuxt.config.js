@@ -72,9 +72,9 @@ module.exports = {
       { 'http-equiv': 'cache-control', content: 'max-age=900' } // 活動站需要時時更新，從 client 端指定沒有 cache 週期
     ],
     script: [
-      { hid: 'global-variable-magic', type: 'text/javascript', innerHTML: `var MAGIC_DOMAIN = '${serverHostname[process.env.SERVER]}'; var MAGIC_DOMAIN_API = '${axiosBaseURL[process.env.SERVER][1]}';`, body: true },
-      { hid: 'global-variable-twca',  type: 'text/javascript', innerHTML: `var twca_cn = 'www.fundrich.com.tw';`, body: true },
-      { type: 'text/javascript', src: '//ssllogo.twca.com.tw/twcaseal_v3.js', body: true }
+      { hid: 'global-variable-magic', innerHTML: `var MAGIC_DOMAIN = '${serverHostname[process.env.SERVER]}'; var MAGIC_DOMAIN_API = '${axiosBaseURL[process.env.SERVER][1]}';`, body: true },
+      { hid: 'global-variable-twca', innerHTML: `var twca_cn = 'www.fundrich.com.tw';`, body: true },
+      { src: '//ssllogo.twca.com.tw/twcaseal_v3.js', body: true }
     ],
     __dangerouslyDisableSanitizersByTagID: { 'global-variable-magic': ['innerHTML'], 'global-variable-twca': ['innerHTML'] }
   },
