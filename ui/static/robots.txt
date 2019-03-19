@@ -8,6 +8,8 @@ User-agent: AhrefsBot
 User-agent: Baiduspider
 User-agent: Ezooms
 User-agent: MJ12bot
+User-agent: Qwantify
+User-agent: SemrushBot
 User-Agent: Sogou web spider
 User-agent: YandexBot
 User-agent: ZoominfoBot
