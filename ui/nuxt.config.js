@@ -1,5 +1,5 @@
 const routerBase = ''
-const fbAppID = process.env.SERVER === 'prod' ? '1061200460616036' : '331606597252844'
+const fbAppID = process.env.SERVER === 'sit' ? '331606597252844' : '1061200460616036'
 const fbAdmins = 286133171723936
 const utmCampaign = 'project_name'
 const serverHostname = Object.assign({
