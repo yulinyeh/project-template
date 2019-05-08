@@ -35,7 +35,7 @@ export default ({ app, store }) => {
       page_title: window.document.title,
       page_location: window.location.origin + process.env.routerBase + to.path
     }) // 安裝第一個 Google Analytics 與送出 PageView
-    window.gtag('config', 'AW-858679249') // 安裝 Google Adwords
-    window.gtag('event', 'conversion', { 'send_to': 'AW-858679249/HTaTCMvs2n8Q0c-5mQM' }) // 送出 Google Adwords 事件
+    // window.gtag('config', 'AW-858679249') // 安裝 Google Adwords
+    // window.gtag('event', 'conversion', { 'send_to': 'AW-858679249/HTaTCMvs2n8Q0c-5mQM' }) // 送出 Google Adwords 事件
   })
 }

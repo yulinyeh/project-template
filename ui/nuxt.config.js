@@ -115,9 +115,10 @@ module.exports = {
   plugins: [
     { src: '../../common-elements/assets/js/plugins/axios' },
     { src: '@/plugins/mixin' },
-    { src: '@/plugins/facebook-sdk', ssr: false },
     { src: '@/plugins/google-sdk', ssr: false },
-    { src: '@/plugins/facebook-pixel', ssr: false }
+    { src: '@/plugins/facebook-sdk', ssr: false },
+    { src: '@/plugins/microsoft-sdk', ssr: false },
+    { src: '@/plugins/yahoo-sdk', ssr: false }
   ],
 
   /*
