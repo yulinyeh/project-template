@@ -13,8 +13,8 @@
       .loading-mask(v-show="isDataLoading")
       transition(name="v-delay")
         toast-popup(key="toast-popup", v-if="toastPayload.description")
-      transition
-        dialog-popup(key="dialog-popup", v-if="(dialogPayload.title || dialogPayload.description) && typeof dialogPayload.confirmCallback === 'function'")
+      transition-group(tag="div")
+        dialog-popup(:key="i + item.title + item.description", :payload="item", :index="i", v-if="(item.title || item.description) && typeof item.confirmCallback === 'function'", v-for="item, i in dialogPayload")
     on-air-light(:class="{ 'is-offline': isOffline }")
 </template>
 
