@@ -27,7 +27,7 @@ function pug2html(path) {
         dev: true,
         filesComponentCSS: (() => filesComponentCSS.map(value => glob.sync(value)[0]))() },
       pretty: true }))
-    .pipe(flatten())
+      .pipe(flatten({ subPath: 1 }))
     .pipe(dest('../app_dev/'))
 }
 task('pug2html', () => pug2html(filesPug))
@@ -53,15 +53,15 @@ task('openPage', cb => {
 // ============================== 監聽檔案 ==============================
 task('watchEverything', cb => {
   watch(filesPug).on('all', async (stats, path) => {
-    await pug2html(path)
+    await pug2html(path.replace(/\/pages\//, '/!(layout|include)/**/'))
     browserSync.reload()
   })
   watch(filesPugTemplate).on('all', async () => {
     await pug2html(filesPug)
     browserSync.reload()
   })
-  watch(['sass/*.sass', 'js/*.js']).on('all', async (stats, path) => {
-    await pug2html('pug/' + path.replace(/^sass/i, 'pages').replace(/^js/i, 'pages').replace(/.sass$/i, '.pug').replace(/.js$/i, '.pug'))
+  watch(['sass/!(requires)/**/*.sass', 'js/*.js']).on('all', async (stats, path) => {
+    await pug2html(`pug/${path.replace(/^sass/, '!(layout|include)/**').replace(/^js/, '!(layout|include)/**').replace(/.sass$/, '.pug').replace(/.js$/, '.pug')}`)
     browserSync.reload()
   })
   watch(['sass/requires/*.sass']).on('all', async () => {
