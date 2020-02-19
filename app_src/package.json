@@ -16,14 +16,14 @@
     "url": "https://github.com/edenyeh/MyInitialProject/issues"
   },
   "devDependencies": {
-    "@babel/cli": "7.2.3",
-    "@babel/core": "7.3.4",
+    "@babel/cli": "7.8.4",
+    "@babel/core": "7.8.4",
     "babel-preset-env": "1.7.0",
-    "browser-sync": "2.26.3",
-    "del": "3.0.0",
-    "gulp": "4.0.0",
+    "browser-sync": "2.26.7",
+    "del": "5.1.0",
+    "gulp": "4.0.2",
     "gulp-flatten": "0.4.0",
-    "gulp-imagemin": "5.0.3",
+    "gulp-imagemin": "7.1.0",
     "gulp-notify": "3.2.0",
     "gulp-plumber": "1.2.1",
     "gulp-pug": "4.0.1",
@@ -32,10 +32,10 @@
     "jstransformer-uglify-js": "1.2.0"
   },
   "dependencies": {
-    "jquery": "3.3.1"
+    "jquery": "3.4.1"
   },
   "engines": {
-    "node": "10.15.0",
-    "npm": "6.4.1"
+    "node": "12.15.0",
+    "npm": "6.13.4"
   }
 }
