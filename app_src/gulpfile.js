@@ -60,7 +60,7 @@ task('watchEverything', cb => {
     await pug2html(filesPug)
     browserSync.reload()
   })
-  watch(['sass/!(requires)/**/*.sass', 'js/*.js']).on('all', async (stats, path) => {
+  watch(['sass/!(requires)/**/*.sass', 'js/**/*.js']).on('all', async (stats, path) => {
     await pug2html(`pug/${path.replace(/^sass/, '!(layout|include)/**').replace(/^js/, '!(layout|include)/**').replace(/.sass$/, '.pug').replace(/.js$/, '.pug')}`)
     browserSync.reload()
   })
