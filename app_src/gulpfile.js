@@ -10,7 +10,7 @@ const pug = require('gulp-pug')
 const glob = require('glob')
 
 // ============================== 檔案路徑設定 ==============================
-let filesPagePug = [
+let filesPugPage = [
   'pug/!(layout|include)/**/*.pug']
 let filesPugTemplate = [
   'pug/layout/**/*.pug',
@@ -30,7 +30,7 @@ function pug2html(path) {
       .pipe(flatten({ subPath: 1 }))
     .pipe(dest('../app_dev/'))
 }
-task('pug2html', () => pug2html(filesPagePug))
+task('pug2html', () => pug2html(filesPugPage))
 
 // ============================== 複製套件 ==============================
 task('copyComponents', cb => {
@@ -52,12 +52,12 @@ task('openPage', cb => {
 
 // ============================== 監聽檔案 ==============================
 task('watchEverything', cb => {
-  watch(filesPagePug).on('all', async (stats, path) => {
+  watch(filesPugPage).on('all', async (stats, path) => {
     await pug2html(path.replace(/\/pages\//, '/!(layout|include)/**/'))
     browserSync.reload()
   })
   watch(filesPugTemplate).on('all', async () => {
-    await pug2html(filesPagePug)
+    await pug2html(filesPugPage)
     browserSync.reload()
   })
   watch(['sass/!(requires)/**/*.sass', 'js/**/*.js']).on('all', async (stats, path) => {
@@ -65,7 +65,7 @@ task('watchEverything', cb => {
     browserSync.reload()
   })
   watch(['sass/requires/*.sass']).on('all', async () => {
-    await pug2html(filesPagePug)
+    await pug2html(filesPugPage)
     browserSync.reload()
   })
   cb()
