@@ -10,11 +10,8 @@ const pug = require('gulp-pug')
 const glob = require('glob')
 
 // ============================== 檔案路徑設定 ==============================
-let filesPugPage = [
-  'pug/!(layout|include)/**/*.pug']
-let filesPugTemplate = [
-  'pug/layout/**/*.pug',
-  'pug/include/**/*.pug']
+let filesPugPage = 'pug/!(layout|include)/**/*.pug'
+let filesPugTemplate = 'pug/(layout|include)/**/*.pug'
 let filesComponentCSS = [] // Component 的 CSS(ex: 'components/**/fontawesome/css/font-awesome.min.css', 'plugins/**/bootstrap-css/css/bootstrap.min.css')
 let filesComponentAsset = [] // Component 的 Font(ex: 'components/**/fontawesome/fonts/*.*')
 
