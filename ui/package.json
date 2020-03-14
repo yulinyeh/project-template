@@ -34,7 +34,7 @@
     "velocity-animate": "1.5.2"
   },
   "devDependencies": {
-    "acorn": "6.1.0",
+    "acorn": "7.1.1",
     "babel-eslint": "10.0.1",
     "eslint": "5.14.1",
     "eslint-loader": "2.1.2",
